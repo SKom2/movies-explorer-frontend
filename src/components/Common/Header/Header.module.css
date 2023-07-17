@@ -1,0 +1,75 @@
+.header{
+    max-width: 1140px;
+    padding: 18px 70px;
+    margin: 0 auto;
+}
+
+.content{
+    display: flex;
+    justify-content: space-between;
+}
+
+.logo{
+    width: 38px;
+    height: 38px;
+}
+
+.menu{
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.registerLink{
+    text-decoration: none;
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 500;
+    color: white;
+}
+
+.linkBlock{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 76px;
+    height: 32px;
+    background-color: #3DDC84;
+    border-radius: 3px;
+    text-align: center;
+}
+
+.loginLink{
+    color: #000;
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+@media screen and (max-width: 768px) {
+    .header{
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+}
+
+@media screen and (max-width: 375px) {
+    .header{
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+    .menu{
+        gap: 14px;
+    }
+    .linkBlock{
+        width: 54px;
+        height: 26px;
+    }
+    .loginLink{
+        font-size: 10px;
+    }
+    .registerLink{
+        font-size: 10px;
+    }
+}

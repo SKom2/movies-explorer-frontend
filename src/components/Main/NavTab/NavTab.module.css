@@ -1,0 +1,45 @@
+.navTab{
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    bottom: 30px;
+    list-style-type: none;
+    gap: 10px;
+}
+
+.navElement{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 96px;
+    height: 36px;
+    background-color: #303030;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.navLink{
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+}
+
+@media screen and (max-width: 375px) {
+    .navTab{
+        gap: 6px;
+        bottom: 17px;
+    }
+    .navElement{
+        width: 82px;
+        height: 26px;
+        border-radius: 6px;
+    }
+    .navLink{
+        font-size: 10px;
+        line-height: 16px;
+    }
+}
