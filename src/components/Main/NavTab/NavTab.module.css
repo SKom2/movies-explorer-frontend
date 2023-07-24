@@ -18,6 +18,20 @@
     background-color: #303030;
     border-radius: 10px;
     text-align: center;
+    cursor: pointer;
+    transition: box-shadow .3s linear;
+}
+
+.navElement:hover{
+    box-shadow: inset 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+.navElement.clicked:hover {
+    box-shadow: inset 0 0 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+.clicked{
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
 }
 
 .navLink{
