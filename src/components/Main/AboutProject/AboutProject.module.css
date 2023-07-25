@@ -1,5 +1,4 @@
 .aboutProject{
-    max-width: 1140px;
     padding: 110px 70px;
     margin: 0 auto;
 }
@@ -8,6 +7,7 @@
     display: grid;
     grid-template-columns: repeat(2, minmax(319px, 1fr));
     gap: 40px;
+    margin-top: 70px;
 }
 
 .gridTitle{
@@ -112,6 +112,7 @@
 @media screen and (max-width: 375px) {
     .grid{
         gap: 56px;
+        margin-top: 60px;
     }
     .gridTitle{
         font-size: 18px;

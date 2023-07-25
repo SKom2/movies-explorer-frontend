@@ -18,7 +18,6 @@
     background-color: #303030;
     border-radius: 10px;
     text-align: center;
-    cursor: pointer;
     transition: box-shadow .3s linear;
 }
 
