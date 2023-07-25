@@ -26,12 +26,16 @@
 
 @media screen and (max-width: 768px) {
     .promo{
+        height: 834px;
         margin-left: 20px;
         margin-right: 20px;
+
     }
     .title{
+        top: 350px;
         font-size: 40px;
         line-height: 52px;
+        letter-spacing: -1.5px;
     }
 }
 
@@ -53,7 +57,12 @@
 
 @media screen and (max-width: 375px) {
     .promo{
+        height: 586px;
+        margin-top: 14px;
         margin-left: 14px;
         margin-right: 14px;
+    }
+    .title{
+        top: 220px;
     }
 }
