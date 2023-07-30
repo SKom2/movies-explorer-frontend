@@ -12,8 +12,55 @@
     width: 38px;
     height: 38px;
 }
+/*-----------------Registered Menu----------------------*/
 
-.menu{
+.registeredMenu{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.link{
+    color: #FFFFFF;
+    font-size: 14px;
+    line-height: 18px;
+    text-decoration: none;
+}
+
+.accountLink{
+    display: flex;
+    color: #FFFFFF;
+    font-size: 14px;
+    line-height: 18px;
+    text-decoration: none;
+    margin-left: 30px;
+}
+
+.accountLinkBlock{
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.accountLinkTitle{
+    margin: 0;
+}
+
+.accountLinkImage{
+    height: 30px;
+    width: 30px;
+    border-radius: 10px;
+    background-color: #313131;
+    background-image: url("../../../images/Account.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/*-----------------End of Registered Menu----------------------*/
+
+/*-----------------Not Registered Menu----------------------*/
+
+.NotRegisteredMenu{
     display: flex;
     align-items: center;
     gap: 30px;
@@ -52,6 +99,9 @@
     text-decoration: none;
 }
 
+/*-----------------End of Not Registered Menu----------------------*/
+
+
 @media screen and (max-width: 768px) {
     .header{
         padding-left: 30px;
@@ -64,7 +114,10 @@
         padding-left: 14px;
         padding-right: 14px;
     }
-    .menu{
+
+    /*-----------------Not Registered Menu 375px----------------------*/
+
+    .NotRegisteredMenu{
         gap: 14px;
     }
     .linkBlock{
@@ -77,4 +130,10 @@
     .registerLink{
         font-size: 10px;
     }
+
+    /*-----------------End Of Not Registered Menu 375px----------------------*/
+
 }
+
+
+

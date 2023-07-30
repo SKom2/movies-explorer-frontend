@@ -18,9 +18,10 @@
     color: white;
     text-align: center;
     margin: 0;
+    max-width: 680px;
 }
 
-.title br:last-child{
+.doubleSpace {
     display: none;
 }
 
@@ -29,7 +30,6 @@
         height: 834px;
         margin-left: 20px;
         margin-right: 20px;
-
     }
     .title{
         top: 350px;
@@ -43,17 +43,14 @@
     .title{
         font-size: 29px;
         line-height: 37px;
-        padding-left: 20px;
-        padding-right: 20px;
-    }
-    .title br:first-child{
-        display: none;
-    }
-    .title br:last-child{
-        display: initial;
     }
 }
 
+@media screen and (max-width: 470px) {
+    .title{
+        max-width: 309px;
+    }
+}
 
 @media screen and (max-width: 375px) {
     .promo{
@@ -64,5 +61,8 @@
     }
     .title{
         top: 220px;
+    }
+    .doubleSpace{
+        display: initial;
     }
 }

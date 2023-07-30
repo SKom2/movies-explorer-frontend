@@ -6,7 +6,7 @@ export default function Techs(){
         <div id="technologies" className={styles.techs}>
             <Heading title="Технологии"/>
             <h3 className={styles.title}>7 технологий</h3>
-            <p className={styles.text}>На курсе веб-разработки мы освоили технологии, которые применили в<br/>дипломном проекте.</p>
+            <p className={styles.text}>На курсе веб-разработки мы освоили технологии, которые применили в дипломном проекте.</p>
             <div className={styles.grid}>
                 <div className={styles.gridItem}>HTML</div>
                 <div className={styles.gridItem}>CSS</div>

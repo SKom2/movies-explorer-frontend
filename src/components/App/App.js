@@ -7,13 +7,16 @@ import Profile from "../Authorization/Profile/Profile";
 import Register from "../Authorization/Register/Register";
 import Login from "../Authorization/Login/Login";
 import {Route, Routes} from "react-router-dom";
+import Footer from "../Common/Footer/Footer";
+import {useState} from "react";
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
+
   return (
     <>
-        <Header />
         <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/movies" element={<Movies />} />
+          <Route path="/" element={<Main isLoggedIn={isLoggedIn}/>} />
+          <Route path="/movies" element={<Movies isLoggedIn={isLoggedIn}/>} />
           <Route path="/saved-movies" element={<SavedMovies />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/signup" element={<Register />} />
