@@ -8,13 +8,38 @@ import Register from "../Authorization/Register/Register";
 import Login from "../Authorization/Login/Login";
 import {Route, Routes} from "react-router-dom";
 import Footer from "../Common/Footer/Footer";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isMenuOpened , setIsMenuOpened] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 769);
+
+    useEffect(() => {
+        function handleResize() {
+            setIsDesktop(window.innerWidth >= 769);
+        }
+
+        setIsDesktop(window.innerWidth >= 769);
+
+        window.addEventListener("resize", handleResize);
+
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
+
+  function handleMenuIconClick(){
+      setIsMenuOpened(!isMenuOpened);
+  }
 
   return (
     <>
-      <Header isLoggedIn={isLoggedIn}/>
+      <Header
+          isLoggedIn={isLoggedIn}
+          isMenuOpened={isMenuOpened}
+          onMenuIconClick={handleMenuIconClick}
+          isDesktop={isDesktop}
+      />
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/movies" element={<Movies />} />
