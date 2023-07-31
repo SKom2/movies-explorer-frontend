@@ -1,5 +1,5 @@
 .searchForm{
-    padding: 70px 70px 10px 70px;
+    padding: 70px 0 10px;
 }
 
 .underLine{
@@ -94,8 +94,6 @@
 @media screen and (max-width: 900px) {
     .searchForm{
         padding-top: 80px;
-        padding-left: 30px;
-        padding-right: 30px;
     }
     .underLine{
         padding-bottom: 109px;
@@ -111,8 +109,6 @@
 @media screen and (max-width: 767px) {
     .searchForm{
         position: relative;
-        padding-left: 10px;
-        padding-right: 10px;
     }
     .searchFormContainer{
         padding: 19px;

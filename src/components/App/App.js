@@ -10,18 +10,20 @@ import {Route, Routes} from "react-router-dom";
 import Footer from "../Common/Footer/Footer";
 import {useState} from "react";
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
     <>
-        <Routes>
-          <Route path="/" element={<Main isLoggedIn={isLoggedIn}/>} />
-          <Route path="/movies" element={<Movies isLoggedIn={isLoggedIn}/>} />
-          <Route path="/saved-movies" element={<SavedMovies />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/signup" element={<Register />} />
-          <Route path="/signin" element={<Login />} />
-        </Routes>
+      <Header isLoggedIn={isLoggedIn}/>
+      <Routes>
+        <Route path="/" element={<Main />} />
+        <Route path="/movies" element={<Movies />} />
+        <Route path="/saved-movies" element={<SavedMovies />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/signup" element={<Register />} />
+        <Route path="/signin" element={<Login />} />
+      </Routes>
+      <Footer />
     </>
   );
 }

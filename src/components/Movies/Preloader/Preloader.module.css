@@ -1,5 +1,5 @@
 .preloader{
-    padding: 50px 70px 80px;
+    padding: 50px 0 80px;
     max-width: 320px;
     margin: 0 auto;
 }
@@ -20,10 +20,6 @@
 }
 
 @media screen and (max-width: 767px) {
-    .preloader{
-        padding-left: 40px;
-        padding-right: 40px;
-    }
     .preloaderBlock{
         padding-left: 20px;
         padding-right: 20px;
