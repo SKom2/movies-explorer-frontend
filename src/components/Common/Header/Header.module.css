@@ -1,4 +1,5 @@
 .header{
+    position: relative;
     padding: 18px 70px;
     margin: 0 auto;
 }
@@ -14,81 +15,6 @@
     width: 38px;
     height: 38px;
 }
-
-/*-----------------Burger----------------------*/
-
-.burgerBtn{
-    display: none;
-}
-
-@media screen and (max-width: 768px){
-    .burgerBtn{
-        width: 28px;
-        height: 23px;
-        position: absolute;
-        right: 8px;
-        display: block;
-    }
-
-    .burgerBtn::before{
-        content: '';
-        position: absolute;
-        width: 28px;
-        top: 0;
-        background-color: white;
-        height: 3px;
-    }
-
-    .burgerBtn span {
-        position: absolute;
-        top: 10.5px;
-        width: 28px;
-        height: 3px;
-        background-color: white;
-    }
-
-    .burgerBtn::after{
-        content: '';
-        position: absolute;
-        width: 28px;
-        bottom: 0;
-        background-color: white;
-        height: 3px;
-    }
-}
-
-@media screen and (max-width: 375px) {
-    .burgerBtn{
-        right: 9px;
-    }
-}
-
-@media screen and (max-width: 320px) {
-    .burgerBtn{
-        width: 22px;
-        height: 20.5px;
-    }
-
-    .burgerBtn::before{
-        width: 22px;
-        top: 1px;
-        height: 2.5px;
-    }
-
-    .burgerBtn span {
-        top: 10px;
-        width: 22px;
-        height: 2.5px;
-    }
-
-    .burgerBtn::after{
-        width: 22px;
-        bottom: -1px;
-        height: 2.5px;
-    }
-}
-
-/*-----------------End of Burger----------------------*/
 
 
 /*-----------------Registered Menu----------------------*/

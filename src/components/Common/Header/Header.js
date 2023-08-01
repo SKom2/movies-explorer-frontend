@@ -13,7 +13,7 @@ export default function Header(props) {
                         <div className={styles.registeredMenu}>
                             <Link to="/movies" className={styles.link}>{'Фильмы'}</Link>
                             <Link to="/saved-movies" className={styles.link}>{'Сохранённые фильмы'}</Link>
-                            <Link to="profile" className={styles.accountLink}>
+                            <Link to="/profile" className={styles.accountLink}>
                                 <div className={styles.accountLinkBlock}>
                                     <p className={styles.accountLinkTitle}>Аккаунт</p>
                                     <div className={styles.accountLinkImage}></div>
@@ -22,13 +22,10 @@ export default function Header(props) {
                         </div>
                     ) : (
                         <>
-                            {props.isMenuOpened ? (
-                                <Navigation />
-                            ) : (
-                                <div className={styles.burgerBtn} onClick={props.onMenuIconClick}>
-                                    <span/>
-                                </div>
-                            )}
+                            <Navigation
+                                isMenuOpened={props.isMenuOpened}
+                                onMenuCloseIconClick={props.onMenuIconClick}
+                            />
                         </>
                     )
                 ) : (

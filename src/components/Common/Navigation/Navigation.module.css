@@ -1,0 +1,220 @@
+.navigation{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    min-width: 320px;
+    width: 520px;
+    height: 100%;
+    background-color: #202020;
+    z-index: 1;
+    transform: translateX(100%);
+    transition: transform .3s linear;
+}
+
+.navigationActive{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    min-width: 320px;
+    width: 520px;
+    height: 100%;
+    background-color: #202020;
+    z-index: 1;
+    transform: translateX(0%);
+    transition: transform .3s linear;
+}
+
+.navBlock{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+    height: 100%;
+}
+
+.navLinks{
+    padding: 0;
+    margin: 159px 0 0;
+    list-style-type: none;
+    font-size: 18px;
+    line-height: 22px;
+    font-weight: 500;
+}
+
+.link{
+    text-decoration: none;
+    color: #FFFFFF;
+    transition: border-bottom .2s linear;
+}
+
+.link:hover{
+    padding-bottom: 4px;
+    border-bottom: solid 2px #FFFFFF;
+}
+
+.navLinkItem:not(:last-child){
+    margin-bottom: 28px;
+}
+
+@media screen and (max-width: 520px) {
+    .navigationActive{
+        width: 100%;
+    }
+    .navLinks{
+        margin-top: 144px;
+    }
+    .navLinkItem:not(:last-child){
+        margin-bottom: 24px;
+    }
+}
+
+/*-----------------Account link----------------------*/
+
+.accountLink{
+    display: flex;
+    color: #FFFFFF;
+    font-size: 14px;
+    line-height: 18px;
+    text-decoration: none;
+    margin-bottom: 92px;
+}
+
+.accountLinkBlock{
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin: 0 auto;
+}
+
+.accountLinkTitle{
+    margin: 0;
+}
+
+.accountLinkImage{
+    height: 30px;
+    width: 30px;
+    border-radius: 10px;
+    background-color: #313131;
+    background-image: url("../../../images/Account.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+@media screen and (max-width: 520px) {
+    .accountLink{
+        margin-bottom: 47px;
+    }
+}
+
+/*-----------------End of Account link----------------------*/
+
+
+/*-----------------Burger----------------------*/
+
+.burgerBtn{
+    transition: right 0.4s linear;
+    width: 28px;
+    height: 23px;
+    position: absolute;
+    top: 26px;
+    right: calc(100% + 38px);
+    display: block;
+}
+
+.burgerBtn::before{
+    content: '';
+    position: absolute;
+    width: 28px;
+    top: 0;
+    background-color: white;
+    height: 3px;
+}
+
+.burgerBtn span {
+    position: absolute;
+    top: 10.5px;
+    width: 28px;
+    height: 3px;
+    background-color: white;
+}
+
+.burgerBtn::after{
+    content: '';
+    position: absolute;
+    width: 28px;
+    bottom: 0;
+    background-color: white;
+    height: 3px;
+}
+
+@media screen and (max-width: 375px) {
+    .burgerBtn{
+        top: 26.4px;
+        right: calc(100% + 23px);
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .burgerBtn{
+        width: 22px;
+        height: 20.5px;
+    }
+
+    .burgerBtn::before{
+        width: 22px;
+        top: 1px;
+        height: 2.5px;
+    }
+
+    .burgerBtn span {
+        top: 10px;
+        width: 22px;
+        height: 2.5px;
+    }
+
+    .burgerBtn::after{
+        width: 22px;
+        bottom: -1px;
+        height: 2.5px;
+    }
+}
+
+/*-----------------End of Burger----------------------*/
+
+/*-----------------CloseBtn----------------------*/
+.closeBtn{
+    transition: right 0.2s linear;
+    position: absolute;
+    top: 22.44px;
+    right: 22.44px;
+    width: 32px;
+    height: 32px;
+}
+
+.closeBtn:before, .closeBtn:after {
+    position: absolute;
+    left: 15px;
+    content: ' ';
+    height: 22px;
+    top: 5px;
+    width: 2px;
+    background-color: #FFFFFF;
+}
+
+.closeBtn:before {
+    transform: rotate(45deg);
+}
+.closeBtn:after {
+    transform: rotate(-45deg);
+}
+
+@media screen and (max-width: 520px) {
+    .closeBtn{
+        top: 13px;
+        right: 17px;
+    }
+}
+
+/*-----------------End of CloseBtn----------------------*/

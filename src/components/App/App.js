@@ -8,7 +8,7 @@ import Register from "../Authorization/Register/Register";
 import Login from "../Authorization/Login/Login";
 import {Route, Routes} from "react-router-dom";
 import Footer from "../Common/Footer/Footer";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [isMenuOpened , setIsMenuOpened] = useState(false);
@@ -43,10 +43,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/movies" element={<Movies />} />
-        <Route path="/saved-movies" element={<SavedMovies />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/signup" element={<Register />} />
-        <Route path="/signin" element={<Login />} />
+        {/*<Route path="/saved-movies" element={<SavedMovies />} />*/}
+        {/*<Route path="/profile" element={<Profile />} />*/}
+        {/*<Route path="/signup" element={<Register />} />*/}
+        {/*<Route path="/signin" element={<Login />} />*/}
       </Routes>
       <Footer />
     </>
