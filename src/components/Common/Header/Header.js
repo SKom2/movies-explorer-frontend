@@ -7,7 +7,7 @@ export default function Header(props) {
     return (
         <section className={styles.header}>
             <div className={styles.content}>
-                <a href='#' className={styles.logo}><img src={Logo} alt="Movies" /></a>
+                <Link to='/' className={styles.logo}><img src={Logo} alt="Movies" /></Link>
                 {props.isLoggedIn ? (
                     props.isDesktop ? (
                         <div className={styles.registeredMenu}>

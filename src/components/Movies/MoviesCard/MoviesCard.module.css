@@ -33,6 +33,7 @@
     background-image: url("../../../images/NotSavedIcon.svg");
     background-repeat: no-repeat;
     background-position: center;
+    cursor: pointer;
 }
 
 .savedIcon{
@@ -43,6 +44,7 @@
     background-image: url("../../../images/SavedIcon.svg");
     background-repeat: no-repeat;
     background-position: center;
+    cursor: pointer;
 }
 
 
