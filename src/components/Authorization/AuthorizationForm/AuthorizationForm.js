@@ -13,7 +13,7 @@ export default function AuthorizationForm(props) {
             <form className={styles.form} onSubmit={props.onSubmit} noValidate>
                 {props.children}
                 <button type='submit' className={styles.submitBtn}>{props.button}</button>
-                <p className={styles.reminder}>Уже зарегистрированы?<Link className={styles.link} to='/sign-in'>Войти</Link></p>
+                <p className={styles.reminder}>{props.reminder}<Link className={styles.link} to={props.path}>{props.reminderLink}</Link></p>
             </form>
 
         </div>

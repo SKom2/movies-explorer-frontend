@@ -3,18 +3,11 @@ import close from '../../../images/CloseNav.svg'
 import {Link} from "react-router-dom";
 
 export default function Navigation(props){
-
-    // function handleMenuOpen() {
-    //     props.onMenuCloseIconClick()
-    //     const navigation = document.querySelector(styles.navigation)
-    // }
-
     return(
         <div className={!props.isMenuOpened ? `${styles.navigation}` : `${styles.navigationActive}`}>
             <label className={props.isMenuOpened ? `${styles.closeBtn}` : `${styles.burgerBtn}`} onClick={props.onMenuCloseIconClick}>
                 <span/>
             </label>
-            {/*<img className={styles.closeBtn} src={close} onClick={props.onMenuCloseIconClick} alt="CloseBtn"/>*/}
             <div className={styles.navBlock}>
                 <ul className={styles.navLinks}>
                     <li className={styles.navLinkItem}><Link className={styles.link} to='/'>{'Главная'}</Link></li>

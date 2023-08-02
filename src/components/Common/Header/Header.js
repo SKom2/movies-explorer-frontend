@@ -31,9 +31,7 @@ export default function Header(props) {
                 ) : (
                     <div className={styles.NotRegisteredMenu}>
                         <Link to="/signup" className={styles.registerLink}>{'Регистрация'}</Link>
-                        <div className={styles.linkBlock}>
-                            <Link to="/signin" className={styles.loginLink}>{'Войти'}</Link>
-                        </div>
+                        <Link to="/signin" className={styles.linkBlock}>{'Войти'}</Link>
                     </div>
                 )}
             </div>

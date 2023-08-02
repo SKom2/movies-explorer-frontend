@@ -12,7 +12,7 @@ import React, {useEffect, useState} from "react";
 import MoviesConstant from "../../utils/constants";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [isMenuOpened , setIsMenuOpened] = useState(false);
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 769);
 
@@ -74,7 +74,7 @@ function App() {
                 path="/signup"
                 element={<Register />}
             />
-            {/*<Route path="/signin" element={<Login />} />*/}
+            <Route path="/signin" element={<Login />} />
         </Routes>
     </>
   );

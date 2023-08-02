@@ -22,6 +22,9 @@ export default function Register(){
             onSubmit={handleSubmit}
             name="registration"
             isvalid={isValid}
+            path='/signin'
+            reminder='Уже зарегистрированы?'
+            reminderLink='Войти'
         >
             <Input
                 type="text"
