@@ -36,21 +36,46 @@ function App() {
 
   return (
     <>
-      <Header
-          isLoggedIn={isLoggedIn}
-          isMenuOpened={isMenuOpened}
-          onMenuIconClick={handleMenuIconClick}
-          isDesktop={isDesktop}
-      />
-      <Routes>
-        <Route path="/" element={<Main />} />
-        <Route path="/movies" element={<Movies isDesktop={isDesktop} movies={MoviesConstant}/>} />
-        <Route path="/saved-movies" element={<SavedMovies movies={MoviesConstant}/>} />
-        {/*<Route path="/profile" element={<Profile />} />*/}
-        {/*<Route path="/signup" element={<Register />} />*/}
-        {/*<Route path="/signin" element={<Login />} />*/}
-      </Routes>
-      <Footer />
+        <Routes>
+            <Route
+                path="/"
+                element=
+                    {<Main
+                        isLoggedIn={isLoggedIn}
+                        isMenuOpened={isMenuOpened}
+                        onMenuIconClick={handleMenuIconClick}
+                        isDesktop={isDesktop}
+                    />}
+            />
+            <Route
+                path="/movies"
+                element=
+                    {<Movies
+                        isDesktop={isDesktop}
+                        movies={MoviesConstant}
+                        isLoggedIn={isLoggedIn}
+                        isMenuOpened={isMenuOpened}
+                        onMenuIconClick={handleMenuIconClick}
+                    />}
+            />
+            <Route
+                path="/saved-movies"
+                element=
+                    {<SavedMovies
+                        movies={MoviesConstant}
+                        isLoggedIn={isLoggedIn}
+                        isMenuOpened={isMenuOpened}
+                        onMenuIconClick={handleMenuIconClick}
+                        isDesktop={isDesktop}
+                    />}
+            />
+            {/*<Route path="/profile" element={<Profile />} />*/}
+            <Route
+                path="/signup"
+                element={<Register />}
+            />
+            {/*<Route path="/signin" element={<Login />} />*/}
+        </Routes>
     </>
   );
 }

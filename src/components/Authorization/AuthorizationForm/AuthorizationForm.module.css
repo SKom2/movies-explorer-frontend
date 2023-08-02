@@ -1,0 +1,80 @@
+.authorization{
+    padding: 70px 30px;
+    max-width: 396px;
+    margin: 0 auto;
+}
+
+.authHeader{
+    margin: 0 auto;
+    padding: 0 0 41px;
+}
+
+.greetings{
+    margin: 36px 0 0;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+    color: #FFFFFF;
+}
+
+.authSubmit{
+    padding: 69px 0 0;
+}
+
+.submitBtn{
+    margin-top: 69px;
+    padding: 13px 0 15px;
+    background-color: #4285F4;
+    width: 100%;
+    color: #FFFFFF;
+    border-radius: 3px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    border: none;
+    cursor: pointer;
+}
+
+.reminder{
+    text-align: center;
+    margin: 16px 0 0;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #8B8B8B;
+}
+
+.link{
+    margin-left: 6px;
+    color: #4285F4;
+    text-decoration: none;
+}
+
+@media screen and (max-width: 768px){
+    .authorization{
+        padding: 232px 30px;
+    }
+}
+
+@media screen and (max-width: 375px){
+    .authorization{
+        padding: 56px 30px 30px;
+    }
+    .authHeader{
+        text-align: center;
+        padding-bottom: 80px;
+    }
+    .greetings{
+        margin-top: 47px;
+    }
+    .submitBtn{
+        margin-top: 157px;
+        font-size: 12px;
+        line-height: 15px;
+        padding: 17px 0 15px;
+    }
+    .reminder{
+        font-size: 12px;
+        line-height: 15px;
+    }
+}
