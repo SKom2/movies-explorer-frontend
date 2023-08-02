@@ -3,12 +3,13 @@ import MoviesCardList from "./MoviesCardList/MoviesCardList";
 import styles from './Movies.module.css'
 import Preloader from "./Preloader/Preloader";
 
-export default function Movies() {
+export default function Movies(props) {
+
     return(
         <section className={styles.movies}>
             <SearchForm />
             <MoviesCardList />
-            <Preloader />
+            <Preloader movies={props.movies}/>
         </section>
     )
 }

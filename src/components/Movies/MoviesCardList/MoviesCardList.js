@@ -12,9 +12,9 @@ export default function MoviesCardList() {
     useEffect(() => {
         function handleResize() {
             const screenWidth = window.innerWidth;
-            if (screenWidth < 520) {
+            if (screenWidth < 530) {
                 setMaxMoviesToShow(maxMoviesToShowSmallMobile);
-            } else if (screenWidth < 768) {
+            } else if (screenWidth < 1280) {
                 setMaxMoviesToShow(maxMoviesToShowMobile);
             } else {
                 setMaxMoviesToShow(maxMoviesToShowDesktop);

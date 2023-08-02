@@ -9,8 +9,10 @@ import Login from "../Authorization/Login/Login";
 import {Route, Routes} from "react-router-dom";
 import Footer from "../Common/Footer/Footer";
 import React, {useEffect, useState} from "react";
+import MoviesConstant from "../../utils/constants";
+
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMenuOpened , setIsMenuOpened] = useState(false);
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 769);
 
@@ -42,8 +44,8 @@ function App() {
       />
       <Routes>
         <Route path="/" element={<Main />} />
-        <Route path="/movies" element={<Movies isDesktop={isDesktop}/>} />
-        <Route path="/saved-movies" element={<SavedMovies />} />
+        <Route path="/movies" element={<Movies isDesktop={isDesktop} movies={MoviesConstant}/>} />
+        <Route path="/saved-movies" element={<SavedMovies movies={MoviesConstant}/>} />
         {/*<Route path="/profile" element={<Profile />} />*/}
         {/*<Route path="/signup" element={<Register />} />*/}
         {/*<Route path="/signin" element={<Login />} />*/}
