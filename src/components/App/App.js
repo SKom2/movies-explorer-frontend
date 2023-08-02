@@ -10,6 +10,7 @@ import {Route, Routes} from "react-router-dom";
 import Footer from "../Common/Footer/Footer";
 import React, {useEffect, useState} from "react";
 import MoviesConstant from "../../utils/constants";
+import Error from "../Authorization/Error/Error";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -69,12 +70,22 @@ function App() {
                         isDesktop={isDesktop}
                     />}
             />
-            {/*<Route path="/profile" element={<Profile />} />*/}
+            <Route
+                path="/profile"
+                element={<Profile />}
+            />
             <Route
                 path="/signup"
                 element={<Register />}
             />
-            <Route path="/signin" element={<Login />} />
+            <Route
+                path="/signin"
+                element={<Login />}
+            />
+            <Route
+                path="/404"
+                element={<Error />}
+            />
         </Routes>
     </>
   );
