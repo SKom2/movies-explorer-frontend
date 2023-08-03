@@ -3,15 +3,15 @@ import styles from "./SearchForm.module.css"
 export default function SearchForm(){
     return(
         <>
-            <div className={styles.searchForm}>
+            <form className={styles.searchForm}>
                 <div className={styles.underLine}>
                     <div className={styles.searchFormContainer}>
                         <div className={styles.searchLeftSide}>
                             <div className={styles.searchIcon}></div>
-                            <p className={styles.typeMovie}>Фильм</p>
+                            <input className={styles.searchInput} type="text" placeholder='Фильм'/>
                         </div>
                         <div className={styles.searchRightSide}>
-                            <div className={styles.startSearch}></div>
+                            <button type='submit' className={styles.startSearch}></button>
                             <div className={styles.line}></div>
                             <div className={styles.filter}>
                                 <div className={styles.filterButton}>
@@ -22,7 +22,7 @@ export default function SearchForm(){
                         </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </>
     )
 }
