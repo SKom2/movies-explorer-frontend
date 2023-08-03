@@ -33,6 +33,12 @@
     align-items: center;
     cursor: pointer;
     color: #FFFFFF;
+    text-decoration: none;
+    transition: opacity .1s linear;
+}
+
+.link:hover{
+    opacity: .7;
 }
 
 .linkTitle{

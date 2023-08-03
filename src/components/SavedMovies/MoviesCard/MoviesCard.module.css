@@ -34,6 +34,7 @@
     background-repeat: no-repeat;
     background-position: 7.2px 11px;
     cursor: pointer;
+    border: none;
 }
 
 .imageBlock{

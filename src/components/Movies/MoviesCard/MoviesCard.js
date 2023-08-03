@@ -9,9 +9,9 @@ export default function MoviesCard(props) {
                     <p className={styles.movieDuration}>{props.duration}</p>
                 </div>
                 {props.saved ? (
-                    <div className={styles.savedIcon}></div>
+                    <button className={styles.savedIcon}></button>
                 ) : (
-                    <div className={styles.notSavedIcon}></div>
+                    <button className={styles.notSavedIcon}></button>
                 )}
             </div>
             <img className={styles.imageBlock} src={props.image} alt="Film Cover"/>

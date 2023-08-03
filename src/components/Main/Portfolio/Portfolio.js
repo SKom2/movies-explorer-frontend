@@ -6,22 +6,22 @@ export default function Portfolio() {
             <p className={styles.title}>Портфолио</p>
             <ul className={styles.links}>
                 <li className={styles.linkItem}>
-                    <div className={styles.link}>
+                    <a href='https://skom2.github.io/Relvise/' className={styles.link} target='_blank'>
                         <p className={styles.linkTitle}>Статичный сайт</p>
                         <div className={styles.linkIcon}></div>
-                    </div>
+                    </a>
                 </li>
                 <li className={styles.linkItem}>
-                    <div className={styles.link}>
+                    <a href='https://skom2.github.io/russian-travel/' className={styles.link} target='_blank'>
                         <p className={styles.linkTitle}>Адаптивный сайт</p>
                         <div className={styles.linkIcon}></div>
-                    </div>
+                    </a>
                 </li>
                 <li className={styles.linkItem}>
-                    <div className={styles.link}>
+                    <a href='https://mesto-otdiha.nomoredomains.rocks' className={styles.link} target='_blank'>
                         <p className={styles.linkTitle}>Одностраничное приложение</p>
                         <div className={styles.linkIcon}></div>
-                    </div>
+                    </a>
                 </li>
             </ul>
         </div>

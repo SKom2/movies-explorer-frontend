@@ -5,7 +5,7 @@ import Navigation from "../Navigation/Navigation";
 
 export default function Header(props) {
     return (
-        <section className={styles.header}>
+        <header className={styles.header}>
             <div className={styles.content}>
                 <Link to='/' className={styles.logo}><img src={Logo} alt="Movies" /></Link>
                 {props.isLoggedIn ? (
@@ -21,12 +21,11 @@ export default function Header(props) {
                             </Link>
                         </div>
                     ) : (
-                        <>
-                            <Navigation
-                                isMenuOpened={props.isMenuOpened}
-                                onMenuCloseIconClick={props.onMenuIconClick}
-                            />
-                        </>
+                        <Navigation
+                            isMenuOpened={props.isMenuOpened}
+                            onMenuCloseIconClick={props.onMenuIconClick}
+                        />
+
                     )
                 ) : (
                     <div className={styles.NotRegisteredMenu}>
@@ -35,6 +34,6 @@ export default function Header(props) {
                     </div>
                 )}
             </div>
-        </section>
+        </header>
     );
 }

@@ -30,6 +30,11 @@
     font-size: 14px;
     line-height: 18px;
     text-decoration: none;
+    transition: opacity .2s linear;
+}
+
+.link:hover, .accountLink:hover, .registerLink:hover{
+    opacity: .7;
 }
 
 .accountLink{
@@ -38,6 +43,7 @@
     font-size: 14px;
     line-height: 18px;
     text-decoration: none;
+    transition: opacity .2s linear;
     margin-left: 30px;
 }
 
@@ -77,6 +83,7 @@
     line-height: 16px;
     font-weight: 500;
     color: white;
+    transition: opacity .2s linear;
 }
 
 .linkBlock{

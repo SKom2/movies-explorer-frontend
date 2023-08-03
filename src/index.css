@@ -2,7 +2,9 @@
 @import url(./vendor/fonts.css);
 
 .page{
+    margin: 0 auto;
     min-width: 320px;
+    max-width: 1280px;
     font-family: 'Inter', sans-serif;
     line-height: 1;
     font-weight: 400;

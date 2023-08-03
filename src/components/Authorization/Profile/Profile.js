@@ -6,7 +6,7 @@ export default function Profile() {
     return(
         <>
             <Header />
-            <div className={styles.profile}>
+            <section className={styles.profile}>
                 <p className={styles.greeting}>Привет, Виталий!</p>
                 <div className={styles.nameInfo}>
                     <p className={styles.nameTitle}>Имя</p>
@@ -17,9 +17,9 @@ export default function Profile() {
                     <p className={styles.emailTitle}>E-mail</p>
                     <p className={styles.email}>pochta@yandex.ru</p>
                 </div>
-                <p className={styles.edit}>Редактировать</p>
+                <a href='#' className={styles.edit}>Редактировать</a>
                 <Link to='/signin' className={styles.exitProfile}>{'Выйти из аккаунта'}</Link>
-            </div>
+            </section>
         </>
     )
 }

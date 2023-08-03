@@ -15,7 +15,6 @@ export default function AuthorizationForm(props) {
                 <button type='submit' className={styles.submitBtn}>{props.button}</button>
                 <p className={styles.reminder}>{props.reminder}<Link className={styles.link} to={props.path}>{props.reminderLink}</Link></p>
             </form>
-
         </div>
     )
 }

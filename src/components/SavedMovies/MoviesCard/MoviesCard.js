@@ -8,7 +8,7 @@ export default function MoviesCard(props) {
                     <p className={styles.movieName}>{props.name}</p>
                     <p className={styles.movieDuration}>{props.duration}</p>
                 </div>
-                    <div className={styles.removeIcon}></div>
+                    <button className={styles.removeIcon}></button>
             </div>
             <img className={styles.imageBlock} src={props.image} alt="Film Cover"/>
         </article>

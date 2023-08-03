@@ -2,7 +2,7 @@ import styles from './Footer.module.css'
 
 export default function Footer(){
     return(
-        <div className={styles.footer}>
+        <footer className={styles.footer}>
             <p className={styles.title}>Учебный проект Яндекс.Практикум х BeatFilm.</p>
             <div className={styles.line}></div>
             <div className={styles.info}>
@@ -12,6 +12,6 @@ export default function Footer(){
                     <a className={styles.link} href="#">Github</a>
                 </div>
             </div>
-        </div>
+        </footer>
     )
 }

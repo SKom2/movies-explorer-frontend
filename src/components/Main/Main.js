@@ -17,13 +17,13 @@ export default function Main(props) {
                 onMenuIconClick={props.onMenuIconClick}
                 isDesktop={props.isDesktop}
             />
-            <section className={styles.main}>
+            <main className={styles.main}>
                 <Promo />
                 <AboutProject />
                 <Techs />
                 <AboutMe />
                 <Portfolio />
-            </section>
+            </main>
             <Footer />
         </>
     )
