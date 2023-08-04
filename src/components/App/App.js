@@ -30,16 +30,14 @@ function App() {
         setToken(jwt);
 
         if (token) {
-            mainApi.setToken(token);
-            Auth.getContent(token)
+            mainApi.getProfile(token)
                 .then((res) => {
                     setIsLoggedIn(true);
                     setUserData({ name: res.name, email: res.email });
                     navigate("/movies", { replace: true });
                 })
                 .catch((err) => {
-                    // Handle error here
-                    console.error("Error while fetching user data:", err);
+                    console.error("Ошибкв:", err);
                 });
         }
     }, [token, setIsLoggedIn]);

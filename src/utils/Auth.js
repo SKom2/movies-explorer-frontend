@@ -13,10 +13,6 @@ const makeRequest = (url, method, body, token) => {
         options.body = JSON.stringify(body)
     }
 
-    if (token) {
-        options.headers.Authorization = `Bearer ${token}`
-    }
-
     return fetch(`${BASE_URL}${url}`, options)
         .then((response) => {
             if (response.ok) {
@@ -35,7 +31,3 @@ export const register = (name, email, password) => {
 export const authorize = (email, password) => {
     return makeRequest('/signin', "POST", {email, password}, '')
 };
-
-export const getContent = (token) => {
-    return makeRequest('/users/me', "GET", null, token)
-}
