@@ -1,0 +1,54 @@
+.error{
+    padding: 246px 10px 60px;
+    text-align: center;
+}
+
+.errorStatus{
+    margin: 0 0 5px;
+    font-weight: 400;
+    font-size: 140px;
+    line-height: 169px;
+    color: #FFFFFF;
+}
+
+.errorText{
+    margin: 0 0 184px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    color: #FFFFFF;
+}
+
+.back{
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    text-decoration: none;
+    color: #4285F4;
+}
+
+@media screen and (max-width: 768px) {
+    .error{
+        padding: 408px 10px 222px;
+    }
+}
+
+@media screen and (max-width: 375px) {
+    .error{
+        padding: 329px 10px 30px;
+    }
+    .errorStatus{
+        margin-bottom: 10px;
+        font-size: 80px;
+        line-height: 97px;
+    }
+    .errorText{
+        margin-bottom: 284px;
+        font-size: 12px;
+        line-height: 15px;
+    }
+    .back{
+        font-size: 12px;
+        line-height: 15px;
+    }
+}

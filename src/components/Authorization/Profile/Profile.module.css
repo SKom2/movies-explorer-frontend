@@ -1,0 +1,97 @@
+.profile{
+    padding: 74px 30px 70px;
+    text-align: center;
+}
+
+.greeting{
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+    color: #FFFFFF;
+    margin: 0 0 123px;
+}
+
+.nameInfo{
+    max-width: 410px;
+    display: flex;
+    justify-content: space-between;
+    color: #FFFFFF;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+    margin: 0 auto 16px;
+}
+
+.nameTitle{
+    margin: 0;
+}
+
+.name{
+    margin: 0;
+}
+
+.line{
+    max-width: 410px;
+    background-color: #424242;
+    height: 1px;
+    margin: 0 auto;
+}
+
+.emailInfo{
+    max-width: 410px;
+    display: flex;
+    justify-content: space-between;
+    color: #FFFFFF;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+    margin: 16px auto 220px;
+}
+
+.emailTitle{
+    margin: 0;
+}
+
+.email{
+    margin: 0;
+}
+
+.edit{
+    display: block;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    color: #FFFFFF;
+    margin: 0 0 16px;
+    text-decoration: none;
+    transition: opacity .2s linear;
+}
+
+.exitProfile{
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    color: #EE3465;
+    text-decoration: none;
+    transition: opacity .2s linear;
+}
+
+.edit:hover, .exitProfile:hover{
+    opacity: .7;
+}
+
+@media screen and (max-width: 768px) {
+    .emailInfo {
+        margin-bottom: 210px;
+    }
+}
+
+@media screen and (max-width: 375px){
+    .emailInfo{
+        margin-bottom: 379px;
+    }
+    .edit .exitProfile{
+        font-size: 12px;
+        line-height: 15px;
+    }
+}

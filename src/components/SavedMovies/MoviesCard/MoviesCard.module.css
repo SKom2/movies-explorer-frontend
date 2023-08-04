@@ -1,0 +1,63 @@
+.moviesCard{
+    background-color: #222222;
+}
+
+.movieInfo{
+    padding: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.movieName{
+    margin: 0;
+    font-size: 15px;
+    line-height: 18px;
+    font-weight: 500;
+    color: #FFFFFF;
+}
+
+.movieDuration{
+    margin: 9px 0 0;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+    color: #8B8B8B;
+}
+
+.removeIcon{
+    width: 30px;
+    height: 30px;
+    background-color: #313131;
+    border-radius: 36px;
+    background-image: url("../../../images/RemoveFromSaved.svg");
+    background-repeat: no-repeat;
+    background-position: 7.2px 11px;
+    cursor: pointer;
+    border: none;
+}
+
+.removeIcon{
+    outline: none;
+}
+
+.imageBlock{
+    background-size: cover;
+    display: block;
+    height: 203px;
+    object-fit: cover;
+    width: 100%;
+}
+
+@media screen and (max-width: 900px) {
+    .imageBlock{
+        height: 190px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .imageBlock{
+        height: 168px;
+        object-position: top;
+    }
+}

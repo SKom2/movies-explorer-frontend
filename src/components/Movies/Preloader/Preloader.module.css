@@ -1,0 +1,33 @@
+.preloader{
+    padding: 50px 0 80px;
+    max-width: 320px;
+    margin: 0 auto;
+}
+
+.preloaderBlock{
+    padding: 11px 60px 9px;
+    border: solid 1px #424242;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.text{
+    font-size: 12px;
+    line-height: 15px;
+    font-weight: 500;
+    color: #FFFFFF;
+    margin: 0;
+}
+
+.hidden{
+    display: none;
+}
+
+@media screen and (max-width: 767px) {
+    .preloaderBlock{
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+

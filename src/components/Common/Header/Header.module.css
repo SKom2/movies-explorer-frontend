@@ -1,0 +1,148 @@
+.header{
+    position: relative;
+    padding: 18px 70px;
+    margin: 0 auto;
+}
+
+.content{
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo{
+    width: 38px;
+    height: 38px;
+}
+
+
+/*-----------------Registered Menu----------------------*/
+
+.registeredMenu{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.link{
+    color: #FFFFFF;
+    font-size: 14px;
+    line-height: 18px;
+    text-decoration: none;
+    transition: opacity .2s linear;
+}
+
+.link:hover, .accountLink:hover, .registerLink:hover{
+    opacity: .7;
+}
+
+.accountLink{
+    display: flex;
+    color: #FFFFFF;
+    font-size: 14px;
+    line-height: 18px;
+    text-decoration: none;
+    transition: opacity .2s linear;
+    margin-left: 30px;
+}
+
+.accountLinkBlock{
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.accountLinkTitle{
+    margin: 0;
+}
+
+.accountLinkImage{
+    height: 30px;
+    width: 30px;
+    border-radius: 10px;
+    background-color: #313131;
+    background-image: url("../../../images/Account.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/*-----------------End of Registered Menu----------------------*/
+
+/*-----------------Not Registered Menu----------------------*/
+
+.NotRegisteredMenu{
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.registerLink{
+    text-decoration: none;
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 500;
+    color: white;
+    transition: opacity .2s linear;
+}
+
+.linkBlock{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 76px;
+    height: 32px;
+    background-color: #3DDC84;
+    border-radius: 3px;
+    text-align: center;
+    cursor: pointer;
+    transition: box-shadow .2s ease-out;
+    color: #000;
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.linkBlock:hover{
+    box-shadow: inset 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+/*-----------------End of Not Registered Menu----------------------*/
+
+
+@media screen and (max-width: 768px) {
+    .header{
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+}
+
+@media screen and (max-width: 375px) {
+    .header{
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    /*-----------------Not Registered Menu 375px----------------------*/
+
+    .NotRegisteredMenu{
+        gap: 14px;
+    }
+    .linkBlock{
+        width: 54px;
+        height: 26px;
+    }
+    .loginLink{
+        font-size: 10px;
+    }
+    .registerLink{
+        font-size: 10px;
+    }
+
+    /*-----------------End Of Not Registered Menu 375px----------------------*/
+
+}
+
+
+

@@ -1,0 +1,165 @@
+.aboutProject{
+    padding: 110px 70px;
+    margin: 0 auto;
+}
+
+.grid{
+    display: grid;
+    grid-template-columns: repeat(2, minmax(319px, 1fr));
+    gap: 40px;
+    margin-top: 70px;
+}
+
+.gridTitle{
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    color: #FFFFFF;
+    margin: 0;
+    padding: 0;
+    letter-spacing: -0.8px;
+}
+
+.gridText{
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #FFFFFF;
+    margin: 26px 0 0 0;
+    padding: 0;
+}
+
+.duration{
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    width: 100%;
+    margin-top: 110px;
+}
+
+.backEndDuration{
+    padding: 9px 0 9px 0;
+    background-color: #3DDC84;
+    text-align: center;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
+}
+
+.frontEndDuration{
+    padding: 9px 0 9px 0;
+    background-color: #303030;
+    text-align: center;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #FFFFFF;
+}
+
+.subDuration{
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    width: 100%;
+    margin-top: 14px;
+}
+
+.backEnd{
+    text-align: center;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    color: #8B8B8B;
+}
+
+.frontEnd{
+    text-align: center;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    color: #8B8B8B;
+}
+
+@media screen and (max-width: 875px) {
+    .grid{
+        gap: 30px;
+    }
+    .gridText{
+        font-size: 12px;
+        line-height: 18px;
+        margin-top: 22px;
+    }
+    .duration{
+        margin-top: 93px;
+    }
+    .aboutProject{
+        padding: 90px 50px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .duration{
+        grid-template-columns: 1fr 3.77fr;
+    }
+    .subDuration{
+        grid-template-columns: 1fr 3.77fr;
+    }
+    .grid{
+        grid-template-columns: repeat(auto-fill, minmax(284px, 1fr));
+    }
+}
+
+
+@media screen and (max-width: 375px) {
+    .grid{
+        gap: 56px;
+        margin-top: 60px;
+    }
+    .gridTitle{
+        font-size: 18px;
+        line-height: 22px;
+    }
+    .gridText{
+        font-size: 11px;
+        line-height: 16px;
+        margin-top: 16px;
+    }
+    .aboutProject{
+        padding: 70px 14px;
+    }
+    .title{
+        font-size: 18px;
+        line-height: 22px;
+        margin-bottom: 28px;
+    }
+    .line{
+        margin-bottom: 60px;
+    }
+    .backEndDuration{
+        font-size: 11px;
+        line-height: 13px;
+        padding-top: 11px;
+        padding-bottom: 11px;
+    }
+    .frontEndDuration{
+        font-size: 11px;
+        line-height: 13px;
+        padding-top: 11px;
+        padding-bottom: 11px;
+    }
+    .duration{
+        grid-template-columns: 1fr 1.84fr;
+        margin-top: 60px;
+    }
+    .subDuration{
+        grid-template-columns: 1fr 1.84fr;
+        margin-top: 10px;
+    }
+    .backEnd{
+        font-size: 11px;
+        line-height: 13px;
+    }
+    .frontEnd{
+        font-size: 11px;
+        line-height: 13px;
+    }
+}

@@ -1,0 +1,95 @@
+.portfolio{
+    padding: 0 70px 125px;
+}
+
+.title{
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 20px;
+    color: #8B8B8B;
+    margin: 0;
+    padding: 0;
+}
+
+.links{
+    padding: 0;
+    margin: 50px 0 0;
+    width: 100%;
+    list-style-type: none;
+}
+
+.linkItem:not(:last-child){
+    border-bottom: solid 1px #424242;
+    padding-bottom: 20px;
+}
+
+.linkItem:not(:first-child){
+    padding-top: 20px;
+}
+
+.link{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    color: #FFFFFF;
+    text-decoration: none;
+    transition: opacity .1s linear;
+}
+
+.link:hover{
+    opacity: .7;
+}
+
+.linkTitle{
+    padding: 0;
+    margin: 0;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 50px;
+    letter-spacing: -1.2px;
+}
+
+.linkIcon{
+    background-image: url("../../../images/PortfolioLink.svg");
+    background-repeat: no-repeat;
+    background-position: 6px 10px;
+    width: 30px;
+    height: 30px;
+}
+
+
+@media screen and (max-width: 875px) {
+    .portfolio{
+        padding: 0 50px 90px;
+    }
+    .linkTitle{
+        letter-spacing: -2.3px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .portfolio{
+        padding: 0 14px 70px;
+    }
+    .title{
+        font-size: 14px;
+    }
+    .links{
+        margin-top: 40px;
+    }
+    .linkItem:not(:first-child){
+        padding-top: 18px;
+    }
+    .linkTitle{
+        font-size: 18px;
+        line-height: 28px;
+        letter-spacing: -0.7px;
+    }
+    .linkIcon{
+        background-position: 10px 0px;
+        width: 25px;
+        height: 18px;
+        background-size: 10px 12px;
+    }
+}
