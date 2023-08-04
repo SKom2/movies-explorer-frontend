@@ -13,7 +13,7 @@ import Malifisenta from '../images/movies/Malifisenta.jpeg'
 import Jason from '../images/movies/Jason Born.jpeg'
 import Island from '../images/movies/Islind.jpg'
 
-const Movies = [
+const MoviesConstant = [
     {
         name: 'Начало', duration: '2h 28m', image: Inception, saved: false
     },
@@ -52,6 +52,17 @@ const Movies = [
     }
 ]
 
-export default Movies;
+const apiConfig = {
+    url: 'https://api.mesto-otdiha.nomoredomains.work',
+    headers: {
+        Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+        'Content-Type': 'application/json',
+    }
+}
+
+export {
+    apiConfig,
+    MoviesConstant
+};
 
 

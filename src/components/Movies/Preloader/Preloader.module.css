@@ -9,6 +9,12 @@
     border: solid 1px #424242;
     border-radius: 10px;
     text-align: center;
+    cursor: pointer;
+    transition: opacity .2s linear;
+}
+
+.preloaderBlock:hover{
+    opacity: .7;
 }
 
 .text{

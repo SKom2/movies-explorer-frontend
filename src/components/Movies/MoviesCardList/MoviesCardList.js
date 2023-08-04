@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "./MoviesCardList.module.css";
-import Movies from "../../../utils/constants";
+import {MoviesConstant} from "../../../utils/constants";
 import MoviesCard from "../MoviesCard/MoviesCard";
 
 export default function MoviesCardList() {
@@ -25,7 +25,7 @@ export default function MoviesCardList() {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
-    const moviesToShow = Movies.slice(0, maxMoviesToShow);
+    const moviesToShow = MoviesConstant.slice(0, maxMoviesToShow);
 
     return (
         <div className={styles.moviesCardList}>
