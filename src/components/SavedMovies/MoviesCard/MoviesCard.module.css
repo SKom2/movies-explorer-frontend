@@ -37,6 +37,10 @@
     border: none;
 }
 
+.removeIcon{
+    outline: none;
+}
+
 .imageBlock{
     background-size: cover;
     display: block;

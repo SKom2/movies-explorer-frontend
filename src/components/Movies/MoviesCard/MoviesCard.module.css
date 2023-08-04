@@ -62,6 +62,10 @@
     opacity: .7;
 }
 
+.savedIcon, .notSavedIcon{
+    outline: none;
+}
+
 .imageBlock{
     background-size: cover;
     display: block;
