@@ -7,11 +7,12 @@ import Register from "../Authorization/Register/Register";
 import Login from "../Authorization/Login/Login";
 import {Route, Routes, useNavigate} from "react-router-dom";
 import React, {useEffect, useState} from "react";
-import {apiConfig, MoviesConstant} from "../../utils/constants";
+import {apiConfig, moviesApiConfig, MoviesConstant} from "../../utils/constants";
 import Error from "../Authorization/Error/Error";
 import * as Auth from "../../utils/Auth";
 import MainApi from "../../utils/MainApi";
 import {CurrentUserContext} from "../../contexts/CurrentUserContext";
+import MoviesApi from "../../utils/MoviesApi";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -22,8 +23,11 @@ function App() {
   })
   const [isMenuOpened , setIsMenuOpened] = useState(false);
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 769);
+  const [movies, setMovies] = useState([])
+
   const navigate = useNavigate();
-  const mainApi = new MainApi(apiConfig)
+  const mainApi = new MainApi(apiConfig);
+  const moviesApi = new MoviesApi(moviesApiConfig);
 
     useEffect(() => {
         const jwt = localStorage.getItem("jwt");
@@ -35,6 +39,11 @@ function App() {
                     setIsLoggedIn(true);
                     setUserData({ name: res.name, email: res.email });
                     navigate("/movies", { replace: true });
+                    return moviesApi.getMovies();
+                })
+                .then((moviesData) => {
+                    setMovies(moviesData)
+                    console.log(moviesData)
                 })
                 .catch((err) => {
                     console.error("Ошибкв:", err);
@@ -55,6 +64,18 @@ function App() {
           window.removeEventListener("resize", handleResize);
       };
   }, []);
+
+  // useEffect(() => {
+  //     if (!isLoggedIn) {
+  //         return;
+  //     }
+  //     moviesApi.getMovies()
+  //         .then((moviesData) => {
+  //             setMovies(moviesData)
+  //             console.log(moviesData)
+  //         })
+  //         .catch(err => console.log(`Ошибка получения фильмов: ${err}`));
+  // }, [token, isLoggedIn])
 
   function handleMenuIconClick(){
       setIsMenuOpened(!isMenuOpened);
@@ -92,7 +113,7 @@ function App() {
     }
 
   return (
-    <CurrentUserContext.Provider value={{userData}}>
+    <CurrentUserContext.Provider value={{userData, movies}}>
         <Routes>
             <Route
                 path="/"

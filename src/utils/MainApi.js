@@ -18,6 +18,8 @@ export default class MainApi{
             .then((res) => this._getResponsiveData(res))
     }
 
+
+
     updateUser(data){
         return fetch(`${this._config.url}/users/me`, {
             method: 'PATCH',
