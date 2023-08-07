@@ -1,7 +1,20 @@
 import styles from './MoviesCard.module.css'
 import {moviesApiConfig} from "../../../utils/constants";
+import {useContext, useEffect, useState} from "react";
+import {MoviesContext} from "../../../contexts/MoviesContext";
+import {SavedMoviesContext} from "../../../contexts/SavedMoviesContext";
 
-export default function MoviesCard(props) {
+export default function MoviesCard({movie, onSaveIconClick}) {
+    const [isLiked, setIsLiked] = useState(false)
+    const {savedMovies} = useContext(SavedMoviesContext)
+
+    useEffect(() => {
+        const liked = savedMovies.some((savedItem) => {
+            return savedItem.movieId === movie.id
+        })
+        setIsLiked(liked)
+    }, [savedMovies, movie])
+
 
     function formatDuration(durationInMinutes){
         const hours = Math.floor(durationInMinutes / 60);
@@ -9,22 +22,27 @@ export default function MoviesCard(props) {
         return `${hours}h ${remainingMinutes}m`
     }
 
-    
+    function handleSave(){
+        onSaveIconClick({
+            ...movie,
+            duration: `${movie.duration}`,
+            image: `${moviesApiConfig.url}${movie.image.url}`,
+            thumbnail: `${moviesApiConfig.url}${movie.image.previewUrl}`,
+            movieId: movie.id
+        })
+    }
+    console.log(movie)
 
     return(
         <article className={styles.moviesCard}>
             <div className={styles.movieInfo}>
                 <div className={styles.infoLeftSide}>
-                    <p className={styles.movieName}>{props.name}</p>
-                    <p className={styles.movieDuration}>{formatDuration(props.duration)}</p>
+                    <p className={styles.movieName}>{movie.nameRU}</p>
+                    <p className={styles.movieDuration}>{formatDuration(movie.duration)}</p>
                 </div>
-                {props.saved ? (
-                    <button className={styles.savedIcon}></button>
-                ) : (
-                    <button className={styles.notSavedIcon}></button>
-                )}
+                <button className={isLiked? styles.savedIcon : styles.notSavedIcon} onClick={handleSave}></button>
             </div>
-            <img className={styles.imageBlock} src={`${moviesApiConfig.url}${props.image}`} alt="Film Cover"/>
+            <img className={styles.imageBlock} src={`${moviesApiConfig.url}${movie.image.url}`} alt="Film Cover"/>
         </article>
     )
 }

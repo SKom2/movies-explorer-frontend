@@ -19,7 +19,7 @@ export default function SavedMovies(props) {
             />
             <section className={styles.savedMovies}>
                 <SearchForm />
-                <MoviesCardList />
+                <MoviesCardList onDeleteIconClick={props.onDeleteIconClick}/>
                 <Preloader movies={savedMovies}/>
             </section>
             <Footer />

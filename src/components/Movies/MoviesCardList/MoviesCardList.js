@@ -3,10 +3,10 @@ import styles from "./MoviesCardList.module.css";
 import {MoviesConstant} from "../../../utils/constants";
 import MoviesCard from "../MoviesCard/MoviesCard";
 import {useContext} from "react";
-import {CurrentUserContext} from "../../../contexts/CurrentUserContext";
+import {MoviesContext} from "../../../contexts/MoviesContext";
 
-export default function MoviesCardList() {
-    const {movies} = useContext(CurrentUserContext)
+export default function MoviesCardList({onSaveIconClick, saved}) {
+    const {movies} = useContext(MoviesContext)
     const maxMoviesToShowDesktop = 12;
     const maxMoviesToShowMobile = 8;
     const maxMoviesToShowSmallMobile = 5;
@@ -30,16 +30,13 @@ export default function MoviesCardList() {
 
     const moviesToShow = movies.slice(0, maxMoviesToShow);
 
-
     return (
         <div className={styles.moviesCardList}>
             {moviesToShow.map((movie) => (
                 <MoviesCard
                     key={movie.id}
-                    name={movie.nameRU}
-                    duration={movie.duration}
-                    image={movie.image.url}
-                    saved={movie.saved}
+                    movie={movie}
+                    onSaveIconClick={onSaveIconClick}
                 />
             ))}
         </div>

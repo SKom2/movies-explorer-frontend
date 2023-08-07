@@ -51,17 +51,6 @@
     transition: all .2s ease-out;
 }
 
-.notSavedIcon:hover{
-    background-color: #3DDC84;
-    opacity: .4;
-    background-image: url("../../../images/SavedIcon.svg");
-}
-
-.savedIcon:hover{
-    background-color: #313131;
-    opacity: .7;
-}
-
 .savedIcon, .notSavedIcon{
     outline: none;
 }

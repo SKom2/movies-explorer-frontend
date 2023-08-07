@@ -18,7 +18,29 @@ export default class MainApi{
             .then((res) => this._getResponsiveData(res))
     }
 
+    addMovies(data){
+        return fetch(`${this._config.url}/movies`, {
+            method: 'POST',
+            headers: this._config.headers,
+            body: JSON.stringify(data)
+        })
+            .then((res) => this._getResponsiveData(res))
+    }
 
+    getSavedMovies(){
+        return fetch(`${this._config.url}/movies`, {
+            headers: this._config.headers
+        })
+            .then((res) => this._getResponsiveData(res))
+    }
+
+    removeMovies(id){
+        return fetch(`${this._config.url}/movies/${id}`, {
+            method: "DELETE",
+            headers: this._config.headers,
+        })
+            .then((res) => this._getResponsiveData(res))
+    }
 
     updateUser(data){
         return fetch(`${this._config.url}/users/me`, {
