@@ -31,7 +31,6 @@ export default function MoviesCard({movie, onSaveIconClick}) {
             movieId: movie.id
         })
     }
-    console.log(movie)
 
     return(
         <article className={styles.moviesCard}>

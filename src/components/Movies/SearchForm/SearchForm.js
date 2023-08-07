@@ -2,7 +2,7 @@ import styles from "./SearchForm.module.css"
 import {useState} from "react";
 import {useForm} from "../../../hooks/useForm";
 
-export default function SearchForm(){
+export default function SearchForm(props){
     const {values, handleChange, errors, isValid} = useForm({
         movie: ''
     });
@@ -25,8 +25,8 @@ export default function SearchForm(){
                                 type="text"
                                 placeholder='Фильм'
                                 name="movie"
-                                value={values.movie || ''}
-                                onChange={handleChange}
+                                value={props.value}
+                                onChange={props.handleChange}
                                 required/>
                         </div>
                         <div className={styles.searchRightSide}>
@@ -40,7 +40,7 @@ export default function SearchForm(){
                             </div>
                         </div>
                     </div>
-                    <span className={styles.moviesError}>{errors.movie}</span>
+                    <span className={styles.moviesError}>{props.errors.movie}</span>
                 </div>
             </form>
         </>

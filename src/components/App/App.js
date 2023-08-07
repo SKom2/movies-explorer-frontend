@@ -147,6 +147,10 @@ function App() {
             .catch(err => console.log(`Ошибка добавления фильма: ${err.stack}`))
     }
 
+    // const filterMovies(movies, value){
+    //     return movies.nameRU.toLowerCase().includes(value.toLowerCase())
+    // }
+
     return (
         // --------------------------Добавить MoviesContext
         <SavedMoviesContext.Provider value={{savedMovies}}>

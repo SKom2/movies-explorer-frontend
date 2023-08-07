@@ -5,9 +5,13 @@ import Preloader from "../Movies/Preloader/Preloader";
 import Header from "../Common/Header/Header";
 import React from "react";
 import Footer from "../Common/Footer/Footer";
+import {useForm} from "../../hooks/useForm";
 
 export default function SavedMovies(props) {
     const savedMovies = props.movies.filter((movie) => movie.saved);
+    const {values, handleChange, errors, isValid} = useForm({
+        movie: ''
+    });
 
     return(
         <>
@@ -18,8 +22,15 @@ export default function SavedMovies(props) {
                 isDesktop={props.isDesktop}
             />
             <section className={styles.savedMovies}>
-                <SearchForm />
-                <MoviesCardList onDeleteIconClick={props.onDeleteIconClick}/>
+                <SearchForm
+                    value={values.movie || ''}
+                    handleChange={handleChange}
+                    errors={errors}
+                />
+                <MoviesCardList
+                    value={values.movie || ''}
+                    onDeleteIconClick={props.onDeleteIconClick}
+                />
                 <Preloader movies={savedMovies}/>
             </section>
             <Footer />
