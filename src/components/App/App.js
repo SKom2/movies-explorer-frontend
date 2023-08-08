@@ -55,7 +55,6 @@ function App() {
 
             mainApi.getSavedMovies()
                 .then((savedMovies) => {
-                    console.log(savedMovies)
                     setSavedMovies(savedMovies)
                 })
                 .catch((err) => {
@@ -147,14 +146,10 @@ function App() {
             .catch(err => console.log(`Ошибка добавления фильма: ${err.stack}`))
     }
 
-    // const filterMovies(movies, value){
-    //     return movies.nameRU.toLowerCase().includes(value.toLowerCase())
-    // }
-
-    return (
+     return (
         // --------------------------Добавить MoviesContext
         <SavedMoviesContext.Provider value={{savedMovies}}>
-            <MoviesContext.Provider value={{movies}}>
+            <MoviesContext.Provider value={{movies, setMovies}}>
                 <CurrentUserContext.Provider value={{userData}}>
                  <Routes>
                         <Route

@@ -5,7 +5,7 @@ import MoviesCard from "../MoviesCard/MoviesCard";
 import {useContext} from "react";
 import {MoviesContext} from "../../../contexts/MoviesContext";
 
-export default function MoviesCardList({onSaveIconClick, value}) {
+export default function MoviesCardList({onSaveIconClick}) {
     const {movies} = useContext(MoviesContext)
     const maxMoviesToShowDesktop = 12;
     const maxMoviesToShowMobile = 8;
@@ -28,16 +28,18 @@ export default function MoviesCardList({onSaveIconClick, value}) {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
-    const moviesToShow = movies.slice(0, maxMoviesToShow);
 
+    useEffect(() => {
+        const moviesToShow = movies.slice(0, maxMoviesToShow);
 
-    const filteredMovies = movies.filter((movie) => {
-        return movie.nameRU.toLowerCase().includes(value.toLowerCase())
-    })
+        setMoviesToShow(moviesToShow);
+    }, [movies, maxMoviesToShow]);
+
+    const [moviesToShow, setMoviesToShow] = useState([]);
 
     return (
         <div className={styles.moviesCardList}>
-            {filteredMovies.map((movie) => (
+            {moviesToShow.map((movie) => (
                 <MoviesCard
                     key={movie.id}
                     movie={movie}

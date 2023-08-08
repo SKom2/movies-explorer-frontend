@@ -1,6 +1,9 @@
 .searchForm{
     padding: 70px 0 10px;
+    position: relative;
 }
+
+
 
 .underLine{
     padding-bottom: 70px;
@@ -20,7 +23,20 @@
     display: flex;
     gap: 10px;
     align-items: center;
-    width: 100%;
+    width: 55%;
+    border-radius: 5px;
+    position: relative;
+}
+
+
+.searchLeftSide:hover{
+    outline: 1px solid #3DDC84;
+    background-color: #2F2F2F;
+}
+
+.searchLeftSide:focus-within{
+    outline: 1px solid #8B8B8B;
+    background-color: #2F2F2F;
 }
 
 .searchIcon{
@@ -38,16 +54,64 @@
     font-size: 18px;
     line-height: 20px;
     color: #8B8B8B;
-    width: 100%;
     height: 32px;
+    width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .searchInput:focus{
     outline: none;
 }
 
-.searchFormContainer:focus-within {
-    outline: 1px solid #FFFFFF;
+.autocomplete{
+    position: absolute;
+    left: 0;
+    top: 40px;
+    width: 100%;
+    background-color: #2F2F2F;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    border-radius: 5px;
+    z-index: 111;
+    max-height: 108px;
+    height: auto;
+    overflow: auto;
+}
+
+.autocomplete::-webkit-scrollbar{
+    background-color: #2F2F2F;
+    border-radius: 5px;
+    width: 7px;
+}
+
+.autocomplete::-webkit-scrollbar-track {
+    padding: 2px 0;
+    background-color: #404040;
+    border-radius: 1px;
+}
+
+.autocomplete::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #737272;
+}
+
+.autocompleteItem{
+    padding: 10px ;
+    font-size: 15px;
+    line-height: 18px;
+    font-weight: 500;
+    color: #FFFFFF;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.autocompleteItem:hover{
+    background-color: #8B8B8B;
+    cursor: pointer;
 }
 
 .searchRightSide{
@@ -143,6 +207,7 @@
     display: block;
     text-align: left;
     margin-top: 10px;
+    height: 12px;
 }
 
 @media screen and (max-width: 900px) {
@@ -169,6 +234,9 @@
     }
     .searchIcon{
         display: none;
+    }
+    .searchInput{
+        margin-left: 10px;
     }
     .line{
         display: none;

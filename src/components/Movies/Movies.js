@@ -3,14 +3,12 @@ import MoviesCardList from "./MoviesCardList/MoviesCardList";
 import styles from './Movies.module.css'
 import Preloader from "./Preloader/Preloader";
 import Header from "../Common/Header/Header";
-import React from "react";
 import Footer from "../Common/Footer/Footer";
-import {useForm} from "../../hooks/useForm";
+import {useContext} from "react";
+import {MoviesContext} from "../../contexts/MoviesContext";
 
 export default function Movies(props) {
-    const {values, handleChange, errors, isValid} = useForm({
-        movie: ''
-    });
+    const {movies} = useContext(MoviesContext)
 
     return(
         <>
@@ -22,12 +20,9 @@ export default function Movies(props) {
             />
             <section className={styles.movies}>
                 <SearchForm
-                    value={values.movie || ''}
-                    handleChange={handleChange}
-                    errors={errors}
+                    movies={movies}
                 />
                 <MoviesCardList
-                    value={values.movie || ''}
                     onSaveIconClick={props.onSaveIconClick}
                 />
                 <Preloader movies={props.movies}/>

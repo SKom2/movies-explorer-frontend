@@ -3,15 +3,12 @@ import MoviesCardList from "./MoviesCardList/MoviesCardList";
 import styles from './SavedMovies.module.css'
 import Preloader from "../Movies/Preloader/Preloader";
 import Header from "../Common/Header/Header";
-import React from "react";
+import React, {useContext} from "react";
 import Footer from "../Common/Footer/Footer";
-import {useForm} from "../../hooks/useForm";
+import {SavedMoviesContext} from "../../contexts/SavedMoviesContext";
 
 export default function SavedMovies(props) {
-    const savedMovies = props.movies.filter((movie) => movie.saved);
-    const {values, handleChange, errors, isValid} = useForm({
-        movie: ''
-    });
+    const {savedMovies} = useContext(SavedMoviesContext)
 
     return(
         <>
@@ -23,12 +20,9 @@ export default function SavedMovies(props) {
             />
             <section className={styles.savedMovies}>
                 <SearchForm
-                    value={values.movie || ''}
-                    handleChange={handleChange}
-                    errors={errors}
+                    movies={savedMovies}
                 />
                 <MoviesCardList
-                    value={values.movie || ''}
                     onDeleteIconClick={props.onDeleteIconClick}
                 />
                 <Preloader movies={savedMovies}/>
