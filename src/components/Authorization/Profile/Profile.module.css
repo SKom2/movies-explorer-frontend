@@ -22,6 +22,34 @@
     margin: 0 auto 16px;
 }
 
+.nameInput, .emailInput{
+    background-color: transparent;
+    border: none;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+    color: #FFFFFF;
+    margin: 0;
+    text-align: right;
+    padding: 5px;
+}
+
+.nameInput:hover, .emailInput:hover{
+    outline: solid 1px white;
+    border-radius: 2px;
+}
+
+.saveBtn{
+    text-decoration: none;
+    color: #FFFFFF;
+    width: 100px;
+    transition: all .2s linear;
+}
+
+.saveBtn:hover{
+    opacity: .7;
+}
+
 .nameTitle{
     margin: 0;
 }

@@ -175,6 +175,14 @@ function App() {
             .catch(err => console.log(`Ошибка поиска фильма: ${err.stack}`))
     }
 
+    function updateUser(values){
+        mainApi.updateUser(values)
+            .then((updateUser) => {
+                setUserData(updateUser)
+            })
+            .catch(err => console.log(`Ошибка обновления данных пользователя: ${err.stack}`))
+    }
+
      return (
         // --------------------------Добавить MoviesContext
         <SavedMoviesContext.Provider value={{savedMovies}}>
@@ -217,12 +225,15 @@ function App() {
                         />
                         <Route
                             path="/profile"
-                            element={<Profile
-                            isLoggedIn={isLoggedIn}
-                            isMenuOpened={isMenuOpened}
-                            onMenuIconClick={handleMenuIconClick}
-                            isDesktop={isDesktop}
-                            signOut={signOut} />}
+                            element=
+                                {<Profile
+                                    isLoggedIn={isLoggedIn}
+                                    isMenuOpened={isMenuOpened}
+                                    onMenuIconClick={handleMenuIconClick}
+                                    isDesktop={isDesktop}
+                                    signOut={signOut}
+                                    onEditClick={updateUser}
+                                />}
                         />
                         <Route
                             path="/signup"
