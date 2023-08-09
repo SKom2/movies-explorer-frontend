@@ -3,25 +3,11 @@ import React, {useEffect, useState} from "react";
 import {useForm} from "../../../hooks/useForm";
 
 export default function SearchForm({onSubmit, ...props}){
-    const {values, handleChange, setValues, errors, setErrors} = useForm({
+    const {values, handleChange, setValues, errors} = useForm({
         movie: ''
     });
-    const [stateFilterBtn, setStateFilterBtn] = useState(true)
+    const [isShortMoviesShown, setIsShortMoviesShown] = useState(false)
     const [isAutocompleteOpen, setIsAutoCompleteOpen] = useState(true)
-
-    // useEffect(() => {
-    //     if (values.movie === '') {
-    //         console.log(errors)
-    //         setErrors('Нужно ввести ключевое слово')
-    //         return;
-    //     }
-    //     setErrors('')
-    // }, [errors, setErrors])
-
-    function handleChangeState(e) {
-        e.preventDefault()
-        setStateFilterBtn(!stateFilterBtn)
-    }
 
     function itemClickHandler(e){
         setValues({ ...values, movie: e.target.textContent });
@@ -36,12 +22,15 @@ export default function SearchForm({onSubmit, ...props}){
         return movie.nameRU.toLowerCase().includes(value.toLowerCase())
     })
 
+    function toggleFilterHandler(e) {
+        e.preventDefault();
+        setIsShortMoviesShown(!isShortMoviesShown);
+    }
+
     const searchFormSubmitHandler = (e) => {
         e.preventDefault();
-
-
+        props.onGetMovies(values.movie, isShortMoviesShown)
     };
-
 
     return(
         <>
@@ -78,10 +67,10 @@ export default function SearchForm({onSubmit, ...props}){
                             <button type='submit' className={styles.startSearch}></button>
                             <div className={styles.line}></div>
                             <div className={styles.filter}>
-                                <button className={styles.filterButton} onClick={handleChangeState}>
-                                    <div className={stateFilterBtn ? styles.filterButtonChoice : styles.filterButtonChoiceNotActive}></div>
+                                <button className={styles.filterButton} onClick={toggleFilterHandler}>
+                                    <div className={isShortMoviesShown ? styles.filterButtonChoice : styles.filterButtonChoiceNotActive}></div>
                                 </button>
-                                <p className={styles.filterText}>{stateFilterBtn ? 'Короткометражки' : 'Все фильмы'}</p>
+                                <p className={styles.filterText}>{isShortMoviesShown ? 'Короткометражки' : 'Все фильмы'}</p>
                             </div>
                         </div>
                     </div>

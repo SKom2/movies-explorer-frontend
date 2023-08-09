@@ -21,6 +21,7 @@ export default function SavedMovies(props) {
             <section className={styles.savedMovies}>
                 <SearchForm
                     movies={savedMovies}
+                    onGetMovies={props.onGetMovies}
                 />
                 <MoviesCardList
                     onDeleteIconClick={props.onDeleteIconClick}

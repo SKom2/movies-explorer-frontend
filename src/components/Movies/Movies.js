@@ -20,12 +20,13 @@ export default function Movies(props) {
             />
             <section className={styles.movies}>
                 <SearchForm
+                    onGetMovies={props.onGetMovies}
                     movies={movies}
                 />
                 <MoviesCardList
                     onSaveIconClick={props.onSaveIconClick}
                 />
-                <Preloader movies={props.movies}/>
+                <Preloader movies={movies}/>
             </section>
             <Footer />
         </>

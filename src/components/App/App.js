@@ -1,4 +1,3 @@
-import styles from "./App.module.css"
 import Main from "../Main/Main";
 import Movies from "../Movies/Movies";
 import SavedMovies from "../SavedMovies/SavedMovies";
@@ -124,7 +123,7 @@ function App() {
             .catch(err => console.log(`Ошибка удаления фильма: ${err.stack}`))
     }
 
-    function handleAddMovieToSaved(data){
+    function handleToggleMovieToSaved(data){
         const savedMovie = savedMovies.find((savedMovie) => savedMovie.movieId === data.movieId);
         if (savedMovie){
             handleDeleteMovie(savedMovie._id);
@@ -144,6 +143,36 @@ function App() {
                 setSavedMovies(savedMovies);
             })
             .catch(err => console.log(`Ошибка добавления фильма: ${err.stack}`))
+    }
+
+    function filterMovies(moviesArr, inputValue, shortMovie) {
+        return moviesArr.filter((movie) => {
+            if (shortMovie){
+                return movie.nameRU.toLowerCase().includes(inputValue.toLowerCase()) && movie.duration <= 40;
+            }
+            return movie.nameRU.toLowerCase().includes(inputValue.toLowerCase()) && movie.duration >= 40;
+        });
+    }
+    function searchMovies(inputValue, shortMovie){
+        moviesApi.getMovies()
+            .then((movies) => {
+                return filterMovies(movies, inputValue, shortMovie);
+            })
+            .then((filteredMovies) => {
+                setMovies(filteredMovies)
+            })
+            .catch(err => console.log(`Ошибка поиска фильма: ${err.stack}`))
+    }
+
+    function searchSavedMovies(inputValue, shortMovie){
+        mainApi.getSavedMovies()
+            .then((savedMovies) => {
+                return filterMovies(savedMovies, inputValue, shortMovie)
+            })
+            .then((filteredMovies) => {
+                setSavedMovies(filteredMovies)
+            })
+            .catch(err => console.log(`Ошибка поиска фильма: ${err.stack}`))
     }
 
      return (
@@ -167,18 +196,18 @@ function App() {
                             element=
                                 {<Movies
                                     isDesktop={isDesktop}
-                                    movies={MoviesConstant}
+                                    onGetMovies={searchMovies}
                                     isLoggedIn={isLoggedIn}
                                     isMenuOpened={isMenuOpened}
                                     onMenuIconClick={handleMenuIconClick}
-                                    onSaveIconClick={handleAddMovieToSaved}
+                                    onSaveIconClick={handleToggleMovieToSaved}
                                 />}
                         />
                         <Route
                             path="/saved-movies"
                             element=
                                 {<SavedMovies
-                                    movies={MoviesConstant}
+                                    onGetMovies={searchSavedMovies}
                                     isLoggedIn={isLoggedIn}
                                     isMenuOpened={isMenuOpened}
                                     onMenuIconClick={handleMenuIconClick}
@@ -201,7 +230,7 @@ function App() {
                         />
                         <Route
                             path="/signin"
-                            element={<Login login={login}/>}
+                            element={<Login login={login} navigate={navigate}/>}
                         />
                         <Route
                             path="/404"
