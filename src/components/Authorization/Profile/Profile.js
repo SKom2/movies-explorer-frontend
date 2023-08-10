@@ -1,17 +1,24 @@
 import styles from './Profile.module.css'
 import Header from "../../Common/Header/Header";
 import {Link} from "react-router-dom";
-import {useContext, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {CurrentUserContext} from "../../../contexts/CurrentUserContext";
 import {useForm} from "../../../hooks/useForm";
 
 export default function Profile(props) {
     const {userData} = useContext(CurrentUserContext)
-    const {values, handleChange} = useForm({
+    const {values, handleChange, setValues} = useForm({
         name: userData.name,
         email: userData.email
     });
     const [isEditing, setIsEditing] = useState(false)
+
+    useEffect(() => {
+        setValues({
+            name: userData.name,
+            email: userData.email
+        });
+    }, [userData]);
 
     function updateProfileHandler(){
         setIsEditing(!isEditing)

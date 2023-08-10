@@ -20,10 +20,10 @@ import ProtectedRoute from "../../utils/ProtectedRoute";
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [token, setToken] = useState('');
-    const [userData, setUserData] = useState({
+    const [userData, setUserData] = useState([{
         name: '',
         email: ''
-    })
+    }])
     const [isMenuOpened , setIsMenuOpened] = useState(false);
     const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 769);
     const [movies, setMovies] = useState([]);
@@ -41,30 +41,7 @@ function App() {
         setToken(jwt);
 
         if (token) {
-            mainApi.getProfile(token)
-                .then((res) => {
-                    setIsLoggedIn(true);
-                    setUserData({ name: res.name, email: res.email });
-                    navigate("/movies", { replace: true });
-                })
-                .catch((err) => {
-                    console.error("Ошибка:", err);
-                });
-            moviesApi.getMovies()
-                .then((moviesData) => {
-                    setMovies(moviesData)
-                })
-                .catch((err) => {
-                    console.error("Ошибка:", err);
-                });
-
-            mainApi.getSavedMovies()
-                .then((savedMovies) => {
-                    setSavedMovies(savedMovies)
-                })
-                .catch((err) => {
-                    console.error("Ошибка:", err);
-                });
+            getMainData()
         }
     }, [token, setIsLoggedIn]);
 
@@ -90,6 +67,23 @@ function App() {
         };
     }, []);
 
+    function getMainData() {
+        Promise.all([
+            mainApi.getProfile(token),
+            moviesApi.getMovies(),
+            mainApi.getSavedMovies()
+        ])
+            .then(([profile, moviesData, savedMoviesData]) => {
+                setIsLoggedIn(true);
+                setUserData({ name: profile.name, email: profile.email });
+                setMovies(moviesData);
+                setSavedMovies(savedMoviesData);
+                navigate("/movies", { replace: true });
+            })
+            .catch((err) => {
+                console.error("Ошибка:", err);
+            });
+    }
 
     function handleMenuIconClick(){
           setIsMenuOpened(!isMenuOpened);
@@ -109,6 +103,7 @@ function App() {
         if (isValid){
             Auth.authorize(values.email, values.password)
                 .then((res) => {
+                    getMainData()
                     localStorage.setItem('jwt', res.token)
                     setToken(res.token);
                     setUserData({name: res.name, email: res.email})
