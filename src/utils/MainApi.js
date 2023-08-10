@@ -32,9 +32,10 @@ export default class MainApi{
             .then((res) => this._getResponsiveData(res))
     }
 
-    getSavedMovies(){
+    getSavedMovies(token){
         return fetch(`${this._config.url}/movies`, {
-            headers: this._config.headers
+            headers: this._config.headers,
+            Authorization: `Bearer ${token}`
         })
             .then((res) => this._getResponsiveData(res))
     }
