@@ -11,9 +11,14 @@ export default class MainApi{
         return Promise.reject(new Error(`Ошибка: ${res.status} ${res.stack}`))
     }
 
-    getProfile(){
+    setToken(token) {
+        this._config.headers.Authorization = `Bearer ${token}`;
+    }
+
+    getProfile(token){
         return fetch(`${this._config.url}/users/me`, {
-            headers: this._config.headers
+            headers: this._config.headers,
+            Authorization: `Bearer ${token}`
         })
             .then((res) => this._getResponsiveData(res))
     }

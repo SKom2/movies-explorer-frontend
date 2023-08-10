@@ -68,6 +68,7 @@ function App() {
     }, []);
 
     function getMainData() {
+        mainApi.setToken(token)
         Promise.all([
             mainApi.getProfile(token),
             moviesApi.getMovies(),
