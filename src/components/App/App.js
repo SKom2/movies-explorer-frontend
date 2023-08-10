@@ -14,9 +14,11 @@ import {CurrentUserContext} from "../../contexts/CurrentUserContext";
 import MoviesApi from "../../utils/MoviesApi";
 import {SavedMoviesContext} from "../../contexts/SavedMoviesContext";
 import {MoviesContext} from "../../contexts/MoviesContext";
+import * as moviesConstants from "../../utils/constants";
+import ProtectedRoute from "../../utils/ProtectedRoute";
 
 function App() {
-    const [isLoggedIn, setIsLoggedIn] = useState(true);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [token, setToken] = useState('');
     const [userData, setUserData] = useState({
         name: '',
@@ -29,6 +31,10 @@ function App() {
     const navigate = useNavigate();
     const mainApi = new MainApi(apiConfig);
     const moviesApi = new MoviesApi(moviesApiConfig);
+    const [isLoad, setIsLoad] = useState(false);
+    const [maxMoviesToShow, setMaxMoviesToShow] = useState(moviesConstants.maxMoviesToShowDesktop);
+    const [moviesToShow, setMoviesToShow] = useState([]);
+    const screenWidth = window.innerWidth;
 
     useEffect(() => {
         const jwt = localStorage.getItem("jwt");
@@ -65,6 +71,14 @@ function App() {
     useEffect(() => {
         function handleResize() {
             setIsDesktop(window.innerWidth >= 769);
+
+            if (screenWidth < 530) {
+                setMaxMoviesToShow(moviesConstants.maxMoviesToShowSmallMobile);
+            } else if (screenWidth < 1280) {
+                setMaxMoviesToShow(moviesConstants.maxMoviesToShowMobile);
+            } else {
+                setMaxMoviesToShow(moviesConstants.maxMoviesToShowDesktop);
+            }
         }
 
         setIsDesktop(window.innerWidth >= 769);
@@ -154,6 +168,7 @@ function App() {
         });
     }
     function searchMovies(inputValue, shortMovie){
+        setIsLoad(true);
         moviesApi.getMovies()
             .then((movies) => {
                 return filterMovies(movies, inputValue, shortMovie);
@@ -162,9 +177,11 @@ function App() {
                 setMovies(filteredMovies)
             })
             .catch(err => console.log(`Ошибка поиска фильма: ${err.stack}`))
+            .finally(() => setIsLoad(false))
     }
 
     function searchSavedMovies(inputValue, shortMovie){
+        setIsLoad(true);
         mainApi.getSavedMovies()
             .then((savedMovies) => {
                 return filterMovies(savedMovies, inputValue, shortMovie)
@@ -173,6 +190,7 @@ function App() {
                 setSavedMovies(filteredMovies)
             })
             .catch(err => console.log(`Ошибка поиска фильма: ${err.stack}`))
+            .finally(() => setIsLoad(false))
     }
 
     function updateUser(values){
@@ -181,6 +199,16 @@ function App() {
                 setUserData(updateUser)
             })
             .catch(err => console.log(`Ошибка обновления данных пользователя: ${err.stack}`))
+    }
+
+    function loadMoreMovies() {
+        if (screenWidth >= 1280){
+            setMaxMoviesToShow(prevCount => prevCount + 3)
+        } else if (screenWidth >= 530){
+            setMaxMoviesToShow((prevCount) => prevCount + 2)
+        } else {
+            setMaxMoviesToShow((prevCount) => prevCount + 5)
+        }
     }
 
      return (
@@ -202,31 +230,46 @@ function App() {
                         <Route
                             path="/movies"
                             element=
-                                {<Movies
+                                {<ProtectedRoute
+                                    element={Movies}
                                     isDesktop={isDesktop}
                                     onGetMovies={searchMovies}
                                     isLoggedIn={isLoggedIn}
                                     isMenuOpened={isMenuOpened}
                                     onMenuIconClick={handleMenuIconClick}
                                     onSaveIconClick={handleToggleMovieToSaved}
+                                    isLoad={isLoad}
+                                    setMaxMoviesToShow={setMaxMoviesToShow}
+                                    maxMoviesToShow={maxMoviesToShow}
+                                    moviesToShow={moviesToShow}
+                                    setMoviesToShow={setMoviesToShow}
+                                    loadMoreMovies={loadMoreMovies}
                                 />}
                         />
                         <Route
                             path="/saved-movies"
                             element=
-                                {<SavedMovies
+                                {<ProtectedRoute
+                                    element={SavedMovies}
                                     onGetMovies={searchSavedMovies}
                                     isLoggedIn={isLoggedIn}
                                     isMenuOpened={isMenuOpened}
                                     onMenuIconClick={handleMenuIconClick}
                                     isDesktop={isDesktop}
                                     onDeleteIconClick={handleDeleteMovie}
+                                    isLoad={isLoad}
+                                    setMaxMoviesToShow={setMaxMoviesToShow}
+                                    maxMoviesToShow={maxMoviesToShow}
+                                    moviesToShow={moviesToShow}
+                                    setMoviesToShow={setMoviesToShow}
+                                    loadMoreMovies={loadMoreMovies}
                                 />}
                         />
                         <Route
                             path="/profile"
                             element=
-                                {<Profile
+                                {<ProtectedRoute
+                                    element={Profile}
                                     isLoggedIn={isLoggedIn}
                                     isMenuOpened={isMenuOpened}
                                     onMenuIconClick={handleMenuIconClick}

@@ -1,10 +1,10 @@
-.preloader{
+.more{
     padding: 50px 0 80px;
     max-width: 320px;
     margin: 0 auto;
 }
 
-.preloaderBlock{
+.moreBlock{
     padding: 11px 60px 9px;
     border: solid 1px #424242;
     border-radius: 10px;
@@ -13,7 +13,7 @@
     transition: opacity .2s linear;
 }
 
-.preloaderBlock:hover{
+.moreBlock:hover{
     opacity: .7;
 }
 
@@ -30,7 +30,7 @@
 }
 
 @media screen and (max-width: 767px) {
-    .preloaderBlock{
+    .moreBlock{
         padding-left: 20px;
         padding-right: 20px;
     }

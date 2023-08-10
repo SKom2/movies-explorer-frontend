@@ -14,7 +14,11 @@
     font-size: 15px;
     line-height: 18px;
     font-weight: 500;
+    overflow: hidden;
+    white-space: nowrap;
     color: #FFFFFF;
+    max-width: 270px;
+    text-overflow: ellipsis;
 }
 
 .movieDuration{

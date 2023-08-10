@@ -1,16 +1,13 @@
 import styles from "./MoviesCardList.module.css"
 import MoviesCard from "../MoviesCard/MoviesCard";
-import {useContext} from "react";
-import {SavedMoviesContext} from "../../../contexts/SavedMoviesContext";
 
-export default function MoviesCardList({onDeleteIconClick}){
-    const {savedMovies} = useContext(SavedMoviesContext)
+export default function MoviesCardList({onDeleteIconClick, moviesToShow}){
 
     return(
         <div className={styles.moviesCardList}>
-            {savedMovies.map((movie) => (
+            {moviesToShow.map((movie) => (
                 <MoviesCard
-                    key={movie._id}
+                    key={movie.id}
                     movie={movie}
                     onDeleteIconClick={onDeleteIconClick}
                 />

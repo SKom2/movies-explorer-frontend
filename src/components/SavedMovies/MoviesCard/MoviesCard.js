@@ -1,7 +1,6 @@
 import styles from './MoviesCard.module.css'
 
 export default function MoviesCard({movie, onDeleteIconClick}) {
-
     function formatDuration(durationInMinutes){
         const hours = Math.floor(durationInMinutes / 60);
         const remainingMinutes = durationInMinutes % 60;

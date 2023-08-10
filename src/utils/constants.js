@@ -14,7 +14,14 @@ const moviesApiConfig = {
     }
 }
 
+const maxMoviesToShowDesktop = 12;
+const maxMoviesToShowMobile = 8;
+const maxMoviesToShowSmallMobile = 5;
+
 export {
+    maxMoviesToShowDesktop,
+    maxMoviesToShowMobile,
+    maxMoviesToShowSmallMobile,
     apiConfig,
     moviesApiConfig,
 };

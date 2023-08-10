@@ -1,12 +1,12 @@
-import styles from './Preloader.module.css'
+import styles from './More.module.css'
 
-export default function Preloader(props) {
+export default function More(props) {
 
 
     return (
-        <div className={styles.preloader}>
-            <div className={props.movies.length < 12 ? styles.hidden : styles.preloaderBlock}>
-                <p className={styles.text}>Ещё</p>
+        <div className={styles.more} onClick={props.onMoreClick}>
+            <div className={props.movies.length < 12 ? styles.hidden : styles.moreBlock}>
+                <p className={styles.text} >Ещё</p>
             </div>
         </div>
     )
