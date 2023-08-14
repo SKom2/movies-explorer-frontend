@@ -18,6 +18,7 @@ export default class MainApi{
     getProfile(token){
         return fetch(`${this._config.url}/users/me`, {
             headers: this._config.headers,
+            Authorization: `Bearer ${token}`
         })
             .then((res) => this._getResponsiveData(res))
     }
@@ -31,9 +32,10 @@ export default class MainApi{
             .then((res) => this._getResponsiveData(res))
     }
 
-    getSavedMovies(){
+    getSavedMovies(token){
         return fetch(`${this._config.url}/movies`, {
             headers: this._config.headers,
+            Authorization: `Bearer ${token}`
         })
             .then((res) => this._getResponsiveData(res))
     }

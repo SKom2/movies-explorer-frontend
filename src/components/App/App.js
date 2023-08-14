@@ -70,9 +70,9 @@ function App() {
     function getMainData(token) {
         mainApi.setToken(token)
         Promise.all([
-            mainApi.getProfile(),
-            moviesApi.getMovies(),
-            mainApi.getSavedMovies()
+            mainApi.getProfile(token),
+            moviesApi.getMovies(token),
+            mainApi.getSavedMovies(token)
         ])
             .then(([profile, moviesData, savedMoviesData]) => {
                 setIsLoggedIn(true);
