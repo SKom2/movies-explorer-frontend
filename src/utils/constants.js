@@ -9,8 +9,7 @@ const apiConfig = {
 const moviesApiConfig = {
     url: 'https://api.nomoreparties.co',
     headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwt')}`,
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
     }
 }
 
