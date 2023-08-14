@@ -41,7 +41,7 @@ function App() {
         setToken(jwt);
 
         if (token) {
-            getMainData()
+            getMainData(token)
         }
     }, [token, setIsLoggedIn]);
 
@@ -67,12 +67,12 @@ function App() {
         };
     }, []);
 
-    function getMainData() {
+    function getMainData(token) {
         mainApi.setToken(token)
         Promise.all([
-            mainApi.getProfile(token),
-            moviesApi.getMovies(token),
-            mainApi.getSavedMovies(token)
+            mainApi.getProfile(),
+            moviesApi.getMovies(),
+            mainApi.getSavedMovies()
         ])
             .then(([profile, moviesData, savedMoviesData]) => {
                 setIsLoggedIn(true);
@@ -104,7 +104,7 @@ function App() {
         if (isValid){
             Auth.authorize(values.email, values.password)
                 .then((res) => {
-                    getMainData()
+                    getMainData(res.token)
                     localStorage.setItem('jwt', res.token)
                     setToken(res.token);
                     setUserData({name: res.name, email: res.email})

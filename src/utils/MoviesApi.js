@@ -11,13 +11,10 @@ export default class MoviesApi{
         return Promise.reject(new Error(`Ошибка: ${res.status} ${res.stack}`))
     }
 
-    getMovies(token){
+    getMovies(){
         return fetch(`${this._config.url}/beatfilm-movies`, {
             headers: this._config.headers,
-            Authorization: `Bearer ${token}`
         })
             .then((res) => this._getResponsiveData(res))
     }
-
-
 }
