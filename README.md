@@ -2,4 +2,4 @@
 
 Ссылка на пул реквест ветки level-3 - https://github.com/SKom2/movies-explorer-frontend/pull/2
 
-Ссылка на деплой проекта - https://oceanspark-movies.nomoredomains.xyz/movies
+Ссылка на деплой проекта - https://oceanspark-movies.nomoredomains.xyz
