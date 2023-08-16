@@ -3,7 +3,7 @@ import AuthorizationForm from "../AuthorizationForm/AuthorizationForm";
 import {useForm} from "../../../hooks/useForm";
 import styles from './Register.module.css'
 
-export default function Register({register, navigate}){
+export default function Register({register}){
     const {values, handleChange, errors, isValid} = useForm({
         name: '',
         email: '',
@@ -12,7 +12,7 @@ export default function Register({register, navigate}){
 
     function handleSubmit(e) {
         e.preventDefault();
-        register(values, isValid, navigate)
+        register(values, isValid)
     }
 
     return(

@@ -3,7 +3,7 @@ import {useForm} from "../../../hooks/useForm";
 import AuthorizationForm from "../AuthorizationForm/AuthorizationForm";
 import Input from "../Input/Input";
 
-export default function Login({login, navigate}) {
+export default function Login({login}) {
     const {values, handleChange, errors, isValid} = useForm({
         email: '',
         password: ''
@@ -11,7 +11,7 @@ export default function Login({login, navigate}) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        login(values, isValid, navigate)
+        login(values, isValid)
     }
 
     return(

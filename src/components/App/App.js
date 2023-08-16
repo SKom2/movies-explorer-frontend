@@ -6,7 +6,7 @@ import Register from "../Authorization/Register/Register";
 import Login from "../Authorization/Login/Login";
 import {Route, Routes, useNavigate} from "react-router-dom";
 import React, {useEffect, useState} from "react";
-import {apiConfig, moviesApiConfig, MoviesConstant} from "../../utils/constants";
+import {apiConfig, moviesApiConfig} from "../../utils/constants";
 import Error from "../Authorization/Error/Error";
 import * as Auth from "../../utils/Auth";
 import MainApi from "../../utils/MainApi";
@@ -76,7 +76,10 @@ function App() {
         ])
             .then(([profile, moviesData, savedMoviesData]) => {
                 setIsLoggedIn(true);
-                setUserData({ name: profile.name, email: profile.email });
+                setUserData({
+                    name: profile.name,
+                    email: profile.email
+                });
                 setMovies(moviesData);
                 setSavedMovies(savedMoviesData);
                 navigate("/movies", { replace: true });
@@ -90,26 +93,25 @@ function App() {
           setIsMenuOpened(!isMenuOpened);
     }
 
-    function registration(values, isValid, navigate){
+    function registration(values, isValid){
        if (isValid){
               Auth.register(values.name, values.email, values.password)
                   .then((res) => {
-                   navigate('/signin', {replace: true})
+                    getMainData(res.token);
+                    localStorage.setItem('jwt', res.token);
+                    setToken(res.token);
                })
                .catch((err) => console.log(err))
        }
     }
 
-    function login(values, isValid, navigate){
+    function login(values, isValid){
         if (isValid){
             Auth.authorize(values.email, values.password)
                 .then((res) => {
                     getMainData(res.token)
                     localStorage.setItem('jwt', res.token)
                     setToken(res.token);
-                    setUserData({name: res.name, email: res.email})
-                    setIsLoggedIn(true)
-                    navigate('/movies', {replace: true})
                 })
                 .catch((err) => console.log(err))
         }

@@ -10,13 +10,7 @@ export const useForm = (initialState) => {
         const name = input.name;
         const value = input.value;
         setValues({...values, [name]: value});
-        const newErrors = { ...errors };
-        if (!value) {
-            newErrors[name] = 'Нужно ввести ключевое слово';
-        } else {
-            newErrors[name] = '';
-        }
-        setErrors(newErrors);
+        setErrors({...errors, [name]: input.validationMessage});
         setIsValid(input.closest('form').checkValidity());
     };
 

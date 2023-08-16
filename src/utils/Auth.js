@@ -1,6 +1,6 @@
 export const BASE_URL = 'https://oceansparks-movies.nomoredomains.xyz';
 
-const makeRequest = (url, method, body, token) => {
+const makeRequest = (url, method, body) => {
     const options = {
         method,
         headers: {
@@ -24,7 +24,6 @@ const makeRequest = (url, method, body, token) => {
 }
 
 export const register = (name, email, password) => {
-    console.log(name)
     return makeRequest(`/signup`, "POST", {name, email, password}, '')
 }
 
