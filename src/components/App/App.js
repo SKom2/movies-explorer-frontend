@@ -16,6 +16,7 @@ import {SavedMoviesContext} from "../../contexts/SavedMoviesContext";
 import {MoviesContext} from "../../contexts/MoviesContext";
 import * as moviesConstants from "../../utils/constants";
 import ProtectedRoute from "../../utils/ProtectedRoute";
+import ProfileUpdate from "../Authorization/ProfileUpdate/ProfileUpdate";
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -35,6 +36,8 @@ function App() {
     const [maxMoviesToShow, setMaxMoviesToShow] = useState(moviesConstants.maxMoviesToShowDesktop);
     const [moviesToShow, setMoviesToShow] = useState([]);
     const screenWidth = window.innerWidth;
+    const [attentionMessage, setAttentionMessage] = useState('')
+    const [isEditing, setIsEditing] = useState(false)
 
     useEffect(() => {
         const jwt = localStorage.getItem("jwt");
@@ -191,12 +194,20 @@ function App() {
             .finally(() => setIsLoad(false))
     }
 
-    function updateUser(values){
-        mainApi.updateUser(values)
-            .then((updateUser) => {
-                setUserData(updateUser)
-            })
-            .catch(err => console.log(`Ошибка обновления данных пользователя: ${err.stack}`))
+    function updateUser(values, isValid){
+        if (isValid) {
+            mainApi.updateUser(values)
+                .then((updateUser) => {
+                    setUserData(updateUser)
+                    setIsEditing(false)
+                    setAttentionMessage('Данные успешно обновлены')
+                    navigate("/profile", { replace: true });
+                })
+                .catch((err) => {
+                    setAttentionMessage('При обновлении данных профиля произошла ошибка, возможно введенный email, уже существует')
+                    console.log(`Ошибка обновления данных пользователя: ${err.stack}`)
+                })
+        }
     }
 
     function loadMoreMovies() {
@@ -268,12 +279,33 @@ function App() {
                             element=
                                 {<ProtectedRoute
                                     element={Profile}
+                                    isEditing={isEditing}
+                                    setIsEditing={setIsEditing}
                                     isLoggedIn={isLoggedIn}
                                     isMenuOpened={isMenuOpened}
                                     onMenuIconClick={handleMenuIconClick}
                                     isDesktop={isDesktop}
                                     signOut={signOut}
                                     onEditClick={updateUser}
+                                    setAttentionMessage={setAttentionMessage}
+                                    attentionMessage={attentionMessage}
+                                />}
+                        />
+                        <Route
+                            path="/profile-update"
+                            element=
+                                {<ProtectedRoute
+                                    element={ProfileUpdate}
+                                    isEditing={isEditing}
+                                    setIsEditing={setIsEditing}
+                                    isLoggedIn={isLoggedIn}
+                                    isMenuOpened={isMenuOpened}
+                                    onMenuIconClick={handleMenuIconClick}
+                                    isDesktop={isDesktop}
+                                    signOut={signOut}
+                                    onEditClick={updateUser}
+                                    setAttentionMessage={setAttentionMessage}
+                                    attentionMessage={attentionMessage}
                                 />}
                         />
                         <Route
