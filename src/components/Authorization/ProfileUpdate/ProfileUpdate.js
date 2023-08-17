@@ -6,7 +6,7 @@ import {useForm} from "../../../hooks/useForm";
 
 export default function ProfileUpdate(props){
     const {userData} = useContext(CurrentUserContext)
-    const {values, handleChange, setValues, errors, isValid} = useForm({
+    const {values, handleChange, setValues, errors, isValid, setIsValid} = useForm({
         name: userData.name,
         email: userData.email
     });
@@ -17,6 +17,12 @@ export default function ProfileUpdate(props){
             email: userData.email
         });
     }, [userData]);
+
+    useEffect(() => {
+        if (userData.name === values.name && userData.email === values.email){
+            setIsValid(false);
+        }
+    }, [userData, setIsValid, values])
 
     function updateProfileHandler(e){
         e.preventDefault();
@@ -45,7 +51,7 @@ export default function ProfileUpdate(props){
                             required
                             autoComplete="off"
                         />
-                        {errors.name ? (<span className={styles.error}>{errors.name}</span>) : (<span className={styles.errorNotVisible}></span>)}
+                        {errors.name && (<span className={styles.error}>{errors.name}</span>)}
                     </div>
                 </div>
                 <div className={styles.line}></div>
@@ -61,7 +67,7 @@ export default function ProfileUpdate(props){
                             autoComplete="off"
                             required
                         />
-                        {errors.email ? (<span className={styles.error}>{errors.email}</span>) : (<span className={styles.errorNotVisible}></span>)}
+                        {errors.email && (<span className={styles.error}>{errors.email}</span>)}
                     </div>
                 </div>
                 <div className={styles.linkContainer}>

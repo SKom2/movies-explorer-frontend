@@ -135,7 +135,7 @@ function App() {
             .then((savedMovies) => {
                 setSavedMovies(savedMovies);
             })
-            .catch(err => console.log(`Ошибка удаления фильма: ${err.stack}`))
+            .catch(err => console.log(`Ошибка удаления фильма: ${err}`))
     }
 
     function handleToggleMovieToSaved(data){
@@ -157,7 +157,7 @@ function App() {
             .then((savedMovies) => {
                 setSavedMovies(savedMovies);
             })
-            .catch(err => console.log(`Ошибка добавления фильма: ${err.stack}`))
+            .catch(err => console.log(`Ошибка добавления фильма: ${err}`))
     }
 
     function filterMovies(moviesArr, inputValue, shortMovie) {
@@ -177,7 +177,7 @@ function App() {
             .then((filteredMovies) => {
                 setMovies(filteredMovies)
             })
-            .catch(err => console.log(`Ошибка поиска фильма: ${err.stack}`))
+            .catch(err => console.log(`Ошибка поиска фильма: ${err}`))
             .finally(() => setIsLoad(false))
     }
 
@@ -190,7 +190,7 @@ function App() {
             .then((filteredMovies) => {
                 setSavedMovies(filteredMovies)
             })
-            .catch(err => console.log(`Ошибка поиска фильма: ${err.stack}`))
+            .catch(err => console.log(`Ошибка поиска фильма: ${err}`))
             .finally(() => setIsLoad(false))
     }
 
@@ -204,8 +204,12 @@ function App() {
                     navigate("/profile", { replace: true });
                 })
                 .catch((err) => {
-                    setAttentionMessage('При обновлении данных профиля произошла ошибка, возможно введенный email, уже существует')
-                    console.log(`Ошибка обновления данных пользователя: ${err.stack}`)
+                    if (err.message.includes("409")){
+                        setAttentionMessage("Пользователь с таким Email уже существует!");
+                    } else {
+                        setAttentionMessage("При регистрации пользователя произошла ошибка!");
+                    }
+                    console.log(`Ошибка обновления данных пользователя: ${err}`)
                 })
         }
     }

@@ -8,7 +8,7 @@ export default class MoviesApi{
             return res.json();
         }
 
-        return Promise.reject(new Error(`Ошибка: ${res.status} ${res.stack}`))
+        return Promise.reject(new Error(`Ошибка: ${res.status}`))
     }
 
     getMovies(){

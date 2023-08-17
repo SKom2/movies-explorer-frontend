@@ -1,11 +1,16 @@
 import styles from './Profile.module.css'
 import Header from "../../Common/Header/Header";
 import {Link} from "react-router-dom";
-import {useContext} from "react";
+import {useContext, useEffect} from "react";
 import {CurrentUserContext} from "../../../contexts/CurrentUserContext";
 
 export default function Profile(props) {
     const {userData} = useContext(CurrentUserContext)
+
+    useEffect(() => {
+        if (props.attentionMessage !== 'Данные успешно обновлены')
+        props.setAttentionMessage('')
+    })
 
     return(
         <>

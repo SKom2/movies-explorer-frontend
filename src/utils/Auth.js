@@ -18,7 +18,7 @@ const makeRequest = (url, method, body) => {
             if (response.ok) {
                 return response.json();
             }
-            throw new Error(`Ошибка код ${response.status} ${response.stack}`)
+            throw new Error(`Ошибка код ${response.status}`)
         })
 
 }
