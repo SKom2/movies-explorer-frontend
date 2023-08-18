@@ -1,13 +1,30 @@
 import styles from "./SearchForm.module.css"
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {useForm} from "../../../hooks/useForm";
+import {MoviesContext} from "../../../contexts/MoviesContext";
 
 export default function SearchForm({onSubmit, ...props}){
     const {values, handleChange, setValues, errors} = useForm({
         movie: ''
     });
     const [isShortMoviesShown, setIsShortMoviesShown] = useState(false)
-    const [isAutocompleteOpen, setIsAutoCompleteOpen] = useState(true)
+    const [isAutocompleteOpen, setIsAutoCompleteOpen] = useState(false)
+    const [initialState, setInitialState] = useState(false)
+    const {moviesForAutocomplete} = useContext(MoviesContext)
+
+    useEffect(() => {
+        const savedData = localStorage.getItem('movieData')
+        if (savedData) {
+            const { inputValue, isShortMoviesShown } = JSON.parse(savedData)
+            setValues({ ...values, movie: inputValue })
+            setIsShortMoviesShown(isShortMoviesShown)
+        }
+    }, [])
+
+    useEffect(() => {
+        if (!initialState) return
+        searchFormSubmitHandler(new Event("submit"));
+    }, [isShortMoviesShown, initialState])
 
     function itemClickHandler(e){
         setValues({ ...values, movie: e.target.textContent });
@@ -25,6 +42,7 @@ export default function SearchForm({onSubmit, ...props}){
     function toggleFilterHandler(e) {
         e.preventDefault();
         setIsShortMoviesShown(!isShortMoviesShown);
+        setInitialState(true)
     }
 
     const searchFormSubmitHandler = (e) => {
@@ -53,7 +71,7 @@ export default function SearchForm({onSubmit, ...props}){
                             <ul className={styles.autocomplete}>
                                 {
                                     (values.movie || '') && isAutocompleteOpen ?
-                                        (filteredMoviesSearch(props.movies, values.movie || '').map((movie) => (
+                                        (filteredMoviesSearch(moviesForAutocomplete, values.movie || '').map((movie) => (
                                             <li
                                                 key={movie.id}
                                                 className={styles.autocompleteItem}
@@ -67,9 +85,15 @@ export default function SearchForm({onSubmit, ...props}){
                             <button type='submit' className={styles.startSearch}></button>
                             <div className={styles.line}></div>
                             <div className={styles.filter}>
-                                <button className={styles.filterButton} onClick={toggleFilterHandler}>
-                                    <div className={isShortMoviesShown ? styles.filterButtonChoice : styles.filterButtonChoiceNotActive}></div>
-                                </button>
+                                <label className={styles.filterButton} onClick={toggleFilterHandler}>
+                                    <input
+                                        type='checkbox'
+                                        className={styles.filterButtonChoice}
+                                        checked={isShortMoviesShown}
+                                        onChange={toggleFilterHandler}
+                                    ></input>
+                                    <span className={styles.filterButtonIcon}></span>
+                                </label>
                                 <p className={styles.filterText}>{isShortMoviesShown ? 'Короткометражки' : 'Все фильмы'}</p>
                             </div>
                         </div>

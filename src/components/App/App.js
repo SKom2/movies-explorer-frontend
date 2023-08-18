@@ -46,7 +46,7 @@ function App() {
         if (token) {
             getMainData(token)
         }
-    }, [token, setIsLoggedIn]);
+    }, [token]);
 
     useEffect(() => {
         function handleResize() {
@@ -70,7 +70,9 @@ function App() {
         };
     }, []);
 
-    function getMainData(token) {
+    const [moviesForAutocomplete, setMoviesForAutocomplete] = useState([])
+
+    function getMainData(token){
         mainApi.setToken(token)
         Promise.all([
             mainApi.getProfile(),
@@ -83,9 +85,13 @@ function App() {
                     name: profile.name,
                     email: profile.email
                 });
-                setMovies(moviesData);
+                const savedData = localStorage.getItem('movieData')
+                if (savedData) {
+                    const { filteredMovies } = JSON.parse(savedData)
+                    setMovies(filteredMovies)
+                }
                 setSavedMovies(savedMoviesData);
-                navigate("/movies", { replace: true });
+                setMoviesForAutocomplete(moviesData)
             })
             .catch((err) => {
                 console.error("Ошибка:", err);
@@ -100,9 +106,11 @@ function App() {
        if (isValid){
               Auth.register(values.name, values.email, values.password)
                   .then((res) => {
-                    getMainData(res.token);
                     localStorage.setItem('jwt', res.token);
                     setToken(res.token);
+                    setIsLoggedIn(true)
+                    getMainData(res.token);
+                    navigate("/movies", { replace: true });
                })
                .catch((err) => console.log(err))
        }
@@ -112,9 +120,11 @@ function App() {
         if (isValid){
             Auth.authorize(values.email, values.password)
                 .then((res) => {
-                    getMainData(res.token)
                     localStorage.setItem('jwt', res.token)
                     setToken(res.token);
+                    setIsLoggedIn(true)
+                    getMainData(res.token)
+                    navigate("/movies", { replace: true });
                 })
                 .catch((err) => console.log(err))
         }
@@ -168,13 +178,15 @@ function App() {
             return movie.nameRU.toLowerCase().includes(inputValue.toLowerCase()) && movie.duration >= 40;
         });
     }
-    function searchMovies(inputValue, shortMovie){
+    function searchMovies(inputValue, isShortMoviesShown){
         setIsLoad(true);
         moviesApi.getMovies()
             .then((movies) => {
-                return filterMovies(movies, inputValue, shortMovie);
+                return filterMovies(movies, inputValue, isShortMoviesShown);
             })
             .then((filteredMovies) => {
+                const dataToSave = { filteredMovies, inputValue, isShortMoviesShown }
+                localStorage.setItem('movieData', JSON.stringify(dataToSave))
                 setMovies(filteredMovies)
             })
             .catch(err => console.log(`Ошибка поиска фильма: ${err}`))
@@ -225,9 +237,8 @@ function App() {
     }
 
      return (
-        // --------------------------Добавить MoviesContext
         <SavedMoviesContext.Provider value={{savedMovies}}>
-            <MoviesContext.Provider value={{movies, setMovies}}>
+            <MoviesContext.Provider value={{movies, setMovies, moviesForAutocomplete}}>
                 <CurrentUserContext.Provider value={{userData}}>
                  <Routes>
                         <Route
@@ -283,16 +294,13 @@ function App() {
                             element=
                                 {<ProtectedRoute
                                     element={Profile}
-                                    isEditing={isEditing}
                                     setIsEditing={setIsEditing}
                                     isLoggedIn={isLoggedIn}
                                     isMenuOpened={isMenuOpened}
                                     onMenuIconClick={handleMenuIconClick}
                                     isDesktop={isDesktop}
                                     signOut={signOut}
-                                    onEditClick={updateUser}
                                     setAttentionMessage={setAttentionMessage}
-                                    attentionMessage={attentionMessage}
                                 />}
                         />
                         <Route
@@ -300,7 +308,6 @@ function App() {
                             element=
                                 {<ProtectedRoute
                                     element={ProfileUpdate}
-                                    isEditing={isEditing}
                                     setIsEditing={setIsEditing}
                                     isLoggedIn={isLoggedIn}
                                     isMenuOpened={isMenuOpened}
@@ -308,17 +315,16 @@ function App() {
                                     isDesktop={isDesktop}
                                     signOut={signOut}
                                     onEditClick={updateUser}
-                                    setAttentionMessage={setAttentionMessage}
                                     attentionMessage={attentionMessage}
                                 />}
                         />
                         <Route
                             path="/signup"
-                            element={<Register register={registration} navigate={navigate} />}
+                            element={<Register register={registration} />}
                         />
                         <Route
                             path="/signin"
-                            element={<Login login={login} navigate={navigate}/>}
+                            element={<Login login={login} />}
                         />
                         <Route
                             path="/404"
