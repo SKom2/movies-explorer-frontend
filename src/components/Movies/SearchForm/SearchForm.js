@@ -1,7 +1,6 @@
 import styles from "./SearchForm.module.css"
-import React, {useContext, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useForm} from "../../../hooks/useForm";
-import {MoviesContext} from "../../../contexts/MoviesContext";
 
 export default function SearchForm({onSubmit, ...props}){
     const {values, handleChange, setValues, errors} = useForm({
@@ -9,8 +8,7 @@ export default function SearchForm({onSubmit, ...props}){
     });
     const [isShortMoviesShown, setIsShortMoviesShown] = useState(false)
     const [isAutocompleteOpen, setIsAutoCompleteOpen] = useState(false)
-    const [initialState, setInitialState] = useState(false)
-    const {moviesForAutocomplete} = useContext(MoviesContext)
+    const [initialState, setInitialState] = useState(false);
 
     useEffect(() => {
         const savedData = localStorage.getItem('movieData')
@@ -42,7 +40,7 @@ export default function SearchForm({onSubmit, ...props}){
     function toggleFilterHandler(e) {
         e.preventDefault();
         setIsShortMoviesShown(!isShortMoviesShown);
-        setInitialState(true)
+        setInitialState(true);
     }
 
     const searchFormSubmitHandler = (e) => {
@@ -71,7 +69,7 @@ export default function SearchForm({onSubmit, ...props}){
                             <ul className={styles.autocomplete}>
                                 {
                                     (values.movie || '') && isAutocompleteOpen ?
-                                        (filteredMoviesSearch(moviesForAutocomplete, values.movie || '').map((movie) => (
+                                        (filteredMoviesSearch(props.movies, values.movie || '').map((movie) => (
                                             <li
                                                 key={movie.id}
                                                 className={styles.autocompleteItem}

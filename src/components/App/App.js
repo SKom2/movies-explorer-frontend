@@ -170,14 +170,15 @@ function App() {
             .catch(err => console.log(`Ошибка добавления фильма: ${err}`))
     }
 
-    function filterMovies(moviesArr, inputValue, shortMovie) {
+    function filterMovies(moviesArr, inputValue, isShortMoviesShown) {
         return moviesArr.filter((movie) => {
-            if (shortMovie){
+            if (isShortMoviesShown){
                 return movie.nameRU.toLowerCase().includes(inputValue.toLowerCase()) && movie.duration <= 40;
             }
             return movie.nameRU.toLowerCase().includes(inputValue.toLowerCase()) && movie.duration >= 40;
         });
     }
+
     function searchMovies(inputValue, isShortMoviesShown){
         setIsLoad(true);
         moviesApi.getMovies()
@@ -193,11 +194,11 @@ function App() {
             .finally(() => setIsLoad(false))
     }
 
-    function searchSavedMovies(inputValue, shortMovie){
+    function searchSavedMovies(inputValue, isShortMoviesShown){
         setIsLoad(true);
         mainApi.getSavedMovies()
             .then((savedMovies) => {
-                return filterMovies(savedMovies, inputValue, shortMovie)
+                return filterMovies(savedMovies, inputValue, isShortMoviesShown)
             })
             .then((filteredMovies) => {
                 setSavedMovies(filteredMovies)
