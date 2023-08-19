@@ -21,10 +21,10 @@ import ProfileUpdate from "../Authorization/ProfileUpdate/ProfileUpdate";
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [token, setToken] = useState('');
-    const [userData, setUserData] = useState([{
+    const [userData, setUserData] = useState({
         name: '',
         email: ''
-    }])
+    })
     const [isMenuOpened , setIsMenuOpened] = useState(false);
     const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 769);
     const [movies, setMovies] = useState([]);
@@ -38,6 +38,7 @@ function App() {
     const screenWidth = window.innerWidth;
     const [attentionMessage, setAttentionMessage] = useState('')
     const [isEditing, setIsEditing] = useState(false)
+    const [moviesForAutocomplete, setMoviesForAutocomplete] = useState([])
 
     useEffect(() => {
         const jwt = localStorage.getItem("jwt");
@@ -70,7 +71,6 @@ function App() {
         };
     }, []);
 
-    const [moviesForAutocomplete, setMoviesForAutocomplete] = useState([])
 
     function getMainData(token){
         mainApi.setToken(token)
@@ -132,8 +132,12 @@ function App() {
 
     function signOut(){
       localStorage.removeItem('jwt');
+      localStorage.removeItem('movieData');
       setIsLoggedIn(false);
-      setUserData('');
+      setUserData({
+          name: '',
+          email: ''
+      });
       setToken('');
     }
 
