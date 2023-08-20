@@ -7,15 +7,16 @@ import React, {useContext, useEffect, useState} from "react";
 import Footer from "../Common/Footer/Footer";
 import {SavedMoviesContext} from "../../contexts/SavedMoviesContext";
 import Preloader from "../Movies/Preloader/Preloader";
-import * as moviesConstants from '../../utils/constants'
 
-export default function SavedMovies({maxMoviesToShow, setMoviesToShow, moviesToShow, loadMoreMovies, ...props}) {
+export default function SavedMovies({maxMoviesToShow, setMoviesToShow, moviesToShow, loadMoreMovies, onDeleteIconClick, setIsLoad, ...props}) {
     const {savedMovies} = useContext(SavedMoviesContext)
+    const [moviesNotFound, setMoviesNotFound] = useState(true);
 
 
     useEffect(() => {
         const moviesToShow = savedMovies.slice(0, maxMoviesToShow);
         setMoviesToShow(moviesToShow);
+        setMoviesNotFound(moviesToShow.length === 0);
     }, [savedMovies, maxMoviesToShow]);
 
     return(
@@ -35,16 +36,21 @@ export default function SavedMovies({maxMoviesToShow, setMoviesToShow, moviesToS
                     <Preloader />
                 ) : (
                     <>
-                        <MoviesCardList
-                            onDeleteIconClick={props.onDeleteIconClick}
-                            moviesToShow={moviesToShow}
-                        />
-                        <More
-                            movies={savedMovies}
-                            onMoreClick={loadMoreMovies}
-                        />
+                        {moviesNotFound ? (
+                            <p className={styles.nothingFound}>Ничего не найдено</p>
+                        ) : (
+                            <>
+                                <MoviesCardList
+                                    onSaveIconClick={props.onSaveIconClick}
+                                    moviesToShow={moviesToShow}
+                                    onDeleteIconClick={onDeleteIconClick}
+                                />
+                                <More movies={savedMovies} onMoreClick={loadMoreMovies}/>
+                            </>
+                        )}
                     </>
-                )}
+                )
+                }
             </section>
             <Footer />
         </>

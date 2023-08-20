@@ -1,5 +1,4 @@
 import styles from './MoviesCard.module.css'
-import {useEffect} from "react";
 
 export default function MoviesCard({movie, onDeleteIconClick}) {
 

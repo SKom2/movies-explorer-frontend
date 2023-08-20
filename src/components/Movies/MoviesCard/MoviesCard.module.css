@@ -17,8 +17,8 @@
     overflow: hidden;
     white-space: nowrap;
     color: #FFFFFF;
-    max-width: 270px;
     text-overflow: ellipsis;
+    max-width: 220px
 }
 
 .movieDuration{

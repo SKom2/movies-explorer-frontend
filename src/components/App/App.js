@@ -143,35 +143,44 @@ function App() {
 
     function handleDeleteMovie(id){
         mainApi.removeMovies(id)
-            .then(() => {
-                return mainApi.getSavedMovies()
+            .then((removedMovie) => {
+                const updatedSavedMovies = savedMovies.filter((movie) => movie.movieId !== removedMovie.movieId);
+                setSavedMovies(updatedSavedMovies);
             })
-            .then((savedMovies) => {
-                setSavedMovies(savedMovies);
-            })
-            .catch(err => console.log(`Ошибка удаления фильма: ${err}`))
+            .catch((err) => {
+                console.log(`Error deleting movie with ID ${id}: ${err}`);
+            });
     }
 
     function handleToggleMovieToSaved(data){
-        const savedMovie = savedMovies.find((savedMovie) => savedMovie.movieId === data.movieId);
+        const savedMovie = savedMovies.find((savedMovie) => {
+            return savedMovie.movieId === data.movieId
+        });
         if (savedMovie){
             handleDeleteMovie(savedMovie._id);
-            return;
+        } else {
+            delete data.id
+            delete data.updated_at
+            delete data.created_at
+            mainApi.addMovies(data)
+                .then((addedMovie) => {
+                    const updatedSavedMovies = [...savedMovies, addedMovie];
+                    console.log(updatedSavedMovies)
+                    setSavedMovies(updatedSavedMovies);
+                })
+                .catch((err) => console.log(`Error adding movie: ${err}`));
         }
 
-        delete data.created_at
-        delete data.updated_at
-        delete data.id
-
-
-        mainApi.addMovies(data)
-            .then(() => {
-                return mainApi.getSavedMovies()
-            })
-            .then((savedMovies) => {
-                setSavedMovies(savedMovies);
-            })
-            .catch(err => console.log(`Ошибка добавления фильма: ${err}`))
+        //
+        //
+        // mainApi.addMovies(data)
+        //     .then(() => {
+        //         return mainApi.getSavedMovies()
+        //     })
+        //     .then((savedMovies) => {
+        //         setSavedMovies(savedMovies);
+        //     })
+        //     .catch(err => console.log(`Ошибка добавления фильма: ${err}`))
     }
 
     function filterMovies(moviesArr, inputValue, isShortMoviesShown) {
@@ -198,16 +207,16 @@ function App() {
             .finally(() => setIsLoad(false))
     }
 
-    function searchSavedMovies(inputValue, isShortMoviesShown){
+    function searchSavedMovies(inputValue, shortMovie){
         setIsLoad(true);
         mainApi.getSavedMovies()
             .then((savedMovies) => {
-                return filterMovies(savedMovies, inputValue, isShortMoviesShown)
+                return filterMovies(savedMovies, inputValue, shortMovie)
             })
             .then((filteredMovies) => {
                 setSavedMovies(filteredMovies)
             })
-            .catch(err => console.log(`Ошибка поиска фильма: ${err}`))
+            .catch(err => console.log(`Ошибка поиска фильма: ${err.stack}`))
             .finally(() => setIsLoad(false))
     }
 
@@ -332,7 +341,7 @@ function App() {
                             element={<Login login={login} />}
                         />
                         <Route
-                            path="/404"
+                            path="*"
                             element={<Error />}
                         />
                     </Routes>
