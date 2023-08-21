@@ -20,12 +20,12 @@ import ProfileUpdate from "../Authorization/ProfileUpdate/ProfileUpdate";
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [token, setToken] = useState('');
     const [userData, setUserData] = useState({
         name: '',
         email: ''
     })
     const [isMenuOpened , setIsMenuOpened] = useState(false);
+    const [token, setToken] = useState('');
     const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 769);
     const [movies, setMovies] = useState([]);
     const [savedMovies, setSavedMovies] = useState([]);
@@ -42,12 +42,12 @@ function App() {
 
     useEffect(() => {
         const jwt = localStorage.getItem("jwt");
-        setToken(jwt);
 
-        if (token) {
-            getMainData(token)
+        if (jwt) {
+            setIsLoggedIn(true)
+            getMainData(jwt)
         }
-    }, [token]);
+    }, [isLoggedIn]);
 
     useEffect(() => {
         function handleResize() {
@@ -74,27 +74,36 @@ function App() {
 
     function getMainData(token){
         mainApi.setToken(token)
-        Promise.all([
-            mainApi.getProfile(),
-            moviesApi.getMovies(),
-            mainApi.getSavedMovies()
-        ])
-            .then(([profile, moviesData, savedMoviesData]) => {
-                setIsLoggedIn(true);
+        mainApi.getProfile()
+            .then((profile) => {
                 setUserData({
                     name: profile.name,
                     email: profile.email
                 });
+            })
+            .catch((err) => {
+                console.error("Ошибка получения данных пользователя:", err);
+            });
+        moviesApi.getMovies()
+            .then((moviesData) => {
                 const savedData = localStorage.getItem('movieData')
                 if (savedData) {
                     const { filteredMovies } = JSON.parse(savedData)
                     setMovies(filteredMovies)
+                } else {
+                    setMovies(moviesData)
                 }
-                setSavedMovies(savedMoviesData);
                 setMoviesForAutocomplete(moviesData)
             })
             .catch((err) => {
-                console.error("Ошибка:", err);
+                console.error("Ошибка получения фильмов:", err);
+            });
+        mainApi.getSavedMovies()
+            .then((savedMoviesData) => {
+                setSavedMovies(savedMoviesData);
+            })
+            .catch((err) => {
+                console.error("Ошибка получения сохранённых фильмов:", err);
             });
     }
 
@@ -106,11 +115,7 @@ function App() {
        if (isValid){
               Auth.register(values.name, values.email, values.password)
                   .then((res) => {
-                    localStorage.setItem('jwt', res.token);
-                    setToken(res.token);
-                    setIsLoggedIn(true)
-                    getMainData(res.token);
-                    navigate("/movies", { replace: true });
+                    login(values, isValid)
                })
                .catch((err) => console.log(err))
        }
@@ -120,11 +125,9 @@ function App() {
         if (isValid){
             Auth.authorize(values.email, values.password)
                 .then((res) => {
-                    localStorage.setItem('jwt', res.token)
-                    setToken(res.token);
-                    setIsLoggedIn(true)
-                    getMainData(res.token)
-                    navigate("/movies", { replace: true });
+                        localStorage.setItem('jwt', res.token)
+                        setIsLoggedIn(true)
+                        navigate("/movies", { replace: true });
                 })
                 .catch((err) => console.log(err))
         }
@@ -138,7 +141,6 @@ function App() {
           name: '',
           email: ''
       });
-      setToken('');
     }
 
     function handleDeleteMovie(id){
@@ -170,17 +172,6 @@ function App() {
                 })
                 .catch((err) => console.log(`Error adding movie: ${err}`));
         }
-
-        //
-        //
-        // mainApi.addMovies(data)
-        //     .then(() => {
-        //         return mainApi.getSavedMovies()
-        //     })
-        //     .then((savedMovies) => {
-        //         setSavedMovies(savedMovies);
-        //     })
-        //     .catch(err => console.log(`Ошибка добавления фильма: ${err}`))
     }
 
     function filterMovies(moviesArr, inputValue, isShortMoviesShown) {
@@ -255,83 +246,87 @@ function App() {
             <MoviesContext.Provider value={{movies, setMovies, moviesForAutocomplete}}>
                 <CurrentUserContext.Provider value={{userData}}>
                  <Routes>
-                        <Route
-                            path="/"
-                            element=
-                                {<Main
-                                    isLoggedIn={isLoggedIn}
-                                    isMenuOpened={isMenuOpened}
-                                    onMenuIconClick={handleMenuIconClick}
-                                    isDesktop={isDesktop}
-                                />}
-                        />
-                        <Route
-                            path="/movies"
-                            element=
-                                {<ProtectedRoute
-                                    element={Movies}
-                                    isDesktop={isDesktop}
-                                    onGetMovies={searchMovies}
-                                    isLoggedIn={isLoggedIn}
-                                    isMenuOpened={isMenuOpened}
-                                    onMenuIconClick={handleMenuIconClick}
-                                    onSaveIconClick={handleToggleMovieToSaved}
-                                    isLoad={isLoad}
-                                    setMaxMoviesToShow={setMaxMoviesToShow}
-                                    maxMoviesToShow={maxMoviesToShow}
-                                    moviesToShow={moviesToShow}
-                                    setMoviesToShow={setMoviesToShow}
-                                    loadMoreMovies={loadMoreMovies}
-                                />}
-                        />
-                        <Route
-                            path="/saved-movies"
-                            element=
-                                {<ProtectedRoute
-                                    element={SavedMovies}
-                                    onGetMovies={searchSavedMovies}
-                                    isLoggedIn={isLoggedIn}
-                                    isMenuOpened={isMenuOpened}
-                                    onMenuIconClick={handleMenuIconClick}
-                                    isDesktop={isDesktop}
-                                    onDeleteIconClick={handleDeleteMovie}
-                                    isLoad={isLoad}
-                                    setMaxMoviesToShow={setMaxMoviesToShow}
-                                    maxMoviesToShow={maxMoviesToShow}
-                                    moviesToShow={moviesToShow}
-                                    setMoviesToShow={setMoviesToShow}
-                                    loadMoreMovies={loadMoreMovies}
-                                />}
-                        />
-                        <Route
-                            path="/profile"
-                            element=
-                                {<ProtectedRoute
-                                    element={Profile}
-                                    setIsEditing={setIsEditing}
-                                    isLoggedIn={isLoggedIn}
-                                    isMenuOpened={isMenuOpened}
-                                    onMenuIconClick={handleMenuIconClick}
-                                    isDesktop={isDesktop}
-                                    signOut={signOut}
-                                    setAttentionMessage={setAttentionMessage}
-                                />}
-                        />
-                        <Route
-                            path="/profile-update"
-                            element=
-                                {<ProtectedRoute
-                                    element={ProfileUpdate}
-                                    setIsEditing={setIsEditing}
-                                    isLoggedIn={isLoggedIn}
-                                    isMenuOpened={isMenuOpened}
-                                    onMenuIconClick={handleMenuIconClick}
-                                    isDesktop={isDesktop}
-                                    signOut={signOut}
-                                    onEditClick={updateUser}
-                                    attentionMessage={attentionMessage}
-                                />}
-                        />
+                     <Route
+                         path="/"
+                         element=
+                             {<Main
+                                 isLoggedIn={isLoggedIn}
+                                 isMenuOpened={isMenuOpened}
+                                 onMenuIconClick={handleMenuIconClick}
+                                 isDesktop={isDesktop}
+                             />}
+                     />
+                     {isLoggedIn && (
+                         <>
+                            <Route
+                                path="/movies"
+                                element=
+                                    {<ProtectedRoute
+                                        element={Movies}
+                                        isDesktop={isDesktop}
+                                        onGetMovies={searchMovies}
+                                        isLoggedIn={isLoggedIn}
+                                        isMenuOpened={isMenuOpened}
+                                        onMenuIconClick={handleMenuIconClick}
+                                        onSaveIconClick={handleToggleMovieToSaved}
+                                        isLoad={isLoad}
+                                        setMaxMoviesToShow={setMaxMoviesToShow}
+                                        maxMoviesToShow={maxMoviesToShow}
+                                        moviesToShow={moviesToShow}
+                                        setMoviesToShow={setMoviesToShow}
+                                        loadMoreMovies={loadMoreMovies}
+                                    />}
+                            />
+                            <Route
+                                path="/saved-movies"
+                                element=
+                                    {<ProtectedRoute
+                                        element={SavedMovies}
+                                        onGetMovies={searchSavedMovies}
+                                        isLoggedIn={isLoggedIn}
+                                        isMenuOpened={isMenuOpened}
+                                        onMenuIconClick={handleMenuIconClick}
+                                        isDesktop={isDesktop}
+                                        onDeleteIconClick={handleDeleteMovie}
+                                        isLoad={isLoad}
+                                        setMaxMoviesToShow={setMaxMoviesToShow}
+                                        maxMoviesToShow={maxMoviesToShow}
+                                        moviesToShow={moviesToShow}
+                                        setMoviesToShow={setMoviesToShow}
+                                        loadMoreMovies={loadMoreMovies}
+                                    />}
+                            />
+                            <Route
+                                path="/profile"
+                                element=
+                                    {<ProtectedRoute
+                                        element={Profile}
+                                        setIsEditing={setIsEditing}
+                                        isLoggedIn={isLoggedIn}
+                                        isMenuOpened={isMenuOpened}
+                                        onMenuIconClick={handleMenuIconClick}
+                                        isDesktop={isDesktop}
+                                        signOut={signOut}
+                                        setAttentionMessage={setAttentionMessage}
+                                    />}
+                            />
+                            <Route
+                                path="/profile-update"
+                                element=
+                                    {<ProtectedRoute
+                                        element={ProfileUpdate}
+                                        setIsEditing={setIsEditing}
+                                        isLoggedIn={isLoggedIn}
+                                        isMenuOpened={isMenuOpened}
+                                        onMenuIconClick={handleMenuIconClick}
+                                        isDesktop={isDesktop}
+                                        signOut={signOut}
+                                        onEditClick={updateUser}
+                                        attentionMessage={attentionMessage}
+                                    />}
+                            />
+                         </>
+                     )}
                         <Route
                             path="/signup"
                             element={<Register register={registration} />}
