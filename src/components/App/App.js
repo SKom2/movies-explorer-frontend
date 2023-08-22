@@ -27,6 +27,7 @@ function App() {
     const [isMenuOpened , setIsMenuOpened] = useState(false);
     const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 769);
     const [allMovies, setAllMovies] = useState([]);
+    const [allSavedMovies, setAllSavedMovies] = useState([])
     const [movies, setMovies] = useState([])
     const [savedMovies, setSavedMovies] = useState([]);
     const [moviesToShow, setMoviesToShow] = useState([]);
@@ -101,6 +102,7 @@ function App() {
             });
         mainApi.getSavedMovies()
             .then((savedMoviesData) => {
+                setAllSavedMovies(savedMoviesData)
                 setSavedMovies(savedMoviesData);
             })
             .catch((err) => {
@@ -147,6 +149,8 @@ function App() {
     function handleDeleteMovie(id){
         mainApi.removeMovies(id)
             .then((removedMovie) => {
+                const updatedAllSavedMovies = allSavedMovies.filter((movie) => movie.movieId !== removedMovie.movieId);
+                setAllSavedMovies(updatedAllSavedMovies);
                 const updatedSavedMovies = savedMovies.filter((movie) => movie.movieId !== removedMovie.movieId);
                 setSavedMovies(updatedSavedMovies);
             })
@@ -156,7 +160,7 @@ function App() {
     }
 
     function handleToggleMovieToSaved(data){
-        const savedMovie = savedMovies.find((savedMovie) => {
+        const savedMovie = allSavedMovies.find((savedMovie) => {
             return savedMovie.movieId === data.movieId
         });
         if (savedMovie){
@@ -167,8 +171,9 @@ function App() {
             delete data.created_at
             mainApi.addMovies(data)
                 .then((addedMovie) => {
-                    const updatedSavedMovies = [...savedMovies, addedMovie];
-                    setSavedMovies(updatedSavedMovies);
+                    const updatedSavedMovies = [...allSavedMovies, addedMovie];
+                    setAllSavedMovies(updatedSavedMovies)
+                    setSavedMovies(updatedSavedMovies)
                 })
                 .catch((err) => console.log(`Error adding movie: ${err}`));
         }
@@ -191,21 +196,21 @@ function App() {
     }
 
     function searchSavedMovies(inputValue, isShortMoviesShown){
-        // setIsLoad(true);
-        // const filteredMovies = filterMovies(allMovies, inputValue, isShortMoviesShown);
-        // setSavedMovies([...filteredMovies]);
-        // setIsLoad(false);
         setIsLoad(true);
-
-        mainApi.getSavedMovies()
-            .then((savedMovies) => {
-                return filterMovies(savedMovies, inputValue, isShortMoviesShown)
-            })
-            .then((filteredMovies) => {
-                setSavedMovies(filteredMovies)
-            })
-            .catch(err => console.log(`Ошибка поиска фильма: ${err.stack}`))
-            .finally(() => setIsLoad(false))
+        const filteredMovies = filterMovies(allSavedMovies, inputValue, isShortMoviesShown);
+        setSavedMovies([...filteredMovies]);
+        setIsLoad(false);
+        // setIsLoad(true);
+        //
+        // mainApi.getSavedMovies()
+        //     .then((savedMovies) => {
+        //         return filterMovies(savedMovies, inputValue, isShortMoviesShown)
+        //     })
+        //     .then((filteredMovies) => {
+        //         setSavedMovies(filteredMovies)
+        //     })
+        //     .catch(err => console.log(`Ошибка поиска фильма: ${err.stack}`))
+        //     .finally(() => setIsLoad(false))
     }
 
     function updateUser(values, isValid){
@@ -239,7 +244,7 @@ function App() {
     }
 
      return (
-        <SavedMoviesContext.Provider value={{savedMovies}}>
+        <SavedMoviesContext.Provider value={{savedMovies, allSavedMovies}}>
             <MoviesContext.Provider value={{allMovies, movies, moviesToShow, setAllMovies, moviesForAutocomplete}}>
                 <CurrentUserContext.Provider value={{userData}}>
                  <Routes>

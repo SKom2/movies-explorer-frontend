@@ -6,7 +6,7 @@ import {SavedMoviesContext} from "../../../contexts/SavedMoviesContext";
 
 export default function MoviesCard({movie, onSaveIconClick}) {
     const [isLiked, setIsLiked] = useState(false)
-    const {savedMovies} = useContext(SavedMoviesContext)
+    const {allSavedMovies, savedMovies} = useContext(SavedMoviesContext)
 
     useEffect(() => {
         const liked = savedMovies.some((savedItem) => {
@@ -39,7 +39,7 @@ export default function MoviesCard({movie, onSaveIconClick}) {
                     <p className={styles.movieName}>{movie.nameRU}</p>
                     <p className={styles.movieDuration}>{formatDuration(movie.duration)}</p>
                 </div>
-                <button className={isLiked? styles.savedIcon : styles.notSavedIcon} onClick={handleSave}></button>
+                <button className={isLiked ? styles.savedIcon : styles.notSavedIcon} onClick={handleSave}></button>
             </div>
             <img className={styles.imageBlock} src={`${moviesApiConfig.url}${movie.image.url}`} alt="Film Cover"/>
         </article>
