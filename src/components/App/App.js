@@ -53,14 +53,7 @@ function App() {
     useEffect(() => {
         function handleResize() {
             setIsDesktop(window.innerWidth >= 769);
-
-            if (screenWidth < 530) {
-                setMaxMoviesToShow(moviesConstants.maxMoviesToShowSmallMobile);
-            } else if (screenWidth < 1280) {
-                setMaxMoviesToShow(moviesConstants.maxMoviesToShowMobile);
-            } else {
-                setMaxMoviesToShow(moviesConstants.maxMoviesToShowDesktop);
-            }
+            movieCountHandler()
         }
 
         setIsDesktop(window.innerWidth >= 769);
@@ -75,6 +68,7 @@ function App() {
 
     function getMainData(token){
         mainApi.setToken(token)
+        setIsLoad(true);
         mainApi.getProfile()
             .then((profile) => {
                 setUserData({
@@ -87,7 +81,7 @@ function App() {
             });
         moviesApi.getMovies()
             .then((moviesData) => {
-                const savedData = localStorage.getItem('movieData')
+                const savedData = localStorage.getItem('moviesData')
                 setAllMovies(moviesData)
                 if (savedData) {
                     const { filteredMovies } = JSON.parse(savedData)
@@ -99,15 +93,28 @@ function App() {
             })
             .catch((err) => {
                 console.error("Ошибка получения фильмов:", err);
-            });
+            })
+            .finally(() => {
+                setIsLoad(false);
+            })
         mainApi.getSavedMovies()
             .then((savedMoviesData) => {
                 setAllSavedMovies(savedMoviesData)
-                setSavedMovies(savedMoviesData);
+                const savedData = localStorage.getItem('savedMoviesData')
+                if (savedData) {
+                    const { filteredMovies } = JSON.parse(savedData)
+                    setSavedMovies(filteredMovies)
+                } else {
+                    setSavedMovies(savedMoviesData);
+                }
+
             })
             .catch((err) => {
                 console.error("Ошибка получения сохранённых фильмов:", err);
-            });
+            })
+            .finally(() => {
+                setIsLoad(false);
+            })
     }
 
     function handleMenuIconClick(){
@@ -138,7 +145,7 @@ function App() {
 
     function signOut(){
       localStorage.removeItem('jwt');
-      localStorage.removeItem('movieData');
+      localStorage.removeItem('moviesData');
       setIsLoggedIn(false);
       setUserData({
           name: '',
@@ -189,28 +196,19 @@ function App() {
     }
 
     function searchMovies(inputValue, isShortMoviesShown) {
-        setIsLoad(true);
         const filteredMovies = filterMovies(allMovies, inputValue, isShortMoviesShown);
+        const dataToSave = { filteredMovies, inputValue, isShortMoviesShown }
+        localStorage.setItem('moviesData', JSON.stringify(dataToSave))
         setMovies([...filteredMovies]);
-        setIsLoad(false);
+        movieCountHandler()
     }
 
     function searchSavedMovies(inputValue, isShortMoviesShown){
-        setIsLoad(true);
         const filteredMovies = filterMovies(allSavedMovies, inputValue, isShortMoviesShown);
+        const dataToSave = { filteredMovies, inputValue, isShortMoviesShown }
+        localStorage.setItem('savedMoviesData', JSON.stringify(dataToSave))
         setSavedMovies([...filteredMovies]);
-        setIsLoad(false);
-        // setIsLoad(true);
-        //
-        // mainApi.getSavedMovies()
-        //     .then((savedMovies) => {
-        //         return filterMovies(savedMovies, inputValue, isShortMoviesShown)
-        //     })
-        //     .then((filteredMovies) => {
-        //         setSavedMovies(filteredMovies)
-        //     })
-        //     .catch(err => console.log(`Ошибка поиска фильма: ${err.stack}`))
-        //     .finally(() => setIsLoad(false))
+        movieCountHandler()
     }
 
     function updateUser(values, isValid){
@@ -230,6 +228,16 @@ function App() {
                     }
                     console.log(`Ошибка обновления данных пользователя: ${err}`)
                 })
+        }
+    }
+
+    function movieCountHandler(){
+        if (screenWidth < 530) {
+            setMaxMoviesToShow(moviesConstants.maxMoviesToShowSmallMobile);
+        } else if (screenWidth < 1280) {
+            setMaxMoviesToShow(moviesConstants.maxMoviesToShowMobile);
+        } else {
+            setMaxMoviesToShow(moviesConstants.maxMoviesToShowDesktop);
         }
     }
 

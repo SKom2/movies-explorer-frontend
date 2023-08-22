@@ -28,6 +28,7 @@ export default function Movies({maxMoviesToShow, setMoviesToShow, loadMoreMovies
             />
             <section className={styles.movies}>
                 <SearchForm
+                    isSavedMoviesPage={false}
                     onGetMovies={props.onGetMovies}
                 />
                 {props.isLoad ? (

@@ -9,11 +9,11 @@ export default function MoviesCard({movie, onSaveIconClick}) {
     const {allSavedMovies, savedMovies} = useContext(SavedMoviesContext)
 
     useEffect(() => {
-        const liked = savedMovies.some((savedItem) => {
+        const liked = allSavedMovies.some((savedItem) => {
             return savedItem.movieId === movie.id
         })
         setIsLiked(liked)
-    }, [savedMovies, movie])
+    }, [allSavedMovies, movie])
 
 
     function formatDuration(durationInMinutes){

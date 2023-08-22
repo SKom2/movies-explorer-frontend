@@ -29,6 +29,7 @@ export default function SavedMovies({maxMoviesToShow, setMoviesToShow, moviesToS
             />
             <section className={styles.savedMovies}>
                 <SearchForm
+                    isSavedMoviesPage={true}
                     movies={savedMovies}
                     onGetMovies={props.onGetMovies}
                 />

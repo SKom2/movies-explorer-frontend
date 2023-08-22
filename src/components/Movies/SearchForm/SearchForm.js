@@ -13,7 +13,8 @@ export default function SearchForm({onSubmit, ...props}){
     const [initialState, setInitialState] = useState(false);
 
     useEffect(() => {
-        const savedData = localStorage.getItem('movieData')
+        const savedDataKey = props.isSavedMoviesPage ? 'savedMoviesData' : 'moviesData';
+        const savedData = localStorage.getItem(savedDataKey);
         if (savedData) {
             const { inputValue, isShortMoviesShown } = JSON.parse(savedData)
             setValues({ ...values, movie: inputValue })
