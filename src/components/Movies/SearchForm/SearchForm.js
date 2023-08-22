@@ -1,8 +1,10 @@
 import styles from "./SearchForm.module.css"
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {useForm} from "../../../hooks/useForm";
+import {MoviesContext} from "../../../contexts/MoviesContext";
 
 export default function SearchForm({onSubmit, ...props}){
+    const {allMovies} = useContext(MoviesContext);
     const {values, handleChange, setValues, errors} = useForm({
         movie: ''
     });
@@ -69,7 +71,7 @@ export default function SearchForm({onSubmit, ...props}){
                             <ul className={styles.autocomplete}>
                                 {
                                     (values.movie || '') && isAutocompleteOpen ?
-                                        (filteredMoviesSearch(props.movies, values.movie || '').map((movie) => (
+                                        (filteredMoviesSearch(allMovies, values.movie || '').map((movie) => (
                                             <li
                                                 key={movie.id}
                                                 className={styles.autocompleteItem}

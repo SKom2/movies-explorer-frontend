@@ -11,8 +11,8 @@ export default function Navigation(props){
             <div className={styles.navBlock}>
                 <ul className={styles.navLinks}>
                     <li className={styles.navLinkItem}><Link className={styles.link} to='/'>{'Главная'}</Link></li>
-                    <li className={styles.navLinkItem}><Link className={styles.link} to='/movies'>{'Фильмы'}</Link></li>
-                    <li className={styles.navLinkItem}><Link className={styles.link} to='/saved-movies'>{'Сохранённые фильмы'}</Link></li>
+                    <li className={styles.navLinkItem}><Link className={styles.link} to='/allMovies'>{'Фильмы'}</Link></li>
+                    <li className={styles.navLinkItem}><Link className={styles.link} to='/saved-allMovies'>{'Сохранённые фильмы'}</Link></li>
                 </ul>
                 <Link to="/profile" className={styles.accountLink}>
                     <div className={styles.accountLinkBlock}>

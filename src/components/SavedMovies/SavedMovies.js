@@ -45,7 +45,11 @@ export default function SavedMovies({maxMoviesToShow, setMoviesToShow, moviesToS
                                     moviesToShow={moviesToShow}
                                     onDeleteIconClick={onDeleteIconClick}
                                 />
-                                <More movies={savedMovies} onMoreClick={loadMoreMovies}/>
+                                <More
+                                    moviesToShow={moviesToShow}
+                                    movies={savedMovies}
+                                    onMoreClick={loadMoreMovies}
+                                />
                             </>
                         )}
                     </>

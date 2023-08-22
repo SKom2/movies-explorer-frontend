@@ -25,16 +25,16 @@ function App() {
         email: ''
     })
     const [isMenuOpened , setIsMenuOpened] = useState(false);
-    const [token, setToken] = useState('');
     const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 769);
-    const [movies, setMovies] = useState([]);
+    const [allMovies, setAllMovies] = useState([]);
+    const [movies, setMovies] = useState([])
     const [savedMovies, setSavedMovies] = useState([]);
+    const [moviesToShow, setMoviesToShow] = useState([]);
     const navigate = useNavigate();
     const mainApi = new MainApi(apiConfig);
     const moviesApi = new MoviesApi(moviesApiConfig);
     const [isLoad, setIsLoad] = useState(false);
     const [maxMoviesToShow, setMaxMoviesToShow] = useState(moviesConstants.maxMoviesToShowDesktop);
-    const [moviesToShow, setMoviesToShow] = useState([]);
     const screenWidth = window.innerWidth;
     const [attentionMessage, setAttentionMessage] = useState('')
     const [isEditing, setIsEditing] = useState(false)
@@ -87,11 +87,12 @@ function App() {
         moviesApi.getMovies()
             .then((moviesData) => {
                 const savedData = localStorage.getItem('movieData')
+                setAllMovies(moviesData)
                 if (savedData) {
                     const { filteredMovies } = JSON.parse(savedData)
                     setMovies(filteredMovies)
                 } else {
-                    setMovies(moviesData)
+                    setMovies(moviesData);
                 }
                 setMoviesForAutocomplete(moviesData)
             })
@@ -167,42 +168,38 @@ function App() {
             mainApi.addMovies(data)
                 .then((addedMovie) => {
                     const updatedSavedMovies = [...savedMovies, addedMovie];
-                    console.log(updatedSavedMovies)
                     setSavedMovies(updatedSavedMovies);
                 })
                 .catch((err) => console.log(`Error adding movie: ${err}`));
         }
     }
 
-    function filterMovies(moviesArr, inputValue, isShortMoviesShown) {
+    function filterMovies(moviesArr, inputValue, isShortMovie) {
         return moviesArr.filter((movie) => {
-            if (isShortMoviesShown){
+            if (isShortMovie){
                 return movie.nameRU.toLowerCase().includes(inputValue.toLowerCase()) && movie.duration <= 40;
             }
-            return movie.nameRU.toLowerCase().includes(inputValue.toLowerCase()) && movie.duration >= 40;
+            return movie.nameRU.toLowerCase().includes(inputValue.toLowerCase());
         });
     }
 
-    function searchMovies(inputValue, isShortMoviesShown){
+    function searchMovies(inputValue, isShortMoviesShown) {
         setIsLoad(true);
-        moviesApi.getMovies()
-            .then((movies) => {
-                return filterMovies(movies, inputValue, isShortMoviesShown);
-            })
-            .then((filteredMovies) => {
-                const dataToSave = { filteredMovies, inputValue, isShortMoviesShown }
-                localStorage.setItem('movieData', JSON.stringify(dataToSave))
-                setMovies(filteredMovies)
-            })
-            .catch(err => console.log(`Ошибка поиска фильма: ${err}`))
-            .finally(() => setIsLoad(false))
+        const filteredMovies = filterMovies(allMovies, inputValue, isShortMoviesShown);
+        setMovies([...filteredMovies]);
+        setIsLoad(false);
     }
 
-    function searchSavedMovies(inputValue, shortMovie){
+    function searchSavedMovies(inputValue, isShortMoviesShown){
+        // setIsLoad(true);
+        // const filteredMovies = filterMovies(allMovies, inputValue, isShortMoviesShown);
+        // setSavedMovies([...filteredMovies]);
+        // setIsLoad(false);
         setIsLoad(true);
+
         mainApi.getSavedMovies()
             .then((savedMovies) => {
-                return filterMovies(savedMovies, inputValue, shortMovie)
+                return filterMovies(savedMovies, inputValue, isShortMoviesShown)
             })
             .then((filteredMovies) => {
                 setSavedMovies(filteredMovies)
@@ -243,7 +240,7 @@ function App() {
 
      return (
         <SavedMoviesContext.Provider value={{savedMovies}}>
-            <MoviesContext.Provider value={{movies, setMovies, moviesForAutocomplete}}>
+            <MoviesContext.Provider value={{allMovies, movies, moviesToShow, setAllMovies, moviesForAutocomplete}}>
                 <CurrentUserContext.Provider value={{userData}}>
                  <Routes>
                      <Route
@@ -270,7 +267,6 @@ function App() {
                                         onMenuIconClick={handleMenuIconClick}
                                         onSaveIconClick={handleToggleMovieToSaved}
                                         isLoad={isLoad}
-                                        setMaxMoviesToShow={setMaxMoviesToShow}
                                         maxMoviesToShow={maxMoviesToShow}
                                         moviesToShow={moviesToShow}
                                         setMoviesToShow={setMoviesToShow}
@@ -289,7 +285,6 @@ function App() {
                                         isDesktop={isDesktop}
                                         onDeleteIconClick={handleDeleteMovie}
                                         isLoad={isLoad}
-                                        setMaxMoviesToShow={setMaxMoviesToShow}
                                         maxMoviesToShow={maxMoviesToShow}
                                         moviesToShow={moviesToShow}
                                         setMoviesToShow={setMoviesToShow}
