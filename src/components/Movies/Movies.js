@@ -14,8 +14,8 @@ export default function Movies({maxMoviesToShow, setMoviesToShow, loadMoreMovies
 
     useEffect(() => {
         const filteredMovies = movies.slice(0, maxMoviesToShow);
-        setMoviesToShow(filteredMovies);
         setMoviesNotFound(filteredMovies.length === 0);
+        setMoviesToShow(filteredMovies);
     }, [movies, maxMoviesToShow])
 
     return (

@@ -15,8 +15,8 @@ export default function SavedMovies({maxMoviesToShow, setMoviesToShow, moviesToS
 
     useEffect(() => {
         const moviesToShow = savedMovies.slice(0, maxMoviesToShow);
-        setMoviesToShow(moviesToShow);
         setMoviesNotFound(moviesToShow.length === 0);
+        setMoviesToShow(moviesToShow);
     }, [savedMovies, maxMoviesToShow]);
 
     return(

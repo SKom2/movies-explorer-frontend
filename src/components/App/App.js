@@ -4,7 +4,7 @@ import SavedMovies from "../SavedMovies/SavedMovies";
 import Profile from "../Authorization/Profile/Profile";
 import Register from "../Authorization/Register/Register";
 import Login from "../Authorization/Login/Login";
-import {Route, Routes, useNavigate} from "react-router-dom";
+import {Navigate, Route, Routes, useNavigate} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import {apiConfig, moviesApiConfig} from "../../utils/constants";
 import Error from "../Authorization/Error/Error";
@@ -146,6 +146,7 @@ function App() {
     function signOut(){
       localStorage.removeItem('jwt');
       localStorage.removeItem('moviesData');
+      localStorage.removeItem('savedMoviesData');
       setIsLoggedIn(false);
       setUserData({
           name: '',
@@ -333,6 +334,9 @@ function App() {
                                         attentionMessage={attentionMessage}
                                     />}
                             />
+                             <Route path="*" element={<Navigate to="/movies" />} />
+                             <Route path="/signin" element={<Navigate to="/movies" />} />
+                             <Route path="/signup" element={<Navigate to="/movies" />} />
                          </>
                      )}
                         <Route
