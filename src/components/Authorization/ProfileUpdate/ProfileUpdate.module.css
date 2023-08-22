@@ -49,7 +49,7 @@
     cursor: pointer;
 }
 
-*:disabled{
+.saveBtn:disabled{
     color: #EE3465;
     transition: none;
     cursor: initial;

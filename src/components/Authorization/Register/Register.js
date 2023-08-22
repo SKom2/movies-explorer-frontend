@@ -2,8 +2,9 @@ import Input from "../Input/Input";
 import AuthorizationForm from "../AuthorizationForm/AuthorizationForm";
 import {useForm} from "../../../hooks/useForm";
 import styles from './Register.module.css'
+import {useEffect} from "react";
 
-export default function Register({register}){
+export default function Register({register, attentionMessage, setAttentionMessage}){
     const {values, handleChange, errors, isValid} = useForm({
         name: '',
         email: '',
@@ -21,10 +22,12 @@ export default function Register({register}){
             button='Зарегистрироваться'
             onSubmit={handleSubmit}
             name="registration"
-            isvalid={isValid}
+            isValid={isValid}
             path='/signin'
             reminder='Уже зарегистрированы?'
             reminderLink='Войти'
+            attentionMessage={attentionMessage}
+            setAttentionMessage={setAttentionMessage}
         >
             <Input
                 type="text"

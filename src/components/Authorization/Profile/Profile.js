@@ -10,6 +10,7 @@ export default function Profile(props) {
     useEffect(() => {
         if (props.attentionMessage !== 'Данные успешно обновлены')
         props.setAttentionMessage('')
+        console.log(props.attentionMessage)
     })
 
     return(
@@ -34,7 +35,6 @@ export default function Profile(props) {
                         <div className={styles.linkContainer}>
                             <p className={styles.attentionMessage}>{props.attentionMessage}</p>
                             <Link to='/profile-update' className={styles.edit} onClick={() => {
-                                props.setIsEditing(true)
                                 props.setAttentionMessage('')
                             }}>Редактировать</Link>
                             <Link to='/signin' className={styles.exitProfile} onClick={props.signOut}>{'Выйти из аккаунта'}</Link>

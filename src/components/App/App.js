@@ -15,7 +15,7 @@ import MoviesApi from "../../utils/MoviesApi";
 import {SavedMoviesContext} from "../../contexts/SavedMoviesContext";
 import {MoviesContext} from "../../contexts/MoviesContext";
 import * as moviesConstants from "../../utils/constants";
-import ProtectedRoute from "../../utils/ProtectedRoute";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import ProfileUpdate from "../Authorization/ProfileUpdate/ProfileUpdate";
 
 function App() {
@@ -38,7 +38,6 @@ function App() {
     const [maxMoviesToShow, setMaxMoviesToShow] = useState(moviesConstants.maxMoviesToShowDesktop);
     const screenWidth = window.innerWidth;
     const [attentionMessage, setAttentionMessage] = useState('')
-    const [isEditing, setIsEditing] = useState(false)
     const [moviesForAutocomplete, setMoviesForAutocomplete] = useState([])
 
     useEffect(() => {
@@ -127,7 +126,14 @@ function App() {
                   .then((res) => {
                     login(values, isValid)
                })
-               .catch((err) => console.log(err))
+               .catch((err) => {
+                   if (err.message.includes("409")){
+                       setAttentionMessage("Пользователь с таким Email уже существует!");
+                   } else {
+                       setAttentionMessage("При регистрации пользователя произошла ошибка!");
+                   }
+                   console.log(err)
+               })
        }
     }
 
@@ -139,7 +145,10 @@ function App() {
                         setIsLoggedIn(true)
                         navigate("/movies", { replace: true });
                 })
-                .catch((err) => console.log(err))
+                .catch((err) => {
+                    setAttentionMessage("Неправильный логин или пароль.");
+                    console.log(err)
+                })
         }
     }
 
@@ -148,6 +157,7 @@ function App() {
       localStorage.removeItem('moviesData');
       localStorage.removeItem('savedMoviesData');
       setIsLoggedIn(false);
+      setAttentionMessage('')
       setUserData({
           name: '',
           email: ''
@@ -163,7 +173,7 @@ function App() {
                 setSavedMovies(updatedSavedMovies);
             })
             .catch((err) => {
-                console.log(`Error deleting movie with ID ${id}: ${err}`);
+                console.log(`Ошибка удаления фильма: ${err}`);
             });
     }
 
@@ -183,7 +193,7 @@ function App() {
                     setAllSavedMovies(updatedSavedMovies)
                     setSavedMovies(updatedSavedMovies)
                 })
-                .catch((err) => console.log(`Error adding movie: ${err}`));
+                .catch((err) => console.log(`Ошибка сохранения фильма: ${err}`));
         }
     }
 
@@ -217,7 +227,6 @@ function App() {
             mainApi.updateUser(values)
                 .then((updateUser) => {
                     setUserData(updateUser)
-                    setIsEditing(false)
                     setAttentionMessage('Данные успешно обновлены')
                     navigate("/profile", { replace: true });
                 })
@@ -225,7 +234,7 @@ function App() {
                     if (err.message.includes("409")){
                         setAttentionMessage("Пользователь с таким Email уже существует!");
                     } else {
-                        setAttentionMessage("При регистрации пользователя произошла ошибка!");
+                        setAttentionMessage("При обновлении пользователя произошла ошибка!");
                     }
                     console.log(`Ошибка обновления данных пользователя: ${err}`)
                 })
@@ -310,13 +319,13 @@ function App() {
                                 element=
                                     {<ProtectedRoute
                                         element={Profile}
-                                        setIsEditing={setIsEditing}
                                         isLoggedIn={isLoggedIn}
                                         isMenuOpened={isMenuOpened}
                                         onMenuIconClick={handleMenuIconClick}
                                         isDesktop={isDesktop}
                                         signOut={signOut}
                                         setAttentionMessage={setAttentionMessage}
+                                        attentionMessage={attentionMessage}
                                     />}
                             />
                             <Route
@@ -324,7 +333,6 @@ function App() {
                                 element=
                                     {<ProtectedRoute
                                         element={ProfileUpdate}
-                                        setIsEditing={setIsEditing}
                                         isLoggedIn={isLoggedIn}
                                         isMenuOpened={isMenuOpened}
                                         onMenuIconClick={handleMenuIconClick}
@@ -341,11 +349,19 @@ function App() {
                      )}
                         <Route
                             path="/signup"
-                            element={<Register register={registration} />}
+                            element={<Register
+                                register={registration}
+                                setAttentionMessage={setAttentionMessage}
+                                attentionMessage={attentionMessage}
+                            />}
                         />
                         <Route
                             path="/signin"
-                            element={<Login login={login} />}
+                            element={<Login
+                                login={login}
+                                setAttentionMessage={setAttentionMessage}
+                                attentionMessage={attentionMessage}
+                            />}
                         />
                         <Route
                             path="*"

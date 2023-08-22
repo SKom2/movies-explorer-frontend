@@ -2,9 +2,10 @@ import styles from '../Register/Register.module.css'
 import {useForm} from "../../../hooks/useForm";
 import AuthorizationForm from "../AuthorizationForm/AuthorizationForm";
 import Input from "../Input/Input";
+import {useEffect} from "react";
 
-export default function Login({login}) {
-    const {values, handleChange, errors, isValid} = useForm({
+export default function Login({login, attentionMessage, setAttentionMessage}) {
+    const {values, handleChange, errors, isValid, setIsValid} = useForm({
         email: '',
         password: ''
     });
@@ -20,10 +21,13 @@ export default function Login({login}) {
             button='Войти'
             onSubmit={handleSubmit}
             name="login"
-            isvalid={isValid}
+            isValid={isValid}
+            setIsValid={setIsValid}
             path='/signup'
             reminder='Ещё не зарегистрированы?'
             reminderLink='Регистрация'
+            attentionMessage={attentionMessage}
+            setAttentionMessage={setAttentionMessage}
         >
             <Input
                 type="email"
