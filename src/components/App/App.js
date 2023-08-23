@@ -6,7 +6,7 @@ import Register from "../Authorization/Register/Register";
 import Login from "../Authorization/Login/Login";
 import {Navigate, Route, Routes, useNavigate} from "react-router-dom";
 import React, {useEffect, useState} from "react";
-import {apiConfig, moviesApiConfig} from "../../utils/constants";
+import {apiConfig, errorStatuses, moviesApiConfig} from "../../utils/constants";
 import Error from "../Authorization/Error/Error";
 import * as Auth from "../../utils/Auth";
 import MainApi from "../../utils/MainApi";
@@ -14,7 +14,7 @@ import {CurrentUserContext} from "../../contexts/CurrentUserContext";
 import MoviesApi from "../../utils/MoviesApi";
 import {SavedMoviesContext} from "../../contexts/SavedMoviesContext";
 import {MoviesContext} from "../../contexts/MoviesContext";
-import * as moviesConstants from "../../utils/constants";
+import * as constants from "../../utils/constants";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import ProfileUpdate from "../Authorization/ProfileUpdate/ProfileUpdate";
 
@@ -35,7 +35,7 @@ function App() {
     const mainApi = new MainApi(apiConfig);
     const moviesApi = new MoviesApi(moviesApiConfig);
     const [isLoad, setIsLoad] = useState(false);
-    const [maxMoviesToShow, setMaxMoviesToShow] = useState(moviesConstants.maxMoviesToShowDesktop);
+    const [maxMoviesToShow, setMaxMoviesToShow] = useState(constants.maxMoviesToShowDesktop);
     const screenWidth = window.innerWidth;
     const [attentionMessage, setAttentionMessage] = useState('')
     const [moviesForAutocomplete, setMoviesForAutocomplete] = useState([])
@@ -127,12 +127,12 @@ function App() {
                     login(values, isValid)
                })
                .catch((err) => {
-                   if (err.message.includes("409")){
-                       setAttentionMessage("Пользователь с таким Email уже существует!");
+                   if (err == constants.errorStatuses.conflictError){
+                       setAttentionMessage(constants.userAttentionMessages.existingEmail);
                    } else {
-                       setAttentionMessage("При регистрации пользователя произошла ошибка!");
+                       setAttentionMessage(constants.userAttentionMessages.errorInUserRegister);
                    }
-                   console.log(err)
+                   console.log(`Ошибка регистрации пользователя: ${err}`)
                })
        }
     }
@@ -146,8 +146,12 @@ function App() {
                         navigate("/movies", { replace: true });
                 })
                 .catch((err) => {
-                    setAttentionMessage("Неправильный логин или пароль.");
-                    console.log(err)
+                    if (err == constants.errorStatuses.unauthorizedError){
+                        setAttentionMessage(constants.userAttentionMessages.invalidPasswordOrEmail);
+                    } else {
+                        setAttentionMessage(constants.userAttentionMessages.errorInUserAuth);
+                    }
+                    console.log(`Ошибка авторизации пользователя: ${err}`)
                 })
         }
     }
@@ -227,14 +231,14 @@ function App() {
             mainApi.updateUser(values)
                 .then((updateUser) => {
                     setUserData(updateUser)
-                    setAttentionMessage('Данные успешно обновлены')
+                    setAttentionMessage(constants.userAttentionMessages.successUserUpdate)
                     navigate("/profile", { replace: true });
                 })
                 .catch((err) => {
-                    if (err.message.includes("409")){
-                        setAttentionMessage("Пользователь с таким Email уже существует!");
+                    if (err == constants.errorStatuses.conflictErro){
+                        setAttentionMessage(constants.userAttentionMessages.existingEmail);
                     } else {
-                        setAttentionMessage("При обновлении пользователя произошла ошибка!");
+                        setAttentionMessage(constants.userAttentionMessages.errorInUserUpdate);
                     }
                     console.log(`Ошибка обновления данных пользователя: ${err}`)
                 })
@@ -243,21 +247,21 @@ function App() {
 
     function movieCountHandler(){
         if (screenWidth < 530) {
-            setMaxMoviesToShow(moviesConstants.maxMoviesToShowSmallMobile);
+            setMaxMoviesToShow(constants.maxMoviesToShowSmallMobile);
         } else if (screenWidth < 1280) {
-            setMaxMoviesToShow(moviesConstants.maxMoviesToShowMobile);
+            setMaxMoviesToShow(constants.maxMoviesToShowMobile);
         } else {
-            setMaxMoviesToShow(moviesConstants.maxMoviesToShowDesktop);
+            setMaxMoviesToShow(constants.maxMoviesToShowDesktop);
         }
     }
 
     function loadMoreMovies() {
         if (screenWidth >= 1280){
-            setMaxMoviesToShow(prevCount => prevCount + 3)
+            setMaxMoviesToShow(prevCount => prevCount + constants.numberOfAddedMoviesOnDesktop)
         } else if (screenWidth >= 530){
-            setMaxMoviesToShow((prevCount) => prevCount + 2)
+            setMaxMoviesToShow((prevCount) => prevCount + constants.numberOfAddedMoviesOnMobile)
         } else {
-            setMaxMoviesToShow((prevCount) => prevCount + 5)
+            setMaxMoviesToShow((prevCount) => prevCount + constants.numberOfAddedMoviesSmallMobile)
         }
     }
 

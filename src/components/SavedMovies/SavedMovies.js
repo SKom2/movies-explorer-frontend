@@ -7,6 +7,7 @@ import React, {useContext, useEffect, useState} from "react";
 import Footer from "../Common/Footer/Footer";
 import {SavedMoviesContext} from "../../contexts/SavedMoviesContext";
 import Preloader from "../Movies/Preloader/Preloader";
+import * as constants from "../../utils/constants";
 
 export default function SavedMovies({maxMoviesToShow, setMoviesToShow, moviesToShow, loadMoreMovies, onDeleteIconClick, setIsLoad, ...props}) {
     const {savedMovies} = useContext(SavedMoviesContext)
@@ -38,7 +39,7 @@ export default function SavedMovies({maxMoviesToShow, setMoviesToShow, moviesToS
                 ) : (
                     <>
                         {moviesNotFound ? (
-                            <p className={styles.nothingFound}>Ничего не найдено</p>
+                            <p className={styles.nothingFound}>{constants.moviesAttentionMessages.nothingSearched}</p>
                         ) : (
                             <>
                                 <MoviesCardList
