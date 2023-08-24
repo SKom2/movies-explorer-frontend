@@ -38,7 +38,6 @@ function App() {
     const [maxMoviesToShow, setMaxMoviesToShow] = useState(constants.maxMoviesToShowDesktop);
     const screenWidth = window.innerWidth;
     const [attentionMessage, setAttentionMessage] = useState('')
-    const [moviesForAutocomplete, setMoviesForAutocomplete] = useState([])
 
     useEffect(() => {
         const jwt = localStorage.getItem("jwt");
@@ -88,7 +87,6 @@ function App() {
                 } else {
                     setMovies(moviesData);
                 }
-                setMoviesForAutocomplete(moviesData)
             })
             .catch((err) => {
                 console.error("Ошибка получения фильмов:", err);
@@ -279,7 +277,7 @@ function App() {
 
      return (
         <SavedMoviesContext.Provider value={{savedMovies, allSavedMovies}}>
-            <MoviesContext.Provider value={{allMovies, movies, moviesToShow, setAllMovies, moviesForAutocomplete}}>
+            <MoviesContext.Provider value={{allMovies, movies}}>
                 <CurrentUserContext.Provider value={{userData}}>
                  <Routes>
                      <Route
