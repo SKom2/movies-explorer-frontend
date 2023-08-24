@@ -245,7 +245,7 @@ function App() {
                     navigate("/profile", { replace: true });
                 })
                 .catch((err) => {
-                    if (err == constants.errorStatuses.conflictErro){
+                    if (err == constants.errorStatuses.conflictError){
                         setAttentionMessage(constants.userAttentionMessages.existingEmail);
                     } else {
                         setAttentionMessage(constants.userAttentionMessages.errorInUserUpdate);
