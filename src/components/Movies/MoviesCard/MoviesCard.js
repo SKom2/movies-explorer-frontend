@@ -1,12 +1,11 @@
 import styles from './MoviesCard.module.css'
 import {moviesApiConfig} from "../../../utils/constants";
 import {useContext, useEffect, useState} from "react";
-import {MoviesContext} from "../../../contexts/MoviesContext";
 import {SavedMoviesContext} from "../../../contexts/SavedMoviesContext";
 
 export default function MoviesCard({movie, onSaveIconClick}) {
     const [isLiked, setIsLiked] = useState(false)
-    const {allSavedMovies, savedMovies} = useContext(SavedMoviesContext)
+    const {allSavedMovies} = useContext(SavedMoviesContext)
 
     useEffect(() => {
         const liked = allSavedMovies.some((savedItem) => {
@@ -41,7 +40,7 @@ export default function MoviesCard({movie, onSaveIconClick}) {
                 </div>
                 <button className={isLiked ? styles.savedIcon : styles.notSavedIcon} onClick={handleSave}></button>
             </div>
-            <img className={styles.imageBlock} src={`${moviesApiConfig.url}${movie.image.url}`} alt="Film Cover"/>
+                <img className={styles.imageBlock} src={`${moviesApiConfig.url}${movie.image.url}`} alt="Film Cover"/>
         </article>
     )
 }
