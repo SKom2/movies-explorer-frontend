@@ -1,12 +1,12 @@
-import SearchForm from "./SearchForm/SearchForm";
-import MoviesCardList from "./MoviesCardList/MoviesCardList";
+import SearchForm from "../MoviesCommon/SearchForm/SearchForm";
+import MoviesCardList from "../MoviesCommon/MoviesCardList/MoviesCardList";
 import styles from './Movies.module.css'
-import More from "./More/More";
+import More from "../MoviesCommon/More/More";
 import Header from "../Common/Header/Header";
 import Footer from "../Common/Footer/Footer";
 import {useContext, useEffect, useState} from "react";
 import {MoviesContext} from "../../contexts/MoviesContext";
-import Preloader from "./Preloader/Preloader";
+import Preloader from "../MoviesCommon/Preloader/Preloader";
 import * as constants from "../../utils/constants";
 
 export default function Movies({maxMoviesToShow, setMoviesToShow, loadMoreMovies, moviesToShow, ...props}) {

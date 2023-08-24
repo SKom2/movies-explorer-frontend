@@ -6,7 +6,8 @@ import Register from "../Authorization/Register/Register";
 import Login from "../Authorization/Login/Login";
 import {Navigate, Route, Routes, useNavigate} from "react-router-dom";
 import React, {useEffect, useState} from "react";
-import {apiConfig, errorStatuses, moviesApiConfig} from "../../utils/constants";
+import * as constants from "../../utils/constants";
+import {apiConfig, moviesApiConfig} from "../../utils/constants";
 import Error from "../Authorization/Error/Error";
 import * as Auth from "../../utils/Auth";
 import MainApi from "../../utils/MainApi";
@@ -14,7 +15,6 @@ import {CurrentUserContext} from "../../contexts/CurrentUserContext";
 import MoviesApi from "../../utils/MoviesApi";
 import {SavedMoviesContext} from "../../contexts/SavedMoviesContext";
 import {MoviesContext} from "../../contexts/MoviesContext";
-import * as constants from "../../utils/constants";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import ProfileUpdate from "../Authorization/ProfileUpdate/ProfileUpdate";
 
@@ -168,6 +168,10 @@ function App() {
       });
     }
 
+    function updateLocalStorage(dataToSave, key) {
+        localStorage.setItem(key, JSON.stringify(dataToSave));
+    }
+
     function handleDeleteMovie(id){
         mainApi.removeMovies(id)
             .then((removedMovie) => {
@@ -175,12 +179,15 @@ function App() {
                 setAllSavedMovies(updatedAllSavedMovies);
                 const updatedSavedMovies = savedMovies.filter((movie) => movie.movieId !== removedMovie.movieId);
                 setSavedMovies(updatedSavedMovies);
+
+                const savedMoviesData = JSON.parse(localStorage.getItem('savedMoviesData')) || {};
+                const updatedDataToSave = { ...savedMoviesData, filteredMovies: updatedSavedMovies };
+                localStorage.setItem('savedMoviesData', JSON.stringify(updatedDataToSave));
             })
             .catch((err) => {
                 console.log(`Ошибка удаления фильма: ${err}`);
             });
     }
-
     function handleToggleMovieToSaved(data){
         const savedMovie = allSavedMovies.find((savedMovie) => {
             return savedMovie.movieId === data.movieId
@@ -196,6 +203,10 @@ function App() {
                     const updatedSavedMovies = [...allSavedMovies, addedMovie];
                     setAllSavedMovies(updatedSavedMovies)
                     setSavedMovies(updatedSavedMovies)
+
+                    const savedMoviesData = JSON.parse(localStorage.getItem('savedMoviesData')) || {};
+                    const updatedDataToSave = { ...savedMoviesData, filteredMovies: updatedSavedMovies };
+                    localStorage.setItem('savedMoviesData', JSON.stringify(updatedDataToSave));
                 })
                 .catch((err) => console.log(`Ошибка сохранения фильма: ${err}`));
         }
@@ -212,20 +223,21 @@ function App() {
 
     function searchMovies(inputValue, isShortMoviesShown) {
         const filteredMovies = filterMovies(allMovies, inputValue, isShortMoviesShown);
-        const dataToSave = { filteredMovies, inputValue, isShortMoviesShown }
-        localStorage.setItem('moviesData', JSON.stringify(dataToSave))
+        const dataToSave = { filteredMovies, inputValue, isShortMoviesShown };
+        updateLocalStorage(dataToSave, 'moviesData');
+
         setMovies([...filteredMovies]);
-        movieCountHandler()
+        movieCountHandler();
     }
 
-    function searchSavedMovies(inputValue, isShortMoviesShown){
+    function searchSavedMovies(inputValue, isShortMoviesShown) {
         const filteredMovies = filterMovies(allSavedMovies, inputValue, isShortMoviesShown);
-        const dataToSave = { filteredMovies, inputValue, isShortMoviesShown }
-        localStorage.setItem('savedMoviesData', JSON.stringify(dataToSave))
-        setSavedMovies([...filteredMovies]);
-        movieCountHandler()
-    }
+        const dataToSave = { filteredMovies, inputValue, isShortMoviesShown };
+        updateLocalStorage(dataToSave, 'savedMoviesData');
 
+        setSavedMovies([...filteredMovies]);
+        movieCountHandler();
+    }
     function updateUser(values, isValid){
         if (isValid) {
             mainApi.updateUser(values)

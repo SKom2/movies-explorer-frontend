@@ -10,7 +10,6 @@ export default function Profile(props) {
     useEffect(() => {
         if (props.attentionMessage !== 'Данные успешно обновлены')
         props.setAttentionMessage('')
-        console.log(props.attentionMessage)
     })
 
     return(

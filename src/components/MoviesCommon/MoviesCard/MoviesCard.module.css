@@ -59,6 +59,22 @@
     outline: none;
 }
 
+.removeIcon{
+    width: 30px;
+    height: 30px;
+    background-color: #313131;
+    border-radius: 36px;
+    background-image: url("../../../images/RemoveFromSaved.svg");
+    background-repeat: no-repeat;
+    background-position: 7.2px 11px;
+    cursor: pointer;
+    border: none;
+}
+
+.removeIcon{
+    outline: none;
+}
+
 .imageBlock{
     background-size: cover;
     display: block;
