@@ -17,7 +17,7 @@ export default function SearchForm({onSubmit, ...props}){
         const savedData = localStorage.getItem(savedDataKey);
         if (savedData) {
             const { inputValue, isShortMoviesShown } = JSON.parse(savedData)
-            setValues({ ...values, movie: inputValue })
+            setValues({ ...values, movie: inputValue || '' })
             setIsShortMoviesShown(isShortMoviesShown)
         }
     }, [])
