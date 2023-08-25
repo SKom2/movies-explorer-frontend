@@ -13,7 +13,7 @@ export default function AuthorizationForm(props) {
             <form className={styles.form} onSubmit={props.onSubmit} noValidate>
                 {props.children}
                 <p className={styles.attentionMessageError}>{props.attentionMessage}</p>
-                <button type='submit' className={styles.submitBtn} disabled={!props.isValid}>{props.button}</button>
+                <button type='submit' className={styles.submitBtn} disabled={props.isSubmitting || !props.isValid}>{props.button}</button>
                 <p className={styles.reminder}>{props.reminder}<Link className={styles.link} to={props.path} onClick={() => props.setAttentionMessage('')}>{props.reminderLink}</Link></p>
             </form>
         </div>

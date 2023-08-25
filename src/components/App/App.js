@@ -117,26 +117,31 @@ function App() {
     function handleMenuIconClick(){
           setIsMenuOpened(!isMenuOpened);
     }
-
+    const [isSubmitting, setIsSubmitting] = useState(false);
     function registration(values, isValid){
        if (isValid){
-              Auth.register(values.name, values.email, values.password)
-                  .then((res) => {
-                    login(values, isValid)
-               })
-               .catch((err) => {
-                   if (err == constants.errorStatuses.conflictError){
-                       setAttentionMessage(constants.userAttentionMessages.existingEmail);
-                   } else {
-                       setAttentionMessage(constants.userAttentionMessages.errorInUserRegister);
-                   }
-                   console.log(`Ошибка регистрации пользователя: ${err}`)
-               })
+           setIsSubmitting(true);
+           Auth.register(values.name, values.email, values.password)
+              .then((res) => {
+                  localStorage.setItem('jwt', res.token)
+                  setIsLoggedIn(true)
+                  navigate("/movies", { replace: true });
+           })
+           .catch((err) => {
+               if (err == constants.errorStatuses.conflictError){
+                   setAttentionMessage(constants.userAttentionMessages.existingEmail);
+               } else {
+                   setAttentionMessage(constants.userAttentionMessages.errorInUserRegister);
+               }
+               console.log(`Ошибка регистрации пользователя: ${err}`)
+           })
+           .finally(() => setIsSubmitting(false))
        }
     }
 
     function login(values, isValid){
         if (isValid){
+            setIsSubmitting(true);
             Auth.authorize(values.email, values.password)
                 .then((res) => {
                         localStorage.setItem('jwt', res.token)
@@ -151,6 +156,7 @@ function App() {
                     }
                     console.log(`Ошибка авторизации пользователя: ${err}`)
                 })
+                .finally(() => setIsSubmitting(false))
         }
     }
 
@@ -164,6 +170,7 @@ function App() {
           name: '',
           email: ''
       });
+      navigate("/", { replace: true });
     }
 
     function updateLocalStorage(dataToSave, key) {
@@ -213,6 +220,7 @@ function App() {
     function filterMovies(moviesArr, inputValue, isShortMovie) {
         return moviesArr.filter((movie) => {
             if (isShortMovie){
+                console.log(inputValue)
                 return movie.nameRU.toLowerCase().includes(inputValue.toLowerCase()) && movie.duration <= 40;
             }
             return movie.nameRU.toLowerCase().includes(inputValue.toLowerCase());
@@ -356,7 +364,7 @@ function App() {
                                         attentionMessage={attentionMessage}
                                     />}
                             />
-                             <Route path="*" element={<Navigate to="/movies" />} />
+                             <Route path="*" element={<Error />} />
                              <Route path="/signin" element={<Navigate to="/movies" />} />
                              <Route path="/signup" element={<Navigate to="/movies" />} />
                          </>
@@ -367,6 +375,7 @@ function App() {
                                 register={registration}
                                 setAttentionMessage={setAttentionMessage}
                                 attentionMessage={attentionMessage}
+                                isSubmitting={isSubmitting}
                             />}
                         />
                         <Route
@@ -375,12 +384,10 @@ function App() {
                                 login={login}
                                 setAttentionMessage={setAttentionMessage}
                                 attentionMessage={attentionMessage}
+                                isSubmitting={isSubmitting}
                             />}
                         />
-                        <Route
-                            path="*"
-                            element={<Error />}
-                        />
+                        <Route path="*" element={<Navigate to="/" />} />
                     </Routes>
                 </CurrentUserContext.Provider>
             </MoviesContext.Provider>

@@ -4,7 +4,7 @@ import {useForm} from "../../../hooks/useForm";
 import styles from './Register.module.css'
 import {useEffect} from "react";
 
-export default function Register({register, attentionMessage, setAttentionMessage}){
+export default function Register({register, attentionMessage, setAttentionMessage, isSubmitting}){
     const {values, handleChange, errors, isValid} = useForm({
         name: '',
         email: '',
@@ -28,6 +28,7 @@ export default function Register({register, attentionMessage, setAttentionMessag
             reminderLink='Войти'
             attentionMessage={attentionMessage}
             setAttentionMessage={setAttentionMessage}
+            isSubmitting={isSubmitting}
         >
             <Input
                 type="text"

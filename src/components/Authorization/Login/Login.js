@@ -4,7 +4,7 @@ import AuthorizationForm from "../AuthorizationForm/AuthorizationForm";
 import Input from "../Input/Input";
 import {useEffect} from "react";
 
-export default function Login({login, attentionMessage, setAttentionMessage}) {
+export default function Login({login, attentionMessage, setAttentionMessage, isSubmitting}) {
     const {values, handleChange, errors, isValid, setIsValid} = useForm({
         email: '',
         password: ''
@@ -28,6 +28,7 @@ export default function Login({login, attentionMessage, setAttentionMessage}) {
             reminderLink='Регистрация'
             attentionMessage={attentionMessage}
             setAttentionMessage={setAttentionMessage}
+            isSubmitting={isSubmitting}
         >
             <Input
                 type="email"

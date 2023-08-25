@@ -36,7 +36,7 @@ export default function Profile(props) {
                             <Link to='/profile-update' className={styles.edit} onClick={() => {
                                 props.setAttentionMessage('')
                             }}>Редактировать</Link>
-                            <Link to='/signin' className={styles.exitProfile} onClick={props.signOut}>{'Выйти из аккаунта'}</Link>
+                            <Link to='/ ' className={styles.exitProfile} onClick={props.signOut}>{'Выйти из аккаунта'}</Link>
                         </div>
                     </section>
         </>
