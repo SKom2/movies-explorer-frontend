@@ -1,5 +1,4 @@
 import styles from './Navigation.module.css'
-import close from '../../../images/CloseNav.svg'
 import {Link} from "react-router-dom";
 
 export default function Navigation(props){

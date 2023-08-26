@@ -49,6 +49,7 @@ export default function SearchForm({onSubmit, ...props}){
     const searchFormSubmitHandler = (e) => {
         e.preventDefault();
         props.onGetMovies(values.movie, isShortMoviesShown)
+        setIsAutoCompleteOpen(false)
     };
 
     return(

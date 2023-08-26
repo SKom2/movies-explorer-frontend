@@ -38,6 +38,7 @@ function App() {
     const [maxMoviesToShow, setMaxMoviesToShow] = useState(constants.maxMoviesToShowDesktop);
     const screenWidth = window.innerWidth;
     const [attentionMessage, setAttentionMessage] = useState('')
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
         const jwt = localStorage.getItem("jwt");
@@ -117,7 +118,7 @@ function App() {
     function handleMenuIconClick(){
           setIsMenuOpened(!isMenuOpened);
     }
-    const [isSubmitting, setIsSubmitting] = useState(false);
+
     function registration(values, isValid){
        if (isValid){
            setIsSubmitting(true);
@@ -220,7 +221,6 @@ function App() {
     function filterMovies(moviesArr, inputValue, isShortMovie) {
         return moviesArr.filter((movie) => {
             if (isShortMovie){
-                console.log(inputValue)
                 return movie.nameRU.toLowerCase().includes(inputValue.toLowerCase()) && movie.duration <= 40;
             }
             return movie.nameRU.toLowerCase().includes(inputValue.toLowerCase());
@@ -387,7 +387,9 @@ function App() {
                                 isSubmitting={isSubmitting}
                             />}
                         />
-                        <Route path="*" element={<Navigate to="/" />} />
+                     {!isLoggedIn &&
+                         <Route path="*" element={<Navigate to="/" />} />
+                     }
                     </Routes>
                 </CurrentUserContext.Provider>
             </MoviesContext.Provider>
