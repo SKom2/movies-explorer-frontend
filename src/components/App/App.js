@@ -15,7 +15,7 @@ import {CurrentUserContext} from "../../contexts/CurrentUserContext";
 import MoviesApi from "../../utils/MoviesApi";
 import {SavedMoviesContext} from "../../contexts/SavedMoviesContext";
 import {MoviesContext} from "../../contexts/MoviesContext";
-import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import {ProtectedRoute, AuthRoute} from "../ProtectedRoute/ProtectedRoute";
 import ProfileUpdate from "../Authorization/ProfileUpdate/ProfileUpdate";
 
 function App() {
@@ -41,12 +41,13 @@ function App() {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
-        const jwt = localStorage.getItem("jwt");
+        const jwt = localStorage.getItem('jwt')
 
-        if (jwt) {
+        if (jwt){
             setIsLoggedIn(true)
             getMainData(jwt)
         }
+
     }, [isLoggedIn]);
 
     useEffect(() => {
@@ -70,6 +71,7 @@ function App() {
         setIsLoad(true);
         mainApi.getProfile()
             .then((profile) => {
+                setIsLoggedIn(true)
                 setUserData({
                     name: profile.name,
                     email: profile.email
@@ -77,7 +79,11 @@ function App() {
             })
             .catch((err) => {
                 console.error("Ошибка получения данных пользователя:", err);
-            });
+            })
+            .finally(() => {
+                setIsLoad(false);
+            })
+
         moviesApi.getMovies()
             .then((moviesData) => {
                 const savedData = localStorage.getItem('moviesData')
@@ -103,9 +109,7 @@ function App() {
             .catch((err) => {
                 console.error("Ошибка получения сохранённых фильмов:", err);
             })
-            .finally(() => {
-                setIsLoad(false);
-            })
+
     }
 
     function handleMenuIconClick(){
@@ -280,80 +284,75 @@ function App() {
                                  isDesktop={isDesktop}
                              />}
                      />
-                     {isLoggedIn && (
-                         <>
-                            <Route
-                                path="/movies"
-                                element=
-                                    {<ProtectedRoute
-                                        element={Movies}
-                                        isDesktop={isDesktop}
-                                        onGetMovies={searchMovies}
-                                        isLoggedIn={isLoggedIn}
-                                        isMenuOpened={isMenuOpened}
-                                        onMenuIconClick={handleMenuIconClick}
-                                        onSaveIconClick={handleToggleMovieToSaved}
-                                        isLoad={isLoad}
-                                        maxMoviesToShow={maxMoviesToShow}
-                                        moviesToShow={moviesToShow}
-                                        setMoviesToShow={setMoviesToShow}
-                                        loadMoreMovies={loadMoreMovies}
-                                    />}
-                            />
-                            <Route
-                                path="/saved-movies"
-                                element=
-                                    {<ProtectedRoute
-                                        element={SavedMovies}
-                                        onGetMovies={searchSavedMovies}
-                                        isLoggedIn={isLoggedIn}
-                                        isMenuOpened={isMenuOpened}
-                                        onMenuIconClick={handleMenuIconClick}
-                                        isDesktop={isDesktop}
-                                        onDeleteIconClick={handleDeleteMovie}
-                                        isLoad={isLoad}
-                                        maxMoviesToShow={maxMoviesToShow}
-                                        moviesToShow={moviesToShow}
-                                        setMoviesToShow={setMoviesToShow}
-                                        loadMoreMovies={loadMoreMovies}
-                                    />}
-                            />
-                            <Route
-                                path="/profile"
-                                element=
-                                    {<ProtectedRoute
-                                        element={Profile}
-                                        isLoggedIn={isLoggedIn}
-                                        isMenuOpened={isMenuOpened}
-                                        onMenuIconClick={handleMenuIconClick}
-                                        isDesktop={isDesktop}
-                                        signOut={signOut}
-                                        setAttentionMessage={setAttentionMessage}
-                                        attentionMessage={attentionMessage}
-                                    />}
-                            />
-                            <Route
-                                path="/profile-update"
-                                element=
-                                    {<ProtectedRoute
-                                        element={ProfileUpdate}
-                                        isLoggedIn={isLoggedIn}
-                                        isMenuOpened={isMenuOpened}
-                                        onMenuIconClick={handleMenuIconClick}
-                                        isDesktop={isDesktop}
-                                        signOut={signOut}
-                                        onEditClick={updateUser}
-                                        attentionMessage={attentionMessage}
-                                    />}
-                            />
-                            <Route path="*" element={<Error />} />
-                            <Route path="/signin" element={<Navigate to="/movies" />} />
-                            <Route path="/signup" element={<Navigate to="/movies" />} />
-                         </>
-                     )}
+                        <Route
+                            path="/movies"
+                            element=
+                                {<ProtectedRoute
+                                    element={Movies}
+                                    isDesktop={isDesktop}
+                                    onGetMovies={searchMovies}
+                                    isLoggedIn={isLoggedIn}
+                                    isMenuOpened={isMenuOpened}
+                                    onMenuIconClick={handleMenuIconClick}
+                                    onSaveIconClick={handleToggleMovieToSaved}
+                                    isLoad={isLoad}
+                                    maxMoviesToShow={maxMoviesToShow}
+                                    moviesToShow={moviesToShow}
+                                    setMoviesToShow={setMoviesToShow}
+                                    loadMoreMovies={loadMoreMovies}
+                                />}
+                        />
+                        <Route
+                            path="/saved-movies"
+                            element=
+                                {<ProtectedRoute
+                                    element={SavedMovies}
+                                    onGetMovies={searchSavedMovies}
+                                    isLoggedIn={isLoggedIn}
+                                    isMenuOpened={isMenuOpened}
+                                    onMenuIconClick={handleMenuIconClick}
+                                    isDesktop={isDesktop}
+                                    onDeleteIconClick={handleDeleteMovie}
+                                    isLoad={isLoad}
+                                    maxMoviesToShow={maxMoviesToShow}
+                                    moviesToShow={moviesToShow}
+                                    setMoviesToShow={setMoviesToShow}
+                                    loadMoreMovies={loadMoreMovies}
+                                />}
+                        />
+                        <Route
+                            path="/profile"
+                            element=
+                                {<ProtectedRoute
+                                    element={Profile}
+                                    isLoggedIn={isLoggedIn}
+                                    isMenuOpened={isMenuOpened}
+                                    onMenuIconClick={handleMenuIconClick}
+                                    isDesktop={isDesktop}
+                                    signOut={signOut}
+                                    setAttentionMessage={setAttentionMessage}
+                                    attentionMessage={attentionMessage}
+                                />}
+                        />
+                        <Route
+                            path="/profile-update"
+                            element=
+                                {<ProtectedRoute
+                                    element={ProfileUpdate}
+                                    isLoggedIn={isLoggedIn}
+                                    isMenuOpened={isMenuOpened}
+                                    onMenuIconClick={handleMenuIconClick}
+                                    isDesktop={isDesktop}
+                                    signOut={signOut}
+                                    onEditClick={updateUser}
+                                    attentionMessage={attentionMessage}
+                                />}
+                        />
+                        <Route path="*" element={<Error />} />
                         <Route
                             path="/signup"
-                            element={<Register
+                            element={<AuthRoute
+                                element={Register}
                                 register={registration}
                                 setAttentionMessage={setAttentionMessage}
                                 attentionMessage={attentionMessage}
@@ -362,14 +361,14 @@ function App() {
                         />
                         <Route
                             path="/signin"
-                            element={<Login
+                            element={<AuthRoute
+                                element={Login}
                                 login={login}
                                 setAttentionMessage={setAttentionMessage}
                                 attentionMessage={attentionMessage}
                                 isSubmitting={isSubmitting}
                             />}
                         />
-                        <Route path="*" element={<Navigate to="/" />} />
                     </Routes>
                 </CurrentUserContext.Provider>
             </MoviesContext.Provider>
