@@ -346,9 +346,9 @@ function App() {
                                         attentionMessage={attentionMessage}
                                     />}
                             />
-                             <Route path="*" element={<Error />} />
-                             <Route path="/signin" element={<Navigate to="/movies" />} />
-                             <Route path="/signup" element={<Navigate to="/movies" />} />
+                            <Route path="*" element={<Error />} />
+                            <Route path="/signin" element={<Navigate to="/movies" />} />
+                            <Route path="/signup" element={<Navigate to="/movies" />} />
                          </>
                      )}
                         <Route
@@ -369,7 +369,7 @@ function App() {
                                 isSubmitting={isSubmitting}
                             />}
                         />
-                         {/*<Route path="*" element={<Navigate to="/" />} />*/}
+                        <Route path="*" element={<Navigate to="/" />} />
                     </Routes>
                 </CurrentUserContext.Provider>
             </MoviesContext.Provider>

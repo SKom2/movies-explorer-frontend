@@ -3,6 +3,7 @@ import Header from "../../Common/Header/Header";
 import {useContext, useEffect} from "react";
 import {CurrentUserContext} from "../../../contexts/CurrentUserContext";
 import {useForm} from "../../../hooks/useForm";
+import {isValidEmail} from "../../../utils/isValidEmail";
 
 export default function ProfileUpdate(props){
     const {userData} = useContext(CurrentUserContext)
@@ -22,12 +23,15 @@ export default function ProfileUpdate(props){
         if (userData.name === values.name && userData.email === values.email){
             setIsValid(false);
         }
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
+    }, [userData, setIsValid, values])
+
+    useEffect(() => {
+        if (!isValidEmail(values.email)) {
             setIsValid(false);
         } else {
             setIsValid(true);
         }
-    }, [values.email, userData, setIsValid, values])
+    }, [values.email, setIsValid]);
 
     function updateProfileHandler(e){
         e.preventDefault();

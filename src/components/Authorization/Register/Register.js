@@ -3,13 +3,19 @@ import AuthorizationForm from "../AuthorizationForm/AuthorizationForm";
 import {useForm} from "../../../hooks/useForm";
 import styles from './Register.module.css'
 import {useEffect} from "react";
+import {isValidEmail} from "../../../utils/isValidEmail";
 
 export default function Register({register, attentionMessage, setAttentionMessage, isSubmitting}){
-    const {values, handleChange, errors, isValid} = useForm({
+    const {values, handleChange, errors, isValid, setIsValid} = useForm({
         name: '',
         email: '',
         password: ''
     });
+
+    useEffect(() => {
+        const emailValid = isValidEmail(values.email);
+        setIsValid(emailValid);
+    }, [values.email, setIsValid]);
 
     function handleSubmit(e) {
         e.preventDefault();

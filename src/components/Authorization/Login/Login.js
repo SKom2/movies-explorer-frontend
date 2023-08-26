@@ -3,12 +3,18 @@ import {useForm} from "../../../hooks/useForm";
 import AuthorizationForm from "../AuthorizationForm/AuthorizationForm";
 import Input from "../Input/Input";
 import {useEffect} from "react";
+import {isValidEmail} from "../../../utils/isValidEmail";
 
 export default function Login({login, attentionMessage, setAttentionMessage, isSubmitting}) {
     const {values, handleChange, errors, isValid, setIsValid} = useForm({
         email: '',
         password: ''
     });
+
+    useEffect(() => {
+        const emailValid = isValidEmail(values.email);
+        setIsValid(emailValid);
+    }, [values.email, setIsValid]);
 
     function handleSubmit(e) {
         e.preventDefault();
