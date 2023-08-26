@@ -22,7 +22,12 @@ export default function ProfileUpdate(props){
         if (userData.name === values.name && userData.email === values.email){
             setIsValid(false);
         }
-    }, [userData, setIsValid, values])
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
+            setIsValid(false);
+        } else {
+            setIsValid(true);
+        }
+    }, [values.email, userData, setIsValid, values])
 
     function updateProfileHandler(e){
         e.preventDefault();

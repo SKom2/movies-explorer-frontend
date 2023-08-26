@@ -2,9 +2,11 @@ import styles from "./SearchForm.module.css"
 import React, {useContext, useEffect, useState} from "react";
 import {useForm} from "../../../hooks/useForm";
 import {MoviesContext} from "../../../contexts/MoviesContext";
+import {SavedMoviesContext} from "../../../contexts/SavedMoviesContext";
 
 export default function SearchForm({onSubmit, ...props}){
     const {allMovies} = useContext(MoviesContext);
+    const {setSavedMovies, allSavedMovies} = useContext(SavedMoviesContext)
     const {values, handleChange, setValues, errors} = useForm({
         movie: ''
     });
@@ -13,12 +15,15 @@ export default function SearchForm({onSubmit, ...props}){
     const [initialState, setInitialState] = useState(false);
 
     useEffect(() => {
-        const savedDataKey = props.isSavedMoviesPage ? 'savedMoviesData' : 'moviesData';
+        const savedDataKey = !props.isSavedMoviesPage && 'moviesData';
         const savedData = localStorage.getItem(savedDataKey);
         if (savedData) {
             const { inputValue, isShortMoviesShown } = JSON.parse(savedData)
             setValues({ ...values, movie: inputValue || '' })
             setIsShortMoviesShown(isShortMoviesShown)
+        }
+        if (props.isSavedMoviesPage){
+            setSavedMovies(allSavedMovies)
         }
     }, [])
 

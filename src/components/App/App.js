@@ -98,14 +98,7 @@ function App() {
         mainApi.getSavedMovies()
             .then((savedMoviesData) => {
                 setAllSavedMovies(savedMoviesData)
-                const savedData = localStorage.getItem('savedMoviesData')
-                if (savedData) {
-                    const { filteredMovies } = JSON.parse(savedData)
-                    setSavedMovies(filteredMovies)
-                } else {
-                    setSavedMovies(savedMoviesData);
-                }
-
+                setSavedMovies(savedMoviesData);
             })
             .catch((err) => {
                 console.error("Ошибка получения сохранённых фильмов:", err);
@@ -164,7 +157,6 @@ function App() {
     function signOut(){
       localStorage.removeItem('jwt');
       localStorage.removeItem('moviesData');
-      localStorage.removeItem('savedMoviesData');
       setIsLoggedIn(false);
       setAttentionMessage('')
       setUserData({
@@ -185,10 +177,6 @@ function App() {
                 setAllSavedMovies(updatedAllSavedMovies);
                 const updatedSavedMovies = savedMovies.filter((movie) => movie.movieId !== removedMovie.movieId);
                 setSavedMovies(updatedSavedMovies);
-
-                const savedMoviesData = JSON.parse(localStorage.getItem('savedMoviesData')) || {};
-                const updatedDataToSave = { ...savedMoviesData, filteredMovies: updatedSavedMovies };
-                localStorage.setItem('savedMoviesData', JSON.stringify(updatedDataToSave));
             })
             .catch((err) => {
                 console.log(`Ошибка удаления фильма: ${err}`);
@@ -209,10 +197,6 @@ function App() {
                     const updatedSavedMovies = [...allSavedMovies, addedMovie];
                     setAllSavedMovies(updatedSavedMovies)
                     setSavedMovies(updatedSavedMovies)
-
-                    const savedMoviesData = JSON.parse(localStorage.getItem('savedMoviesData')) || {};
-                    const updatedDataToSave = { ...savedMoviesData, filteredMovies: updatedSavedMovies };
-                    localStorage.setItem('savedMoviesData', JSON.stringify(updatedDataToSave));
                 })
                 .catch((err) => console.log(`Ошибка сохранения фильма: ${err}`));
         }
@@ -238,8 +222,6 @@ function App() {
 
     function searchSavedMovies(inputValue, isShortMoviesShown) {
         const filteredMovies = filterMovies(allSavedMovies, inputValue, isShortMoviesShown);
-        const dataToSave = { filteredMovies, inputValue, isShortMoviesShown };
-        updateLocalStorage(dataToSave, 'savedMoviesData');
 
         setSavedMovies([...filteredMovies]);
         movieCountHandler();
@@ -284,7 +266,7 @@ function App() {
     }
 
      return (
-        <SavedMoviesContext.Provider value={{savedMovies, allSavedMovies}}>
+        <SavedMoviesContext.Provider value={{savedMovies, allSavedMovies, setSavedMovies}}>
             <MoviesContext.Provider value={{allMovies, movies}}>
                 <CurrentUserContext.Provider value={{userData}}>
                  <Routes>
@@ -387,9 +369,7 @@ function App() {
                                 isSubmitting={isSubmitting}
                             />}
                         />
-                     {!isLoggedIn &&
-                         <Route path="*" element={<Navigate to="/" />} />
-                     }
+                         {/*<Route path="*" element={<Navigate to="/" />} />*/}
                     </Routes>
                 </CurrentUserContext.Provider>
             </MoviesContext.Provider>
