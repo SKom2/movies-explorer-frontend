@@ -40,6 +40,9 @@
 
 Страница профиля пользователя позволяет пользователям выходить из аккаунта и редактировать информацию в профиле. Редактирование профиля включает валидацию, и сообщения об успехе или ошибке отображаются при необходимости.
 
+![image](https://github.com/SKom2/movies-explorer-frontend/assets/103752057/b1edd4da-cb43-4042-8b03-cca87da4bf84)
+![image](https://github.com/SKom2/movies-explorer-frontend/assets/103752057/f6862914-b4c6-42b6-a8f2-77d1e20de5a9)
+
 ## Дизайн-макет
 
 Просмотрите дизайн-макет на Figma: [Дизайн проекта в Figma](https://www.figma.com/file/7RZxt03ubD5oW8wrYqaWxe/Diploma-(Copy)?type=design&node-id=932%3A3228&mode=design&t=aTQJqa4yLCXX1L5c-1)
