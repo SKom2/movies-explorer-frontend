@@ -2,17 +2,24 @@ import Input from "../Input/Input";
 import AuthorizationForm from "../AuthorizationForm/AuthorizationForm";
 import {useForm} from "../../../hooks/useForm";
 import styles from './Register.module.css'
+import {useEffect} from "react";
+import {isValidEmail} from "../../../utils/isValidEmail";
 
-export default function Register(){
-    const {values, handleChange, errors, isValid} = useForm({
+export default function Register({register, attentionMessage, setAttentionMessage, isSubmitting}){
+    const {values, handleChange, errors, isValid, setIsValid} = useForm({
         name: '',
         email: '',
         password: ''
     });
 
+    useEffect(() => {
+        const emailValid = isValidEmail(values.email);
+        setIsValid(emailValid);
+    }, [values.email, setIsValid]);
+
     function handleSubmit(e) {
         e.preventDefault();
-        console.log(values)
+        register(values, isValid)
     }
 
     return(
@@ -21,10 +28,13 @@ export default function Register(){
             button='Зарегистрироваться'
             onSubmit={handleSubmit}
             name="registration"
-            isvalid={isValid}
+            isValid={isValid}
             path='/signin'
             reminder='Уже зарегистрированы?'
             reminderLink='Войти'
+            attentionMessage={attentionMessage}
+            setAttentionMessage={setAttentionMessage}
+            isSubmitting={isSubmitting}
         >
             <Input
                 type="text"

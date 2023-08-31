@@ -2,6 +2,11 @@
     padding: 0 70px;
 }
 
+.nothingFound{
+    text-align: center;
+    color: #ffffff;
+}
+
 @media screen and (max-width: 900px){
     .movies{
         padding: 0 30px;

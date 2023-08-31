@@ -1,0 +1,267 @@
+.searchForm{
+    padding: 70px 0 10px;
+    position: relative;
+}
+
+
+
+.underLine{
+    padding-bottom: 70px;
+    border-bottom: solid 1px #424242;
+}
+
+.searchFormContainer{
+    border-radius: 10px;
+    background-color: #2F2F2F;
+    padding: 16px 30px 16px 19px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.searchLeftSide{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    width: 55%;
+    border-radius: 5px;
+    position: relative;
+}
+
+
+.searchLeftSide:hover{
+    outline: 1px solid #3DDC84;
+    background-color: #2F2F2F;
+}
+
+.searchLeftSide:focus-within{
+    outline: 1px solid #8B8B8B;
+    background-color: #2F2F2F;
+}
+
+.searchIcon{
+    background-image: url("../../../images/Search.svg");
+    height: 34px;
+    width: 34px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.searchInput{
+    border: none;
+    background-color: #2F2F2F;
+    margin: 0;
+    font-size: 18px;
+    line-height: 20px;
+    color: #8B8B8B;
+    height: 32px;
+    width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.searchInput:focus{
+    outline: none;
+}
+
+.autocomplete{
+    position: absolute;
+    left: 0;
+    top: 40px;
+    width: 100%;
+    background-color: #2F2F2F;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    border-radius: 5px;
+    z-index: 111;
+    max-height: 108px;
+    height: auto;
+    overflow: auto;
+}
+
+.autocomplete::-webkit-scrollbar{
+    background-color: #2F2F2F;
+    border-radius: 5px;
+    width: 7px;
+}
+
+.autocomplete::-webkit-scrollbar-track {
+    padding: 2px 0;
+    background-color: #404040;
+    border-radius: 1px;
+}
+
+.autocomplete::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #737272;
+}
+
+.autocompleteItem{
+    padding: 10px ;
+    font-size: 15px;
+    line-height: 18px;
+    font-weight: 500;
+    color: #FFFFFF;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.autocompleteItem:hover{
+    background-color: #8B8B8B;
+    cursor: pointer;
+}
+
+.searchRightSide{
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.startSearch{
+    height: 34px;
+    width: 80px;
+    background-color: #4285F4;
+    background-image: url("../../../images/SearchWhite.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 48px;
+    border: none;
+    transition: box-shadow .1s linear;
+    cursor: pointer;
+}
+
+.startSearch:hover{
+    box-shadow: inset 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+.startSearch:focus{
+    outline: none;
+}
+
+.line{
+    height: 40px;
+    width: 1px;
+    background-color: #424242;
+}
+
+.filter{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.filterButton{
+    height: 20px;
+    width: 36px;
+    border-radius: 20px;
+    background-color: #343434;
+    position: relative;
+    border: none;
+    cursor: pointer;
+}
+
+.filterButton:focus{
+    outline: none;
+}
+
+.filterButtonChoice{
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+
+.filterButtonIcon{
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #343434;
+    transition: 0.3s;
+    border-radius: 30px;
+}
+
+.filterButtonIcon:before{
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    bottom: 0.9px;
+    background-color: #3DDC84;
+    border-radius: 50%;
+    transition: 0.3s;
+    border: solid 1px #ffffff;
+    transform: translateX(1px);
+}
+
+.filterButtonChoice:checked + .filterButtonIcon:before {
+    transform: translateX(17px);
+}
+
+
+.filterText{
+    margin: 0;
+    font-size: 13px;
+    line-height: 18px;
+    color: #FFFFFF;
+    min-width: 117px;
+}
+
+.moviesError{
+    color: #EE3465;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 12px;
+    display: block;
+    text-align: left;
+    margin-top: 10px;
+    height: 12px;
+}
+
+@media screen and (max-width: 900px) {
+    .searchForm{
+        padding-top: 80px;
+    }
+    .underLine{
+        padding-bottom: 109px;
+    }
+    .searchFormContainer{
+        padding: 16px 20px;
+    }
+    .searchRightSide{
+        gap: 19px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .searchForm{
+        position: relative;
+    }
+    .searchFormContainer{
+        padding: 19px;
+    }
+    .searchIcon{
+        display: none;
+    }
+    .searchInput{
+        margin-left: 10px;
+    }
+    .line{
+        display: none;
+    }
+    .filter{
+        position: absolute;
+        top: 197px;
+        left:50%;
+        transform:translate(-50%, 0);
+        gap: 13px;
+    }
+    .filterText{
+        font-size: 11px;
+    }
+}

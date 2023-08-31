@@ -1,0 +1,170 @@
+.profile{
+    padding: 74px 30px 70px;
+    text-align: center;
+}
+
+.greeting{
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+    color: #FFFFFF;
+    margin: 0 0 123px;
+}
+
+.nameInfo{
+    max-width: 410px;
+    display: flex;
+    justify-content: space-between;
+    color: #FFFFFF;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+    margin: 0 auto 16px;
+}
+
+.nameInput, .emailInput{
+    background-color: transparent;
+    border: none;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+    color: #FFFFFF;
+    margin: 0;
+    text-align: right;
+}
+
+.nameInput:hover, .emailInput:hover{
+    outline: solid 1px white;
+    border-radius: 2px;
+}
+
+.saveBtn{
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    color: #FFFFFF;
+    transition: all .2s linear;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.saveBtn:disabled{
+    color: #EE3465;
+    transition: none;
+    cursor: initial;
+}
+
+.saveBtn:hover:disabled {
+    opacity: initial;
+}
+
+.saveBtn:hover{
+    opacity: .7;
+}
+
+.nameTitle{
+    margin: 0;
+}
+
+.name{
+    margin: 0;
+}
+
+.line{
+    max-width: 410px;
+    background-color: #424242;
+    height: 1px;
+    margin: 0 auto;
+}
+
+.emailInfo{
+    max-width: 410px;
+    display: flex;
+    justify-content: space-between;
+    color: #FFFFFF;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+    margin: 16px auto 0;
+}
+
+.emailTitle{
+    margin: 0;
+}
+
+.email{
+    margin: 0;
+}
+
+.linkContainer{
+    margin-top: 190px;
+}
+
+.edit{
+    display: block;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    color: #FFFFFF;
+    margin: 0 0 16px;
+    text-decoration: none;
+    transition: opacity .2s linear;
+}
+
+.exitProfile{
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    color: #EE3465;
+    text-decoration: none;
+    transition: opacity .2s linear;
+}
+
+.edit:hover, .exitProfile:hover{
+    opacity: .7;
+}
+
+@media screen and (max-width: 768px) {
+    .linkContainer{
+        margin-top: 180px;
+    }
+}
+
+@media screen and (max-width: 375px){
+    .linkContainer{
+        margin-top: 349px;
+    }
+    .edit .exitProfile{
+        font-size: 12px;
+        line-height: 15px;
+    }
+}
+
+.attentionMessageError{
+    padding: 0;
+    margin: 0;
+    color: #EE3465;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 12px;
+    min-height: 30px;
+}
+
+/*------------ERRORS--------------*/
+
+.inputBlock{
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+    max-width: 180px;
+}
+
+.error{
+    color: #EE3465;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 12px;
+    display: block;
+    text-align: right;
+}

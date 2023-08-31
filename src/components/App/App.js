@@ -1,25 +1,59 @@
-import styles from "./App.module.css"
 import Main from "../Main/Main";
-import Header from "../Common/Header/Header";
 import Movies from "../Movies/Movies";
 import SavedMovies from "../SavedMovies/SavedMovies";
 import Profile from "../Authorization/Profile/Profile";
 import Register from "../Authorization/Register/Register";
 import Login from "../Authorization/Login/Login";
-import {Route, Routes} from "react-router-dom";
-import Footer from "../Common/Footer/Footer";
+import {Navigate, Route, Routes, useNavigate} from "react-router-dom";
 import React, {useEffect, useState} from "react";
-import MoviesConstant from "../../utils/constants";
+import * as constants from "../../utils/constants";
+import {apiConfig, moviesApiConfig} from "../../utils/constants";
 import Error from "../Authorization/Error/Error";
+import * as Auth from "../../utils/Auth";
+import MainApi from "../../utils/MainApi";
+import {CurrentUserContext} from "../../contexts/CurrentUserContext";
+import MoviesApi from "../../utils/MoviesApi";
+import {SavedMoviesContext} from "../../contexts/SavedMoviesContext";
+import {MoviesContext} from "../../contexts/MoviesContext";
+import {ProtectedRoute, AuthRoute} from "../ProtectedRoute/ProtectedRoute";
+import ProfileUpdate from "../Authorization/ProfileUpdate/ProfileUpdate";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const [isMenuOpened , setIsMenuOpened] = useState(false);
-  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 769);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [userData, setUserData] = useState({
+        name: '',
+        email: ''
+    })
+    const [isMenuOpened , setIsMenuOpened] = useState(false);
+    const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 769);
+    const [allMovies, setAllMovies] = useState([]);
+    const [allSavedMovies, setAllSavedMovies] = useState([])
+    const [movies, setMovies] = useState([])
+    const [savedMovies, setSavedMovies] = useState([]);
+    const [moviesToShow, setMoviesToShow] = useState([]);
+    const navigate = useNavigate();
+    const mainApi = new MainApi(apiConfig);
+    const moviesApi = new MoviesApi(moviesApiConfig);
+    const [isLoad, setIsLoad] = useState(false);
+    const [maxMoviesToShow, setMaxMoviesToShow] = useState(constants.maxMoviesToShowDesktop);
+    const screenWidth = window.innerWidth;
+    const [attentionMessage, setAttentionMessage] = useState('')
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    useEffect(() => {
+        const jwt = localStorage.getItem('jwt')
+
+        if (jwt){
+            setIsLoggedIn(true)
+            getMainData(jwt)
+        }
+
+    }, [isLoggedIn]);
 
     useEffect(() => {
         function handleResize() {
             setIsDesktop(window.innerWidth >= 769);
+            movieCountHandler()
         }
 
         setIsDesktop(window.innerWidth >= 769);
@@ -31,64 +65,315 @@ function App() {
         };
     }, []);
 
-  function handleMenuIconClick(){
-      setIsMenuOpened(!isMenuOpened);
-  }
 
-  return (
-    <>
-        <Routes>
-            <Route
-                path="/"
-                element=
-                    {<Main
-                        isLoggedIn={isLoggedIn}
-                        isMenuOpened={isMenuOpened}
-                        onMenuIconClick={handleMenuIconClick}
-                        isDesktop={isDesktop}
-                    />}
-            />
-            <Route
-                path="/movies"
-                element=
-                    {<Movies
-                        isDesktop={isDesktop}
-                        movies={MoviesConstant}
-                        isLoggedIn={isLoggedIn}
-                        isMenuOpened={isMenuOpened}
-                        onMenuIconClick={handleMenuIconClick}
-                    />}
-            />
-            <Route
-                path="/saved-movies"
-                element=
-                    {<SavedMovies
-                        movies={MoviesConstant}
-                        isLoggedIn={isLoggedIn}
-                        isMenuOpened={isMenuOpened}
-                        onMenuIconClick={handleMenuIconClick}
-                        isDesktop={isDesktop}
-                    />}
-            />
-            <Route
-                path="/profile"
-                element={<Profile />}
-            />
-            <Route
-                path="/signup"
-                element={<Register />}
-            />
-            <Route
-                path="/signin"
-                element={<Login />}
-            />
-            <Route
-                path="/404"
-                element={<Error />}
-            />
-        </Routes>
-    </>
-  );
+    function getMainData(token){
+        mainApi.setToken(token)
+        setIsLoad(true);
+        mainApi.getProfile()
+            .then((profile) => {
+                setIsLoggedIn(true)
+                setUserData({
+                    name: profile.name,
+                    email: profile.email
+                });
+            })
+            .catch((err) => {
+                console.error("Ошибка получения данных пользователя:", err);
+            })
+            .finally(() => {
+                setIsLoad(false);
+            })
+
+        moviesApi.getMovies()
+            .then((moviesData) => {
+                const savedData = localStorage.getItem('moviesData')
+                setAllMovies(moviesData)
+                if (savedData) {
+                    const { filteredMovies } = JSON.parse(savedData)
+                    setMovies(filteredMovies)
+                } else {
+                    setMovies(moviesData);
+                }
+            })
+            .catch((err) => {
+                console.error("Ошибка получения фильмов:", err);
+            })
+            .finally(() => {
+                setIsLoad(false);
+            })
+        mainApi.getSavedMovies()
+            .then((savedMoviesData) => {
+                setAllSavedMovies(savedMoviesData)
+                setSavedMovies(savedMoviesData);
+            })
+            .catch((err) => {
+                console.error("Ошибка получения сохранённых фильмов:", err);
+            })
+
+    }
+
+    function handleMenuIconClick(){
+          setIsMenuOpened(!isMenuOpened);
+    }
+
+    function registration(values, isValid){
+       if (isValid){
+           setIsSubmitting(true);
+           Auth.register(values.name, values.email, values.password)
+              .then((res) => {
+                  localStorage.setItem('jwt', res.token)
+                  setIsLoggedIn(true)
+                  navigate("/movies", { replace: true });
+           })
+           .catch((err) => {
+               if (err == constants.errorStatuses.conflictError){
+                   setAttentionMessage(constants.userAttentionMessages.existingEmail);
+               } else {
+                   setAttentionMessage(constants.userAttentionMessages.errorInUserRegister);
+               }
+               console.log(`Ошибка регистрации пользователя: ${err}`)
+           })
+           .finally(() => setIsSubmitting(false))
+       }
+    }
+
+    function login(values, isValid){
+        if (isValid){
+            setIsSubmitting(true);
+            Auth.authorize(values.email, values.password)
+                .then((res) => {
+                        localStorage.setItem('jwt', res.token)
+                        setIsLoggedIn(true)
+                        navigate("/movies", { replace: true });
+                })
+                .catch((err) => {
+                    if (err == constants.errorStatuses.unauthorizedError){
+                        setAttentionMessage(constants.userAttentionMessages.invalidPasswordOrEmail);
+                    } else {
+                        setAttentionMessage(constants.userAttentionMessages.errorInUserAuth);
+                    }
+                    console.log(`Ошибка авторизации пользователя: ${err}`)
+                })
+                .finally(() => setIsSubmitting(false))
+        }
+    }
+
+    function signOut(){
+      localStorage.removeItem('jwt');
+      localStorage.removeItem('moviesData');
+      setIsLoggedIn(false);
+      setAttentionMessage('')
+      setUserData({
+          name: '',
+          email: ''
+      });
+      navigate("/", { replace: true });
+    }
+
+    function updateLocalStorage(dataToSave, key) {
+        localStorage.setItem(key, JSON.stringify(dataToSave));
+    }
+
+    function handleDeleteMovie(id){
+        mainApi.removeMovies(id)
+            .then((removedMovie) => {
+                const updatedAllSavedMovies = allSavedMovies.filter((movie) => movie.movieId !== removedMovie.movieId);
+                setAllSavedMovies(updatedAllSavedMovies);
+                const updatedSavedMovies = savedMovies.filter((movie) => movie.movieId !== removedMovie.movieId);
+                setSavedMovies(updatedSavedMovies);
+            })
+            .catch((err) => {
+                console.log(`Ошибка удаления фильма: ${err}`);
+            });
+    }
+    function handleToggleMovieToSaved(data){
+        const savedMovie = allSavedMovies.find((savedMovie) => {
+            return savedMovie.movieId === data.movieId
+        });
+        if (savedMovie){
+            handleDeleteMovie(savedMovie._id);
+        } else {
+            delete data.id
+            delete data.updated_at
+            delete data.created_at
+            mainApi.addMovies(data)
+                .then((addedMovie) => {
+                    const updatedSavedMovies = [...allSavedMovies, addedMovie];
+                    setAllSavedMovies(updatedSavedMovies)
+                    setSavedMovies(updatedSavedMovies)
+                })
+                .catch((err) => console.log(`Ошибка сохранения фильма: ${err}`));
+        }
+    }
+
+    function filterMovies(moviesArr, inputValue, isShortMovie) {
+        return moviesArr.filter((movie) => {
+            if (isShortMovie){
+                return movie.nameRU.toLowerCase().includes(inputValue.toLowerCase()) && movie.duration <= 40;
+            }
+            return movie.nameRU.toLowerCase().includes(inputValue.toLowerCase());
+        });
+    }
+
+    function searchMovies(inputValue, isShortMoviesShown) {
+        const filteredMovies = filterMovies(allMovies, inputValue, isShortMoviesShown);
+        const dataToSave = { filteredMovies, inputValue, isShortMoviesShown };
+        updateLocalStorage(dataToSave, 'moviesData');
+
+        setMovies([...filteredMovies]);
+        movieCountHandler();
+    }
+
+    function searchSavedMovies(inputValue, isShortMoviesShown) {
+        const filteredMovies = filterMovies(allSavedMovies, inputValue, isShortMoviesShown);
+
+        setSavedMovies([...filteredMovies]);
+        movieCountHandler();
+    }
+    function updateUser(values, isValid){
+        if (isValid) {
+            mainApi.updateUser(values)
+                .then((updateUser) => {
+                    setUserData(updateUser)
+                    setAttentionMessage(constants.userAttentionMessages.successUserUpdate)
+                    navigate("/profile", { replace: true });
+                })
+                .catch((err) => {
+                    if (err == constants.errorStatuses.conflictError){
+                        setAttentionMessage(constants.userAttentionMessages.existingEmail);
+                    } else {
+                        setAttentionMessage(constants.userAttentionMessages.errorInUserUpdate);
+                    }
+                    console.log(`Ошибка обновления данных пользователя: ${err}`)
+                })
+        }
+    }
+
+    function movieCountHandler(){
+        if (screenWidth < 530) {
+            setMaxMoviesToShow(constants.maxMoviesToShowSmallMobile);
+        } else if (screenWidth < 1280) {
+            setMaxMoviesToShow(constants.maxMoviesToShowMobile);
+        } else {
+            setMaxMoviesToShow(constants.maxMoviesToShowDesktop);
+        }
+    }
+
+    function loadMoreMovies() {
+        if (screenWidth >= 1280){
+            setMaxMoviesToShow(prevCount => prevCount + constants.numberOfAddedMoviesOnDesktop)
+        } else if (screenWidth >= 530){
+            setMaxMoviesToShow((prevCount) => prevCount + constants.numberOfAddedMoviesOnMobile)
+        } else {
+            setMaxMoviesToShow((prevCount) => prevCount + constants.numberOfAddedMoviesSmallMobile)
+        }
+    }
+
+     return (
+        <SavedMoviesContext.Provider value={{savedMovies, allSavedMovies, setSavedMovies}}>
+            <MoviesContext.Provider value={{allMovies, movies}}>
+                <CurrentUserContext.Provider value={{userData}}>
+                 <Routes>
+                     <Route
+                         path="/"
+                         element=
+                             {<Main
+                                 isLoggedIn={isLoggedIn}
+                                 isMenuOpened={isMenuOpened}
+                                 onMenuIconClick={handleMenuIconClick}
+                                 isDesktop={isDesktop}
+                             />}
+                     />
+                        <Route
+                            path="/movies"
+                            element=
+                                {<ProtectedRoute
+                                    element={Movies}
+                                    isDesktop={isDesktop}
+                                    onGetMovies={searchMovies}
+                                    isLoggedIn={isLoggedIn}
+                                    isMenuOpened={isMenuOpened}
+                                    onMenuIconClick={handleMenuIconClick}
+                                    onSaveIconClick={handleToggleMovieToSaved}
+                                    isLoad={isLoad}
+                                    maxMoviesToShow={maxMoviesToShow}
+                                    moviesToShow={moviesToShow}
+                                    setMoviesToShow={setMoviesToShow}
+                                    loadMoreMovies={loadMoreMovies}
+                                />}
+                        />
+                        <Route
+                            path="/saved-movies"
+                            element=
+                                {<ProtectedRoute
+                                    element={SavedMovies}
+                                    onGetMovies={searchSavedMovies}
+                                    isLoggedIn={isLoggedIn}
+                                    isMenuOpened={isMenuOpened}
+                                    onMenuIconClick={handleMenuIconClick}
+                                    isDesktop={isDesktop}
+                                    onDeleteIconClick={handleDeleteMovie}
+                                    isLoad={isLoad}
+                                    maxMoviesToShow={maxMoviesToShow}
+                                    moviesToShow={moviesToShow}
+                                    setMoviesToShow={setMoviesToShow}
+                                    loadMoreMovies={loadMoreMovies}
+                                />}
+                        />
+                        <Route
+                            path="/profile"
+                            element=
+                                {<ProtectedRoute
+                                    element={Profile}
+                                    isLoggedIn={isLoggedIn}
+                                    isMenuOpened={isMenuOpened}
+                                    onMenuIconClick={handleMenuIconClick}
+                                    isDesktop={isDesktop}
+                                    signOut={signOut}
+                                    setAttentionMessage={setAttentionMessage}
+                                    attentionMessage={attentionMessage}
+                                />}
+                        />
+                        <Route
+                            path="/profile-update"
+                            element=
+                                {<ProtectedRoute
+                                    element={ProfileUpdate}
+                                    isLoggedIn={isLoggedIn}
+                                    isMenuOpened={isMenuOpened}
+                                    onMenuIconClick={handleMenuIconClick}
+                                    isDesktop={isDesktop}
+                                    signOut={signOut}
+                                    onEditClick={updateUser}
+                                    attentionMessage={attentionMessage}
+                                />}
+                        />
+                        <Route path="*" element={<Error />} />
+                        <Route
+                            path="/signup"
+                            element={<AuthRoute
+                                element={Register}
+                                register={registration}
+                                setAttentionMessage={setAttentionMessage}
+                                attentionMessage={attentionMessage}
+                                isSubmitting={isSubmitting}
+                            />}
+                        />
+                        <Route
+                            path="/signin"
+                            element={<AuthRoute
+                                element={Login}
+                                login={login}
+                                setAttentionMessage={setAttentionMessage}
+                                attentionMessage={attentionMessage}
+                                isSubmitting={isSubmitting}
+                            />}
+                        />
+                    </Routes>
+                </CurrentUserContext.Provider>
+            </MoviesContext.Provider>
+        </SavedMoviesContext.Provider>
+    );
 }
 
 export default App;

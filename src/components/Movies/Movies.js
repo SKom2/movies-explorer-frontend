@@ -1,14 +1,25 @@
-import SearchForm from "./SearchForm/SearchForm";
-import MoviesCardList from "./MoviesCardList/MoviesCardList";
+import SearchForm from "../MoviesCommon/SearchForm/SearchForm";
+import MoviesCardList from "../MoviesCommon/MoviesCardList/MoviesCardList";
 import styles from './Movies.module.css'
-import Preloader from "./Preloader/Preloader";
+import More from "../MoviesCommon/More/More";
 import Header from "../Common/Header/Header";
-import React from "react";
 import Footer from "../Common/Footer/Footer";
+import {useContext, useEffect, useState} from "react";
+import {MoviesContext} from "../../contexts/MoviesContext";
+import Preloader from "../MoviesCommon/Preloader/Preloader";
+import * as constants from "../../utils/constants";
 
-export default function Movies(props) {
+export default function Movies({maxMoviesToShow, setMoviesToShow, loadMoreMovies, moviesToShow, ...props}) {
+    const {movies} = useContext(MoviesContext);
+    const [moviesNotFound, setMoviesNotFound] = useState(true);
 
-    return(
+    useEffect(() => {
+        const filteredMovies = movies.slice(0, maxMoviesToShow);
+        setMoviesNotFound(filteredMovies.length === 0);
+        setMoviesToShow(filteredMovies);
+    }, [movies, maxMoviesToShow])
+
+    return (
         <>
             <Header
                 isLoggedIn={props.isLoggedIn}
@@ -17,11 +28,35 @@ export default function Movies(props) {
                 isDesktop={props.isDesktop}
             />
             <section className={styles.movies}>
-                <SearchForm />
-                <MoviesCardList />
-                <Preloader movies={props.movies}/>
+                <SearchForm
+                    isSavedMoviesPage={false}
+                    onGetMovies={props.onGetMovies}
+                />
+                {props.isLoad ? (
+                    <Preloader />
+                ) : (
+                    <>
+                        {moviesNotFound ? (
+                            <p className={styles.nothingFound}>{constants.moviesAttentionMessages.nothingSearched}</p>
+                        ) : (
+                            <>
+                                <MoviesCardList
+                                    onSaveIconClick={props.onSaveIconClick}
+                                    moviesToShow={moviesToShow}
+                                />
+                                <More
+                                    moviesToShow={moviesToShow}
+                                    movies={movies}
+                                    onMoreClick={loadMoreMovies}
+                                />
+                            </>
+                        )}
+                    </>
+                )
+                }
             </section>
             <Footer />
         </>
     )
 }
+
