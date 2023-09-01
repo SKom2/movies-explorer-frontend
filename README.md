@@ -43,7 +43,7 @@
 Страница профиля пользователя позволяет пользователям выходить из аккаунта и редактировать информацию в профиле. Редактирование профиля включает валидацию, и сообщения об успехе или ошибке отображаются при необходимости.
 
 ![image](https://github.com/SKom2/movies-explorer-frontend/assets/103752057/b1edd4da-cb43-4042-8b03-cca87da4bf84)
-![image](https://github.com/SKom2/movies-explorer-frontend/assets/103752057/f6862914-b4c6-42b6-a8f2-77d1e20de5a9)
+![image](https://github.com/SKom2/movies-explorer-frontend/assets/103752057/ae5eb4bc-0ec3-4bbc-ac4f-a66640965176)
 
 ## Дизайн-макет
 
